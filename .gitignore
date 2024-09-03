@@ -1,2 +1,5 @@
 /src/backend/.idea/
 /src/frontend/.idea/
+/.idea/
+*.pyc
+*.sqlite3
