@@ -3,3 +3,5 @@
 /.idea/
 *.pyc
 *.sqlite3
+.DS_Store
+src/.DS_Store
