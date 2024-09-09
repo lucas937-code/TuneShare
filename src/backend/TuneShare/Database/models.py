@@ -54,6 +54,6 @@ class User(models.Model):
 
 class Follows(models.Model):
     # to access a user's followers -> user.followers.all()
-    # to access the users a user is following -> users.following.all()
+    # to access the users a user is following -> user.following.all()
     follower_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following')
     followed_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followers')
