@@ -1,4 +1,4 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark" style="background-color: #8A5CA3;">
+<nav class="navbar sticky-top navbar-expand-md navbar-dark p-3" style="background-color: #8A5CA3; font-size: larger">
   <a class="navbar-brand" href="">TuneShare</a> <!-- Logo -->
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -11,17 +11,26 @@
       <li class="nav-item">
         <a class="nav-link" href="#">Freunde</a>
       </li>
+    </ul>
+    <form class="form-inline ms-auto px-3" style="width: 20em">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" style="background-color: #D8C9E1; border-bottom-right-radius: 0; border-top-right-radius: 0; border-color: #8A5CA3" id="searchText"><i class="bi bi-search"></i></span>
+          </div>
+          <input class="form-control mr-sm-2" type="search" placeholder="Suchen" aria-label="Search" style="background-color: #D8C9E1; border-bottom-left-radius: 0; border-color: #8A5CA3;">
+        </div>
+    </form>
+    <ul class="navbar-nav ms-auto">
       <li class="nav-item">
-        <a class="nav-link" href="#">Hochladen</a>
+        <a class="nav-link" href="#"><i class="bi bi-plus-circle-fill"></i></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Synchronisieren</a>
+        <a class="nav-link" href="#"><i class="bi bi-arrow-repeat"></i></a>
       </li>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Suchen" aria-label="Search" style="background-color: #D8C9E1;">
-      </form>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profil</a>
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-person-circle"></i>
+        </a>
         <ul class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="navbarDropdown">
           <li><a class="nav-link" href="#">Account</a></li>
           <li><a class="nav-link" href="#">Einstellungen</a></li>
