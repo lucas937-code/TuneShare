@@ -33,8 +33,12 @@
               "src/styles.scss",
               "node_modules/bootstrap-icons/font/bootstrap-icons.css"
             ],
-            "scripts": [],
+
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.js"
+            ],
             "prerender": false,
+
           },
           "configurations": {
             "production": {
