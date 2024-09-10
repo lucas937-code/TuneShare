@@ -1,6 +1,6 @@
 export interface Playlist {
     id: number;
-    owner_user_id: number;
+    owner_id: number;
     spotify_id: string | undefined;
     apple_music_id: string | undefined;
 
