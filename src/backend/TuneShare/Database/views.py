@@ -57,6 +57,15 @@ class PlaylistViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         return destroy(self, request, *args, **kwargs)
 
+    def list(self, request, *args, **kwargs):
+        playlists = self.get_queryset()  # Default queryset, can be customized
+        serializer = self.get_serializer(playlists, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, *args, **kwargs):
+        playlist = self.get_object()
+        serializer = self.get_serializer(playlist)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class TrackViewSet(viewsets.ModelViewSet):

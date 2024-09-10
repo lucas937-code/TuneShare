@@ -7,7 +7,7 @@ class Playlist(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
 
     title = models.CharField(max_length=100)
-    cover_url = models.URLField()
+    cover_url = models.URLField(max_length=500)
     is_public = models.BooleanField(default=False)
 
     def __str__(self):
@@ -39,7 +39,7 @@ class User(models.Model):
         unique=True,
         validators=[
             RegexValidator(
-                regex=r'^[a-zA-Z0-9_-.]*$',
+                regex=r'^[a-zA-Z0-9_.]*$',
                 code='invalid_username'
             ),
         ]
