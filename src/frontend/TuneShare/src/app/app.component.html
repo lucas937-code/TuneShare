@@ -1,5 +1,27 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark px-3" style="background-color: #8A5CA3; font-size: larger">
   <a class="navbar-brand" href="#"><img ngSrc="assets/logoTuneShare.png" alt="TuneShareLogo" width="45" height="45"> TuneShare</a>
+
+  <ul *ngIf="isMobile" class="navbar-nav ms-auto my-0 py-0 d-flex flex-row align-items-center" style="font-size: x-large;">
+    <li class="nav-item mx-2">
+      <a class="nav-link" href="#"><i class="bi bi-plus-circle-fill"></i></a>
+    </li>
+    <li class="nav-item mx-2 my-0 py-0">
+      <a class="nav-link" href="#"><i class="bi bi-arrow-repeat"></i></a>
+    </li>
+    <li class="nav-item dropdown mx-2 my-0 py-0">
+      <a class="nav-link dropdown-toggle" href="#" id="f" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-person-circle"></i>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end bg-dark position-absolute" aria-labelledby="navbarDropdown">
+        <li class="mx-1"><a class="nav-link" href="#">Account</a></li>
+        <li class="mx-1"><a class="nav-link" href="#">Einstellungen</a></li>
+        <li class="mx-1"><a class="nav-link" href="#">Abmelden</a></li>
+      </ul>
+    </li>
+  </ul>
+
+
+
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -11,16 +33,19 @@
       <li class="nav-item">
         <a class="nav-link" href="#">Freunde</a>
       </li>
+      <li *ngIf="isMobile">
+        <input class="form-control" type="search" placeholder="Suchen" aria-label="Search" style="background-color: #D8C9E1; border-bottom-left-radius: 0; border-color: #8A5CA3;">
+      </li>
     </ul>
     <form class="form-inline ms-auto px-3" style="width: 20em">
         <div class="input-group">
-          <div class="input-group-prepend">
+          <div *ngIf="!isMobile" class="input-group-prepend">
             <span class="input-group-text" style="background-color: #D8C9E1; border-bottom-right-radius: 0; border-top-right-radius: 0; border-color: #8A5CA3" id="searchText"><i class="bi bi-search"></i></span>
           </div>
-          <input class="form-control mr-sm-2" type="search" placeholder="Suchen" aria-label="Search" style="background-color: #D8C9E1; border-bottom-left-radius: 0; border-color: #8A5CA3;">
+          <input *ngIf="!isMobile" class="form-control mr-sm-2" type="search" placeholder="Suchen" aria-label="Search" style="background-color: #D8C9E1; border-bottom-left-radius: 0; border-color: #8A5CA3;">
         </div>
     </form>
-    <ul class="navbar-nav ms-auto my-0 py-0" style="font-size: x-large">
+    <ul *ngIf="!isMobile" class="navbar-nav ms-auto my-0 py-0" style="font-size: x-large">
       <li class="nav-item mx-1">
         <a class="nav-link" href="#"><i class="bi bi-plus-circle-fill"></i></a>
       </li>
