@@ -1,0 +1,16 @@
+
+<div class="container mt-4">
+  <h2 class="mb-4">{{ title }}</h2>
+  <div class="row">
+    <app-playlist
+      class="col-md-4 col-sm-6 mb-4"
+      *ngFor="let playlist of playlists"
+      [playlist]="playlist"
+    ></app-playlist>
+  </div>
+</div>
+
+
+
+
+
