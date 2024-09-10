@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "playground.apps.PlaygroundConfig",
-    "Database"
+    "Database",
+    "rest_framework"
 ]
 
 MIDDLEWARE = [
