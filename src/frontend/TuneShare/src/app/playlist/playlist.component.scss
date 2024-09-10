@@ -1,8 +1,30 @@
 .card {
+  color: #4F4E57;
   cursor: pointer;
   transition: transform 0.2s;
+  width: 15em;
+  height: 24em;
+  background: #CAB5D6;
+  border: none;
 }
 
 .card:hover {
   transform: scale(1.02);
+}
+
+.card-text{
+  color: #4F4E57;
+  overflow: hidden;
+  height: 5.5em;
+}
+
+.btn{
+  background: #FFFFFF;
+  color: #4F4E57;
+  border: none;
+}
+
+.btn:hover{
+  background: #4F4E57;
+  color: white;
 }
