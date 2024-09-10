@@ -1,5 +1,5 @@
-from rest_framework import serializers, viewsets
-from .models import Playlist, User, Track, IncludesTrack, Follows
+from rest_framework import serializers
+from .models import Playlist, User, Track, IncludesTrack, FollowsUser, FollowsPlaylist
 
 
 class PlaylistSerializer(serializers.ModelSerializer):
@@ -26,7 +26,13 @@ class IncludesSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class FollowsSerializer(serializers.ModelSerializer):
+class FollowsUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Follows
+        model = FollowsUser
+        fields = '__all__'
+
+
+class FollowsPlaylistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FollowsPlaylist
         fields = '__all__'

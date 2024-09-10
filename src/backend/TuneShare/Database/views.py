@@ -1,8 +1,9 @@
-from rest_framework import serializers, viewsets, status
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 
-from .models import Playlist, User, Track, IncludesTrack, Follows
-from .serializers import PlaylistSerializer, TrackSerializer, UserSerializer, IncludesSerializer, FollowsSerializer
+from .models import Playlist, User, Track, IncludesTrack, FollowsUser, FollowsPlaylist
+from .serializers import PlaylistSerializer, TrackSerializer, UserSerializer, IncludesSerializer, FollowsUserSerializer, \
+    FollowsPlaylistSerializer
 
 
 def create(view_set, request, *args, **kwargs):
@@ -87,8 +88,22 @@ class IncludesViewSet(viewsets.ModelViewSet):
 
 
 class FollowsViewSet(viewsets.ModelViewSet):
-    queryset = Follows.objects.all()
-    serializer_class = FollowsSerializer
+    queryset = FollowsUser.objects.all()
+    serializer_class = FollowsUserSerializer
+
+    def create(self, request, *args, **kwargs):
+        return create(self, request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        return update(self, request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        return destroy(self, request, *args, **kwargs)
+
+
+class FollowsPlaylistViewSet(viewsets.ModelViewSet):
+    queryset = FollowsPlaylist.objects.all()
+    serializer_class = FollowsPlaylistSerializer
 
     def create(self, request, *args, **kwargs):
         return create(self, request, *args, **kwargs)
