@@ -2,6 +2,7 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import { PlaylistService } from './playlist.service';
+import {ApiService} from "./api.service";
 
 @Component({
   selector: 'app-root',
@@ -14,8 +15,7 @@ export class AppComponent implements OnInit {
   isMobile: boolean = false;
   title = 'TuneShare';
 
-  playlists: any[] = [];
-  constructor(private playlistService: PlaylistService) {}
+  constructor() {}
 
   ngOnInit() {
     this.isMobile = window.innerWidth < 992;
@@ -23,6 +23,6 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(): void {
-    this. isMobile = window.innerWidth < 992;
+    this.isMobile = window.innerWidth < 992;
   }
 }
