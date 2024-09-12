@@ -2,6 +2,7 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import { PlaylistService } from './playlist.service';
+import {Playlist} from "./types";
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,7 @@ export class AppComponent implements OnInit {
   isMobile: boolean = false;
   title = 'TuneShare';
 
-  playlists: any[] = [];
+  playlists: Playlist[] = [];
   constructor(private playlistService: PlaylistService) {}
 
   ngOnInit() {
