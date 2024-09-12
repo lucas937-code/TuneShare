@@ -7,7 +7,7 @@ class Playlist(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
 
     title = models.CharField(max_length=100)
-    cover_url = models.URLField()
+    cover_url = models.URLField(max_length=500)
     is_public = models.BooleanField(default=False)
 
     def __str__(self):
@@ -39,7 +39,7 @@ class User(models.Model):
         unique=True,
         validators=[
             RegexValidator(
-                regex=r'^[a-zA-Z0-9_-.]*$',
+                regex=r'^[a-zA-Z0-9_.]*$',
                 code='invalid_username'
             ),
         ]
@@ -52,8 +52,17 @@ class User(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
 
-class Follows(models.Model):
-    # to access a user's followers -> user.followers.all()
-    # to access the users a user is following -> user.following.all()
-    follower_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following')
-    followed_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followers')
+class FollowsUser(models.Model):
+    # to access a user's followers -> user.followers_user.all()
+    # to access the users a user is following -> user.following_user.all()
+    follower_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following_user')
+    followed_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followers_user')
+
+
+class FollowsPlaylist(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following_playlist')
+    playlist_id = models.ForeignKey(Playlist, on_delete=models.CASCADE, related_name='following_playlist')
+    is_owner = models.BooleanField(default=False)
+
+    spotify_id = models.CharField(null=True)
+    apple_music_id = models.CharField(null=True)
