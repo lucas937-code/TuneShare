@@ -1,8 +1,6 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
-import { PlaylistService } from './playlist.service';
-import {ApiService} from "./api.service";
 
 @Component({
   selector: 'app-root',
