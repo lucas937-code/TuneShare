@@ -1,12 +1,16 @@
-<div class="card">
-  <img
-    [src]="playlist.imageUrl"
-    class="card-img-top"
-    alt="{{ playlist.name }}"
-  />
-  <div class="card-body">
-    <h5 class="card-title">{{ playlist.name }}</h5>
-    <p class="card-text">{{ playlist.description }}</p>
-    <a class="btn btn-primary">Play</a>
+<div class="card mx-auto">
+  <div class="px-3 pt-3">
+    <img [src]="playlist.cover_url" class="card-img-top art-cover" alt="{{ playlist.title }}"/>
+  </div>
+  <div class="card-body mx-3 mt-3 p-0">
+    <h5 class="card-title overflow-hidden w-100">{{ playlist.title }}</h5>
+    <div class="row row-cols-2 mb-2 justify-content-between">
+      <a class="card-author mb-0 overflow-hidden" href="/library">{{ playlist.owner_id }}</a> <!-- hier eine Abrfrage zum Namen des Owners ergänzen und Link zum Profil-->
+      <div class="logos">
+        <a class="btn btn-primary linkedButton appleLink"><i class="bi-apple"></i></a>
+        <a class="btn btn-primary linkedButton spotifyLink"><i class="bi-spotify"></i></a>
+        <a class="btn btn-primary linkedButton shareLink"><i class="bi-share"></i></a>
+      </div>
+    </div>
   </div>
 </div>
