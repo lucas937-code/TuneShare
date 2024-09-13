@@ -2,29 +2,68 @@
   color: #4F4E57;
   cursor: pointer;
   transition: transform 0.2s;
-  width: 15em;
-  height: 24em;
-  background: #CAB5D6;
+  width: 20em;
+  height: 22em;
+  //background: #CAB5D6;
   border: none;
+  border-radius: 1em;
+}
+
+.card-title{
+  text-overflow: ellipsis;
+  line-height: 1.1em;
+  white-space: nowrap;
+  max-height: 2.2em;
+  overflow: hidden;
+  width: 1em;
 }
 
 .card:hover {
-  transform: scale(1.02);
+  transform: scale(1.04);
+  //background: #CAB5D6;
 }
 
 .card-text{
   color: #4F4E57;
   overflow: hidden;
-  height: 5.5em;
+  height: auto;
+}
+
+.art-cover {
+  -webkit-box-shadow: 0px 0px 13px 0px #95899f;
+  -moz-box-shadow: 0px 0px 13px 0px #95899f;
+  box-shadow: 0px 0px 13px 0px #95899f;
+  border-radius: 1em;
+}
+
+.logos{
+  text-align: right;
+}
+
+.linkedButton{
+  background: none;
+  color: #4F4E57;
+  font-size: 1.3em;
+  margin: 0.15em;
+  padding: 0;
+}
+
+.shareLink:hover{
+  color: #8A5CA3;
 }
 
 .btn{
-  background: #FFFFFF;
-  color: #4F4E57;
   border: none;
 }
 
-.btn:hover{
-  background: #4F4E57;
-  color: white;
+.appleLink:hover{
+  color: #E7515F;
+}
+
+.spotifyLink:hover{
+  color: #65D46E;
+}
+
+a{
+  color: #4F4E57;
 }

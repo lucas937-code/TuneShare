@@ -16,23 +16,23 @@ export class PlaylistService {
         apple_music_id: undefined,
         date_created: new Date("2023-09-01"),
         date_modified: new Date("2023-09-02"),
-        title: "Top Hits 2023",
+        title: "Top Hits 2023 Das war ein sehr langes Jahr und hat damit auch einen sehr langen Titel verdient",
         description: "The biggest hits of the year.",
         track_list: [1, 2, 3, 4, 5],
         cover_url: "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
       },
-      {
-        id: 2,
-        owner_id: 102,
-        spotify_id: undefined,
-        apple_music_id: "pl.u-XkD0mN0F6ER",
-        date_created: new Date("2023-07-15"),
-        date_modified: new Date("2023-07-16"),
-        title: "Chill Vibes",
-        description: "Relax and unwind with these chill tracks.",
-        track_list: [6, 7, 8, 9, 10],
-        cover_url: "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
-      },
+      // {
+      //   id: 2,
+      //   owner_id: 102,
+      //   spotify_id: undefined,
+      //   apple_music_id: "pl.u-XkD0mN0F6ER",
+      //   date_created: new Date("2023-07-15"),
+      //   date_modified: new Date("2023-07-16"),
+      //   title: "Chill Vibes",
+      //   description: "Relax and unwind with these chill tracks.",
+      //   track_list: [6, 7, 8, 9, 10],
+      //   cover_url: "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
+      // },
       {
         id: 3,
         owner_id: 103,
@@ -53,7 +53,7 @@ export class PlaylistService {
         date_created: new Date("2023-05-10"),
         date_modified: new Date("2023-05-12"),
         title: "Party Playlist",
-        description: "Get the party started with these bangers.",
+        description: "Get the party started with these bangers. Lets get it started -aha - lets get it started in here! Black Eyed Peas sind Beste und der Text hier wird immer länger mit jedem neuen Wort so wie...",
         track_list: [16, 17, 18, 19, 20],
         cover_url: "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
       },

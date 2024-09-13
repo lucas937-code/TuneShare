@@ -1,11 +1,14 @@
-<div class="container mt-4">
-  <h2 class="mb-4">{{ title }}</h2>
-  <div class="row">
+<div class="container mt-4 mx-auto">
+  <div class="row row-cols-auto mx-auto justify-content-center">
+    <h2 class="mb-1">{{ title }}</h2> <div class="w-100"></div>
     <app-playlist
-      class="col"
+      class="col my-2 p-0 mx-2" style="width: 21em"
       *ngFor="let playlist of playlists"
       [playlist]="playlist"
     ></app-playlist>
+    <div class="col p-0 mx-2" style="width: 21em; height: 0;"></div>
+    <div class="col p-0 mx-2" style="width: 21em; height: 0;"></div>
+    <div class="col p-0 mx-2" style="width: 21em; height: 0;"></div>
   </div>
 </div>
 
