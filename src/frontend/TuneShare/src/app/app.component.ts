@@ -24,6 +24,6 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(): void {
-    this. isMobile = window.innerWidth < 992;
+    this.isMobile = window.innerWidth < 992;
   }
 }
