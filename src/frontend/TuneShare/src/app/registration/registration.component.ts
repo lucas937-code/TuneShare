@@ -50,8 +50,4 @@ export class RegistrationComponent implements OnInit{
   get repeatPassword() {
     return this.registerForm.controls['repeatPassword'];
   }
-
-  sagHallo() {
-    return this.http.get("http://localhost:8000/test/josiiii").subscribe();
-  }
 }
