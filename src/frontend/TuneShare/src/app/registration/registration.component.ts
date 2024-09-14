@@ -4,7 +4,7 @@ import {JsonPipe, NgClass, NgIf, NgOptimizedImage} from "@angular/common";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 @Component({
-  selector: 'app-registraion',
+  selector: 'app-registration',
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -14,10 +14,10 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
     NgOptimizedImage,
     HttpClientModule
   ],
-  templateUrl: './registraion.component.html',
-  styleUrl: './registraion.component.scss'
+  templateUrl: './registration.component.html',
+  styleUrl: './registration.component.scss'
 })
-export class RegistraionComponent implements OnInit{
+export class RegistrationComponent implements OnInit{
   private registrationUrl: string = "http://localhost:8000/register/";
 
   registerForm!: FormGroup;
