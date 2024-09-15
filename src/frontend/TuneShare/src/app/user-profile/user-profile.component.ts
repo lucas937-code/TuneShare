@@ -3,8 +3,6 @@ import {PlaylistListComponent} from "../playlistList/playlist-list.component";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {PlaylistComponent} from "../playlist/playlist.component";
 import {PlaylistService} from "../playlist.service";
-import { MatToolbarModule } from '@angular/material/toolbar';
-import {waitForAsync} from "@angular/core/testing";
 
 @Component({
   selector: 'app-user-profile',
@@ -15,7 +13,6 @@ import {waitForAsync} from "@angular/core/testing";
     PlaylistComponent,
     NgIf,
     NgClass,
-    MatToolbarModule,
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss'
