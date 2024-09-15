@@ -19,8 +19,8 @@ export class PlaylistComponent {
     const mouseX = event.clientX - imgCenterX;
     const mouseY = event.clientY - imgCenterY;
 
-    const rotateX = (mouseY / imgRect.height) * 20;
-    const rotateY = (mouseX / imgRect.width) * 20 * (mouseY <= 0 ? 1 : -1);
+    const rotateX = (mouseY / imgRect.height) * 15;
+    const rotateY = (mouseX / imgRect.width) * 15 * (mouseY <= 0 ? 1 : -1);
 
 
     img.style.setProperty('--rotateX', `${rotateX}deg`);
