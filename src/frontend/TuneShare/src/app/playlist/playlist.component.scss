@@ -67,3 +67,16 @@
 a{
   color: #4F4E57;
 }
+
+.art-cover {
+  perspective: 1000px;
+  transition: transform 0.2s ease-out;
+}
+
+.art-cover.tilted {
+  transform: rotateX(var(--rotateX)) rotateY(var(--rotateY));
+}
+
+.card-img-top {
+  transition: transform 0.2s ease-out;
+}
