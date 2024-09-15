@@ -1,4 +1,4 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark px-3" style="background-color: #8A5CA3; font-size: larger">
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark px-3" style="background-color: #8A5CA3; font-size: larger; z-index: 1000; height: 3.8em;">
   <a class="navbar-brand m-0" href="#"><img ngSrc="assets/logoTuneShare.png" alt="TuneShareLogo" width="45" height="45"> <div class="mx-2" style="display: inline" >TuneShare </div></a>
   <ul *ngIf="isMobile" class="navbar-nav ml-0 my-0 py-0 d-flex flex-row align-items-center" style="font-size: x-large;">
     <li class="nav-item mx-2">
@@ -9,7 +9,7 @@
         <i class="bi bi-person-circle"></i>
       </a>
       <ul class="dropdown-menu dropdown-menu-end bg-dark position-absolute" aria-labelledby="navbarDropdown">
-        <li class="mx-1"><a class="nav-link" href="#">Account</a></li>
+        <li class="mx-1"><a class="nav-link" href="/profile">Account</a></li>
         <li class="mx-1"><a class="nav-link" href="#">Settings</a></li>
         <li class="mx-1"><a class="nav-link" href="#">Sign out</a></li>
       </ul>
@@ -47,7 +47,7 @@
           <i class="bi bi-person-circle"></i>
         </a>
         <ul class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="navbarDropdown">
-          <li><a class="nav-link" href="#">Account</a></li>
+          <li><a class="nav-link" href="/profile">Account</a></li>
           <li><a class="nav-link" href="#">Settings</a></li>
           <li><a class="nav-link" href="#">Sign out</a></li>
         </ul>

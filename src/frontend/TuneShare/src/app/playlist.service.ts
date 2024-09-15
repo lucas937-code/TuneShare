@@ -21,18 +21,18 @@ export class PlaylistService {
         track_list: [1, 2, 3, 4, 5],
         cover_url: "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
       },
-      // {
-      //   id: 2,
-      //   owner_id: 102,
-      //   spotify_id: undefined,
-      //   apple_music_id: "pl.u-XkD0mN0F6ER",
-      //   date_created: new Date("2023-07-15"),
-      //   date_modified: new Date("2023-07-16"),
-      //   title: "Chill Vibes",
-      //   description: "Relax and unwind with these chill tracks.",
-      //   track_list: [6, 7, 8, 9, 10],
-      //   cover_url: "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
-      // },
+      {
+        id: 2,
+        owner_id: 102,
+        spotify_id: undefined,
+        apple_music_id: "pl.u-XkD0mN0F6ER",
+        date_created: new Date("2023-07-15"),
+        date_modified: new Date("2023-07-16"),
+        title: "Chill Vibes",
+        description: "Relax and unwind with these chill tracks.",
+        track_list: [6, 7, 8, 9, 10],
+        cover_url: "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
+      },
       {
         id: 3,
         owner_id: 103,

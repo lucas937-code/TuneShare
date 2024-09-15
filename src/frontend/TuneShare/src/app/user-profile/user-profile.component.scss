@@ -1,0 +1,76 @@
+.namebar {
+  transition: height 0.5s ease-out;
+  top: 3.8em;
+  width: 100%;
+  z-index: 50;
+  height: 15em;
+  padding-bottom: 2.5em;
+  padding-top: 1em;
+  background: white;
+}
+
+.namebar.shrink{
+  transition: height 0.2s;
+  height: 7em;
+}
+
+.bottomBorder{
+  transition: width 0.5s ease-out;
+  padding-bottom: 1.5em;
+  width: 50%;
+  border-bottom: 2px solid #4F4E57;
+}
+
+.bottomBorder.shrink{
+  transition: width 0.2s;
+  width: 100%;
+}
+
+.imgProfile{
+  transition: height 0.66s;
+  max-height: 90%;
+}
+
+.imgProfile.shrink{
+  margin-bottom: 0.05em;
+}
+
+//Playlists
+.expandPlaylists {
+  max-height: 23.5em;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.transformPlaylists {
+  max-height: 5000em;
+  transition: max-height 2s ease-in;
+}
+
+#arrowPlaylists {
+  transition: transform 0.3s;
+}
+
+.transformedArrowPlaylists {
+  transform: rotate(90deg);
+}
+
+//Freunde
+.expandFriends {
+  max-height: 11em;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.transformFriends {
+  max-height: 5000em;
+  transition: max-height 2s ease-in;
+}
+
+#arrowFriends {
+  transition: transform 0.3s;
+}
+
+.transformedArrowFriends {
+  transform: rotate(90deg);
+}
