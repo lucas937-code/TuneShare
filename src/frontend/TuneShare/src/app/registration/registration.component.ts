@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {JsonPipe, NgClass, NgIf, NgOptimizedImage} from "@angular/common";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-registration',
@@ -18,11 +19,14 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
   styleUrl: './registration.component.scss'
 })
 export class RegistrationComponent implements OnInit{
-  private registrationUrl: string = "http://localhost:8000/register/";
+  readonly window = window;
+  private readonly registrationUrl: string = "http://localhost:8000/register/";
 
   registerForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) {
+  loading: boolean = false;
+
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -36,7 +40,21 @@ export class RegistrationComponent implements OnInit{
 
   onSubmit(): void {
     const payload = { email: this.email.value, password: this.password.value };
-    this.http.post(this.registrationUrl, payload).subscribe();
+    this.loading = true;
+    this.registerForm.disable();
+
+    this.http.post(this.registrationUrl, payload).subscribe({
+      error: () => {
+        this.loading = false;
+        this.registerForm.reset();
+        this.registerForm.enable();
+        window.alert("An error has occurred. Please try again."); // TODO: bessere Lösung finden
+      },
+      complete: () => {
+        this.loading = false;
+        this.router.navigate(['/']);
+      }
+    });
   }
 
   get email() {

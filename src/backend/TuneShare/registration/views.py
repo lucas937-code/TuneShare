@@ -17,7 +17,6 @@ class RegisterView(APIView):
             supabase = get_supabase_client()
             try:
                 response = supabase.auth.sign_up({'email': email, 'password': password})
-                print(response)
                 return JsonResponse({
                     'messageEn': 'Registration successful. Check your email to verify your account.',
                     'messageDe': 'Registrierung erfolgreich. Klicke auf den Link in der E-Mail, um deinen account zu '

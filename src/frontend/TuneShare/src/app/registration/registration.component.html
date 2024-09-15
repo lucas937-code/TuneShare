@@ -52,19 +52,25 @@
                   </div>
 
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button
+                    <button *ngIf="!loading; else loadingButton"
                       [disabled]="registerForm.invalid || password.value != repeatPassword.value"
                       type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">Register
                     </button>
+                    <ng-template #loadingButton>
+                      <button class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                        <span role="status" style="margin-left: .5em">Loading...</span>
+                      </button>
+                    </ng-template>
                   </div>
 
                 </form>
               </div>
-              <div
+              <div *ngIf="window.innerWidth >= 992"
                 class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center justify-content-center order-1 order-lg-2">
 
                 <img ngSrc="../../assets/logoTuneShare.png"
-                     class="h-auto w-75" alt="TuneShare logo" height="546" width="546">
+                     class="h-auto w-75" alt="TuneShare logo" height="546" width="546" priority>
 
               </div>
             </div>
