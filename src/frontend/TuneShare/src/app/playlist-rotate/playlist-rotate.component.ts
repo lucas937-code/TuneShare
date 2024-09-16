@@ -17,6 +17,7 @@ import {Playlist} from "../types";
 export class PlaylistRotateComponent implements OnInit {
   @Input() title: string = "";
   @Input() playlists: Playlist[] = [];
+  @Input() carouselId: string = "";
   playlistChunks: Playlist[][] = [];
 
   ngOnInit(): void {

@@ -1,9 +1,12 @@
 <div class="container mt-3 mb-5">
-	<app-playlist-rotate class="mx-auto" [playlists]="playlists" [title]="'Your playlists'"></app-playlist-rotate>
+  <app-playlist-rotate class="mx-auto" [carouselId]="'carousel1'" [playlists]="playlists"
+                       [title]="'Your playlists'"></app-playlist-rotate>
 </div>
 <div class="container mt-3 mb-5">
-  <app-playlist-rotate class="mx-auto" [playlists]="playlists" [title]="'Your friend\'s most recent playlists'"></app-playlist-rotate>
+  <app-playlist-rotate class="mx-auto" [carouselId]="'carousel2'" [playlists]="playlists"
+                       [title]="'Your friend\'s most recent playlists'"></app-playlist-rotate>
 </div>
 <div class="container mt-3 mb-5">
-  <app-playlist-rotate class="mx-auto" [playlists]="playlists" [title]="'New on Spotify'"></app-playlist-rotate>
+  <app-playlist-rotate class="mx-auto" [carouselId]="'carousel3'" [playlists]="playlists"
+                       [title]="'New on Spotify'"></app-playlist-rotate>
 </div>
