@@ -1,0 +1,59 @@
+<div class="mx-auto text-center sticky-top namebar align-tiems-center" [ngClass]="{'shrink': isShrunk}">
+    <div class="h-100 my-auto align-items-center h-100">
+        <img class="rounded-circle imgProfile" [ngClass]="{'shrink': isShrunk}" src="https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"/>
+        <h2>{{ user.display_name }}</h2>
+    </div>
+    <div class="bottomBorder mx-auto pt-3" [ngClass]="{'shrink': isShrunk}"></div>
+</div>
+<div class="mx-auto px-5" style="top: 3em;">
+    <h2 class="align-items-center">
+    <div (click) = toggleTransformPlaylists()>
+        Playlists
+        <div class="d-inline-block" [class.transformedArrowPlaylists]="isPlaylistsTransformed" id="arrowPlaylists">
+            <i class="bi-caret-right-fill"></i>
+        </div>
+    </div>
+</h2>
+    <div class="row row-cols-auto mx-auto justify-content-center expandPlaylists"
+         [class.transformPlaylists]="isPlaylistsTransformed">
+        <app-playlist class="col my-2 p-0 mx-2" style="width: 21em" *ngFor="let playlist of playlists" [playlist]="playlist"></app-playlist>
+        <div class="col p-0 mx-2" style="width: 21em; height: 0;"></div>
+        <div class="col p-0 mx-2" style="width: 21em; height: 0;"></div>
+        <div class="col p-0 mx-2" style="width: 21em; height: 0;"></div>
+    </div>
+    <div class="text-center">
+        <div class="m-auto text-center" (click) = toggleTransformPlaylists() *ngIf="isPlaylistsTransformed">Hide</div>
+    </div>
+
+    <h2 class="align-items-center">
+        <div (click) = toggleTransformFriends()>
+            Friends
+            <div class="d-inline-block" [class.transformedArrowFriends]="isFriendsTransformed" id="arrowFriends">
+                <i class="bi-caret-right-fill"></i>
+            </div>
+        </div>
+    </h2>
+    <!--  TODO: FriendComponent with List-->
+    <div class="row row-cols-auto mx-auto justify-content-center expandFriends"
+         [class.transformFriends]="isFriendsTransformed">
+        <div class="p-0" *ngFor="let number of [1, 1, 1, 1, 1, 1,1 ,1 ,1 ,1, 1 ,1, 1 ,1 ,1 ,1 ,1 ,1 ,1 ,1,1, 1, 1 ]">
+            <img class="col p-0 mx-2 rounded-circle m-3" style="width: 10em; height: 10em;" src="https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"/>
+        </div>
+
+        <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
+        <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
+        <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
+        <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
+        <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
+        <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
+        <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
+        <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
+        <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
+
+
+
+    </div>
+    <div class="text-center">
+        <div class="m-auto text-center" (click) = toggleTransformFriends() *ngIf="isFriendsTransformed">Hide</div>
+    </div>
+</div>
