@@ -1,5 +1,5 @@
 import {Component, HostListener, OnInit} from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Router, RouterOutlet} from '@angular/router';
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import { PlaylistService } from './playlist.service';
 import {Playlist} from "./types";
@@ -12,11 +12,16 @@ import {Playlist} from "./types";
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
+  isRegistrationPage: boolean = false;
   isMobile: boolean = false;
   title = 'TuneShare';
 
   playlists: Playlist[] = [];
-  constructor(private playlistService: PlaylistService) {}
+  constructor(private playlistService: PlaylistService, private router: Router) {
+    this.router.events.subscribe(() => {
+      this.isRegistrationPage = this.router.url === '/register';
+    })
+  }
 
   ngOnInit() {
     this.isMobile = window.innerWidth < 992;

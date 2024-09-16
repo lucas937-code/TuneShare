@@ -1,10 +1,8 @@
-from django.shortcuts import render
-import os
-from dotenv import load_dotenv
+from django.conf import settings
+from supabase import create_client, Client
 
-load_dotenv()
+supabase_url = settings.SUPABASE_URL
+supabase_key = settings.SUPABASE_KEY
+supabase_client: Client = create_client(supabase_url, supabase_key)
 
-url: str = os.environ.get("URL")
-key: str = os.environ.get("KEY")
-
-print(url, key)
+print(supabase_url, supabase_key)

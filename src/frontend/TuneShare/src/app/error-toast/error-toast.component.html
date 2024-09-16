@@ -1,0 +1,21 @@
+<ngb-toast
+  *ngIf="showing"
+  [autohide]="autoHide"
+  [delay]="autoHideDuration"
+  (hidden)="showing = false"
+  [class]="'text-bg-danger mt-3 show toast-position'"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true">
+  <div class="toast-body">
+    <div class="d-flex">
+      <div class="d-flex flex-grow-1 align-items-center">
+        <span class="fw-semibold" style="margin-right: 1em">{{ message }}</span>
+        <button type="button"
+                class="btn-close btn-close-white btn-close-sm ms-auto"
+                aria-label="Close"
+                (click)="showing = false"></button>
+      </div>
+    </div>
+  </div>
+</ngb-toast>

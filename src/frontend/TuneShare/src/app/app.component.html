@@ -1,4 +1,4 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark px-3" style="background-color: #8A5CA3; font-size: larger; z-index: 1000; height: 3.8em;">
+<nav *ngIf="!isRegistrationPage" class="navbar sticky-top navbar-expand-lg navbar-dark px-3" style="background-color: #8A5CA3; font-size: larger; z-index: 1000; height: 3.8em;">
   <a class="navbar-brand m-0" href="#"><img ngSrc="assets/logoTuneShare.png" alt="TuneShareLogo" width="45" height="45"> <div class="mx-2" style="display: inline" >TuneShare </div></a>
   <ul *ngIf="isMobile" class="navbar-nav ml-0 my-0 py-0 d-flex flex-row align-items-center" style="font-size: x-large;">
     <li class="nav-item mx-2">
@@ -14,7 +14,8 @@
         <li class="mx-1"><a class="nav-link" href="#">Sign out</a></li>
       </ul>
     </li>
-    <button class="navbar-toggler mr-auto mx-2 p-0" style="border: none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler mr-auto mx-2 p-0" style="border: none" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
   </ul>
@@ -27,32 +28,39 @@
         <a class="nav-link" href="#">Friends</a>
       </li>
       <li *ngIf="isMobile">
-        <input class="form-control" type="search" placeholder="Search" aria-label="Search" style="background-color: #D8C9E1; border-color: #8A5CA3;">
+        <input class="form-control" type="search" placeholder="Search" aria-label="Search"
+               style="background-color: #D8C9E1; border-color: #8A5CA3;">
       </li>
     </ul>
     <form *ngIf="!isMobile" class="form-inline ms-auto px-3" style="width: 20em">
-        <div class="input-group">
-          <div  class="input-group-prepend">
-            <span class="input-group-text" style="background-color: #D8C9E1; border-bottom-right-radius: 0; border-top-right-radius: 0; border-color: #8A5CA3" id="searchText"><i class="bi bi-search"></i></span>
-          </div>
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="background-color: #D8C9E1; border-bottom-left-radius: 0; border-color: #8A5CA3;">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"
+                style="background-color: #D8C9E1; border-bottom-right-radius: 0; border-top-right-radius: 0; border-color: #8A5CA3"
+                id="searchText"><i class="bi bi-search"></i></span>
         </div>
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+               style="background-color: #D8C9E1; border-bottom-left-radius: 0; border-color: #8A5CA3;">
+      </div>
     </form>
     <ul *ngIf="!isMobile" class="navbar-nav ms-auto my-0 py-0" style="font-size: x-large">
       <li class="nav-item mx-1">
         <a class="nav-link" href="#"><i class="bi bi-plus-circle-fill"></i></a>
       </li>
       <li class="nav-item dropdown mx-1 my-0 py-0">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+           aria-expanded="false">
           <i class="bi bi-person-circle"></i>
         </a>
         <ul class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="navbarDropdown">
           <li><a class="nav-link" href="/profile">Account</a></li>
           <li><a class="nav-link" href="#">Settings</a></li>
-          <li><a class="nav-link" href="#">Sign out</a></li>
+          <li><a class="nav-link" href="/register">Sign out</a></li>
         </ul>
       </li>
     </ul>
   </div>
 </nav>
-<div><router-outlet></router-outlet></div>
+<div>
+  <router-outlet></router-outlet>
+</div>
