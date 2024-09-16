@@ -88,7 +88,7 @@
 
 <ngb-toast
   *ngIf="showToast"
-  [autohide]="false"
+  [autohide]="true"
   [delay]="5000"
   (hidden)="showToast = false"
   [class]="'text-bg-danger mt-3 show toast-position'"
