@@ -4,6 +4,7 @@ import {JsonPipe, NgClass, NgIf, NgOptimizedImage} from "@angular/common";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {NgbToast} from "@ng-bootstrap/ng-bootstrap";
+import {ErrorToastComponent} from "../error-toast/error-toast.component";
 
 @Component({
   selector: 'app-registration',
@@ -15,7 +16,8 @@ import {NgbToast} from "@ng-bootstrap/ng-bootstrap";
     JsonPipe,
     NgOptimizedImage,
     HttpClientModule,
-    NgbToast
+    NgbToast,
+    ErrorToastComponent
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss'

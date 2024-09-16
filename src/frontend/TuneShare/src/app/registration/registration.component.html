@@ -86,24 +86,4 @@
   </div>
 </section>
 
-<ngb-toast
-  *ngIf="showToast"
-  [autohide]="true"
-  [delay]="5000"
-  (hidden)="showToast = false"
-  [class]="'text-bg-danger mt-3 show toast-position'"
-  role="alert"
-  aria-live="assertive"
-  aria-atomic="true">
-  <div class="toast-body">
-    <div class="d-flex">
-      <div class="d-flex flex-grow-1 align-items-center">
-        <span class="fw-semibold" style="margin-right: 1em">An error has occurred. Try again</span>
-        <button type="button"
-                class="btn-close btn-close-white btn-close-sm ms-auto"
-                aria-label="Close"
-                (click)="showToast = false"></button>
-      </div>
-    </div>
-  </div>
-</ngb-toast>
+<app-error-toast [showing]="showToast"></app-error-toast>
