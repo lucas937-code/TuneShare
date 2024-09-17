@@ -1,12 +1,23 @@
 .namebar {
-  transition: height 0.5s ease-out;
+  transition: min-height 0.5s ease-out;
   top: 3.8em;
   width: 100%;
   z-index: 50;
-  height: 15em;
-  padding-bottom: 2.5em;
+  min-height: 16em;
+  padding-bottom: 3.5em;
   padding-top: 1em;
   background: white;
+}
+
+.namebar.shrink{
+  transition: min-height 0.2s;
+  min-height: 7em;
+}
+
+.namebar.shrink.mobile{
+  transition: min-height 0.2s, height 0.2s;
+  min-height: 7em;
+  height: 8em;
 }
 
 .appleLink:hover{
@@ -43,9 +54,20 @@
 }
 
 .iconFollowPlain{
+  transition: transform 0.05s ease-in;
+  transform: scale(1.00);
   font-size: x-large;
   cursor: pointer;
   width: 1.8em;
+}
+
+.iconFollowPlain.settingTransform:hover{
+  transition: transform 0.2s ease-out;
+  transform: scale(1.05);
+}
+
+
+.iconFollowPlain.transformIcon{
   transform: rotateY(180deg);
   transition: transform 0.2s ease-in-out;
 }
@@ -66,7 +88,7 @@ a{
 }
 
 .hideIfShrunk.shrink{
-  transition: font-size 0.2s ease-out;
+  transition: font-size 0.1s ease-out;
   font-size: 0.001em;
 }
 
@@ -74,14 +96,8 @@ a{
   display: none;
 }
 
-.namebar.shrink{
-  transition: height 0.2s;
-  height: 7em;
-}
-
 .bottomBorder{
   transition: width 0.5s ease-out;
-  padding-bottom: 1.5em;
   width: 50%;
   border-bottom: 2px solid #4F4E57;
 }
@@ -92,10 +108,13 @@ a{
 }
 
 .imgProfile{
-  max-height: 70%;
+  transition: max-height 0.5s ease-out;
+  max-height: 9em;
 }
 
 .imgProfile.shrink{
+  transition: max-height 0.2s;
+  max-height: 3em;
   margin-bottom: 0.05em;
 }
 

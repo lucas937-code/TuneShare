@@ -1,4 +1,4 @@
-import {Component, HostListener, Input} from '@angular/core';
+import {Component, HostListener, Input, OnInit} from '@angular/core';
 import {PlaylistListComponent} from "../playlistList/playlist-list.component";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {PlaylistComponent} from "../playlist/playlist.component";
@@ -18,11 +18,11 @@ import {User} from "../types";
     templateUrl: './user-profile.component.html',
     styleUrl: './user-profile.component.scss'
 })
-export class UserProfileComponent {
+export class UserProfileComponent implements OnInit {
     @Input() user: User = {
         id: 0,
-        spotify_id: undefined,
-        apple_music_id: "test",
+        spotify_id: "undefined",
+        apple_music_id: "MaxAverageListeningEnjoyer",
         date_created: new Date("2000-02-02"),
         username: "Max_2000",
         display_name: "Max Mustermannn",
@@ -36,12 +36,15 @@ export class UserProfileComponent {
     showCopied: boolean = false;
     followed: boolean = false; //True = Nutzer wird bereits gefolgt
     newFollow: boolean = this.followed;
+    ownProfile: boolean = false; //True = Nutzer sieht sein eigenes Profil an
+    isMobile: boolean = true;
 
     constructor(private playlistService: PlaylistService) {
     }
 
     ngOnInit() {
-        this.playlists = this.playlistService.getPlaylists();
+      this.playlists = this.playlistService.getPlaylists();
+      this.isMobile = window.innerWidth < 992;
     }
 
     toggleTransformPlaylists() {
@@ -58,7 +61,7 @@ export class UserProfileComponent {
             this.isShrunk = true;
             setTimeout(() => {
                 this.isHidden = this.isShrunk
-            }, 200);
+            }, 100);
         } else {
             this.isHidden = false;
             setTimeout(() => {
@@ -66,6 +69,11 @@ export class UserProfileComponent {
             }, 1);
         }
     }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(): void {
+    this.isMobile = window.innerWidth < 992;
+  }
 
     copyUsername() {
         navigator.clipboard.writeText("@" + this.user.username).then(() => {
