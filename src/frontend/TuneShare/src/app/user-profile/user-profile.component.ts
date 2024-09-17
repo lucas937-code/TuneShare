@@ -34,7 +34,8 @@ export class UserProfileComponent {
     isShrunk: boolean = false;
     isHidden: boolean = false;
     showCopied: boolean = false;
-    followed: boolean = true; //True = Nutzer wird bereits gefolgt
+    followed: boolean = false; //True = Nutzer wird bereits gefolgt
+    newFollow: boolean = this.followed;
 
     constructor(private playlistService: PlaylistService) {
     }
@@ -77,5 +78,8 @@ export class UserProfileComponent {
 
     follow(){
         this.followed = !this.followed;
+        setTimeout(() => {
+          this.newFollow = this.followed;
+        }, 100);
     }
 }

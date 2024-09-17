@@ -42,9 +42,16 @@
   z-index: 99999;
 }
 
-.bi-square{
-  transition: font-size 1s ease-out;
-  font-size: x-large
+.iconFollowPlain{
+  font-size: x-large;
+  cursor: pointer;
+  width: 1.8em;
+  transform: rotateY(180deg);
+  transition: transform 0.2s ease-in-out;
+}
+
+.iconFollowPlain.newFollow{
+    transform: rotateY(360deg);
 }
 
 a{

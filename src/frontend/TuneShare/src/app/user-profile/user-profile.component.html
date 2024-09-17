@@ -5,7 +5,7 @@
         <div style="display: flex; width: 75%;" class="justify-content-center align-items-center mx-auto">
             <i style="font-size: x-large; width: 1.8em;"></i>
             <h2 class="text-center" href="/library">{{ user.display_name }} </h2>
-            <i class="text-left align-items-center" title="Follow" (click)="follow()" [ngClass]="{'bi-plus-square': !followed, 'bi-check-square-fill':followed}" style="font-size: x-large; cursor: pointer; width: 1.8em;"></i>
+            <i class="text-left align-items-center iconFollowPlain" title="Follow" (click)="follow()" [ngClass]="{'bi-plus-square': !newFollow, 'bi-check-square-fill':newFollow, 'newFollow': followed}"></i>
         </div>
       <div style="color: #4F4E57;">
             <a (click) = "copyUsername()" id="usernameLink" style="cursor: pointer"  title="Copy username" class="shareUsernameLink" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Copied!"><h5 [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto">
