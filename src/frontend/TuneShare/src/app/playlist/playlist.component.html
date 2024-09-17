@@ -1,6 +1,6 @@
 <div class="card mx-auto">
-  <div class="px-3 pt-3">
-    <img [src]="playlist.cover_url" class="card-img-top art-cover" alt="{{ playlist.title }}"
+  <div class="pt-3 mx-auto">
+    <img [src]="playlist.cover_url" class="card-img-top art-cover" style="width: 16em; height: 16em;" alt="{{ playlist.title }}"
          (mousemove)="tilt($event)" (mouseleave)="resetTilt($event)" />
   </div>
   <div class="card-body mx-3 mt-3 p-0">

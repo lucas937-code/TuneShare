@@ -19,7 +19,7 @@ export class PlaylistService {
         title: "Top Hits 2023 Das war ein sehr langes Jahr und hat damit auch einen sehr langen Titel verdient",
         description: "The biggest hits of the year.",
         track_list: [1, 2, 3, 4, 5],
-        cover_url: "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
+        cover_url: "/assets/papagei-foto.jpg"
       },
       {
         id: 2,
@@ -31,7 +31,7 @@ export class PlaylistService {
         title: "Chill Vibes",
         description: "Relax and unwind with these chill tracks.",
         track_list: [6, 7, 8, 9, 10],
-        cover_url: "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
+        cover_url: "/assets/papagei-foto.jpg"
       },
       {
         id: 3,
@@ -43,7 +43,7 @@ export class PlaylistService {
         title: "Rock Classics",
         description: "The best classic rock songs.",
         track_list: [11, 12, 13, 14, 15],
-        cover_url: "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
+        cover_url: "/assets/papagei-foto.jpg"
       },
       {
         id: 4,
@@ -55,7 +55,7 @@ export class PlaylistService {
         title: "Party Playlist",
         description: "Get the party started with these bangers. Lets get it started -aha - lets get it started in here! Black Eyed Peas sind Beste und der Text hier wird immer länger mit jedem neuen Wort so wie...",
         track_list: [16, 17, 18, 19, 20],
-        cover_url: "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
+        cover_url: "/assets/papagei-foto.jpg"
       },
       {
         id: 5,
@@ -67,7 +67,7 @@ export class PlaylistService {
         title: "Workout Motivation",
         description: "Keep the energy up with these high-intensity tracks.",
         track_list: [21, 22, 23, 24, 25],
-        cover_url: "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
+        cover_url: "/assets/papagei-foto.jpg"
       },
       {
         id: 6,
@@ -79,7 +79,7 @@ export class PlaylistService {
         title: "Indie Discoveries",
         description: "Discover the best new indie tracks.",
         track_list: [26, 27, 28, 29, 30],
-        cover_url: "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
+        cover_url: "/assets/papagei-foto.jpg"
       },
       {
         id: 7,
@@ -91,7 +91,7 @@ export class PlaylistService {
         title: "Summer Vibes",
         description: "Feel the summer heat with these tropical tracks.",
         track_list: [31, 32, 33, 34, 35],
-        cover_url: "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
+        cover_url: "/assets/papagei-foto.jpg"
       },
       {
         id: 8,
@@ -103,7 +103,7 @@ export class PlaylistService {
         title: "Focus Music",
         description: "Stay focused with these calming instrumental tracks.",
         track_list: [36, 37, 38, 39, 40],
-        cover_url: "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
+        cover_url: "/assets/papagei-foto.jpg"
       },
       {
         id: 9,
@@ -115,7 +115,7 @@ export class PlaylistService {
         title: "Road Trip",
         description: "The perfect playlist for your next adventure.",
         track_list: [41, 42, 43, 44, 45],
-        cover_url: "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
+        cover_url: "/assets/papagei-foto.jpg"
       },
       {
         id: 10,
@@ -127,7 +127,7 @@ export class PlaylistService {
         title: "Throwback 90s",
         description: "Relive the 90s with these nostalgic hits.",
         track_list: [46, 47, 48, 49, 50],
-        cover_url: "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
+        cover_url: "/assets/papagei-foto.jpg"
       }
     ];
   }
