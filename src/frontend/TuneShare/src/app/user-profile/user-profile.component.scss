@@ -9,6 +9,64 @@
   background: white;
 }
 
+.appleLink:hover{
+  .appleLogo{
+    color: #E7515F;
+  }
+}
+
+.spotifyLink:hover{
+  .spotifyLogo{
+    color: #65D46E;
+  }
+}
+
+.shareUsernameLink:hover{
+  .shareUsernameLogo {
+    color: #8A5CA3;
+  }
+}
+
+.copied {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  width: fit-content;
+  padding: 0.8em;
+  background-color: #4caf50;
+  color: white;
+  top: 1em;
+  margin: auto;
+  border-radius: 5px;
+  z-index: 99999;
+}
+
+.bi-square{
+  transition: font-size 1s ease-out;
+  font-size: x-large
+}
+
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
+.hideIfShrunk{
+  display: inline;
+  transition: font-size 0.5s ease-out;
+  font-size: larger;
+}
+
+.hideIfShrunk.shrink{
+  transition: font-size 0.2s ease-out;
+  font-size: 0.001em;
+}
+
+.hideIfShrunk.hidden{
+  display: none;
+}
+
 .namebar.shrink{
   transition: height 0.2s;
   height: 7em;
@@ -28,7 +86,7 @@
 
 .imgProfile{
   transition: height 0.66s;
-  max-height: 90%;
+  max-height: 75%;
 }
 
 .imgProfile.shrink{

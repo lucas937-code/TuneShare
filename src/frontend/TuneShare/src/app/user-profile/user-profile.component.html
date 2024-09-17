@@ -1,7 +1,34 @@
+<div class="copied" *ngIf="showCopied">Copied!</div>
 <div class="mx-auto text-center sticky-top namebar align-tiems-center" [ngClass]="{'shrink': isShrunk}">
     <div class="h-100 my-auto align-items-center h-100">
         <img class="rounded-circle imgProfile" [ngClass]="{'shrink': isShrunk}" src="https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"/>
-        <h2>{{ user.display_name }}</h2>
+        <div style="display: flex; width: 75%;" class="justify-content-center align-items-center mx-auto">
+            <i style="font-size: x-large; width: 1.8em;"></i>
+            <h2 class="text-center" href="/library">{{ user.display_name }} </h2>
+            <i class="text-left align-items-center" title="Follow" (click)="follow()" [ngClass]="{'bi-plus-square': !followed, 'bi-check-square-fill':followed}" style="font-size: x-large; cursor: pointer; width: 1.8em;"></i>
+        </div>
+      <div style="color: #4F4E57;">
+            <a (click) = "copyUsername()" id="usernameLink" style="cursor: pointer"  title="Copy username" class="shareUsernameLink" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Copied!"><h5 [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto">
+                <span class="shareUsernameLogo">&#64;</span>{{ user.username }}
+              </h5>
+            </a>
+          <span *ngIf="user.apple_music_id != undefined">
+            <span [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto"> | </span>
+            <a target="_blank" href="https://music.apple.com/de/album/never-gonna-give-you-up/1559523357?i=1559523359" class="appleLink" title="{{ user.display_name }}'s Apple Music">
+              <h5 [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto">
+                <i class="bi-apple appleLogo"></i> {{ user.username}}
+              </h5>
+            </a>
+          </span>
+          <span *ngIf="user.spotify_id != undefined">
+            <span [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto"> | </span>
+            <a target="_blank" href="https://open.spotify.com/intl-de/track/4PTG3Z6ehGkBFwjybzWkR8?si=a87a0f63f1bc4267" class="spotifyLink" title="{{ user.display_name }}'s Spotify">
+              <h5 [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto">
+                <i class="bi-spotify spotifyLogo"></i> {{ user.username}}
+              </h5>
+            </a>
+        </span>
+      </div>
     </div>
     <div class="bottomBorder mx-auto pt-3" [ngClass]="{'shrink': isShrunk}"></div>
 </div>
@@ -49,8 +76,6 @@
         <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
         <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
         <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-
-
 
     </div>
     <div class="text-center">
