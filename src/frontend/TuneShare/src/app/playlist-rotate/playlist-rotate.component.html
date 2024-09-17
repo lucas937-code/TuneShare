@@ -1,5 +1,5 @@
 <h2 class="mb-4">{{ title }}</h2>
-<div id="playlistCarousel" class="carousel slide" data-bs-interval="false" data-pause="hover" style="overflow: hidden;">
+<div id="{{ carouselId }}" class="carousel slide" data-bs-interval="false" data-pause="hover" style="overflow: hidden;">
   <div class="carousel-inner">
     <div class="carousel-item"
          [ngClass]="{ active: i === 0 }" *ngFor="let chunk of playlistChunks; let i = index">
@@ -13,14 +13,14 @@
 
   <!-- Carousel controls -->
   <button class="carousel-control-prev text-black h-25 bg-black my-auto w-auto" type="button"
-          data-bs-target="#playlistCarousel"
+          [attr.data-bs-target]="'#' + carouselId"
           data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
   </button>
   <button
     class="carousel-control-next text-black h-25 bg-black my-auto w-auto"
     type="button"
-    data-bs-target="#playlistCarousel"
+    [attr.data-bs-target]="'#' + carouselId"
     data-bs-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
   </button>
