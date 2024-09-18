@@ -1,59 +1,130 @@
-<div class="mx-auto text-center sticky-top namebar align-tiems-center" [ngClass]="{'shrink': isShrunk}">
-    <div class="h-100 my-auto align-items-center h-100">
-        <img class="rounded-circle imgProfile" [ngClass]="{'shrink': isShrunk}" src="https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"/>
-        <h2>{{ user.display_name }}</h2>
+<div class="copied" *ngIf="showCopied">Copied!</div>
+<div class="mx-auto text-center sticky-top namebar align-items-center pb-0" [ngClass]="{'shrink': isShrunk, 'mobile': isMobile}">
+  <div class="h-100 my-auto align-items-center h-100">
+    <img class="rounded-circle imgProfile" [ngClass]="{'shrink': isShrunk}"
+         src="/assets/papagei-foto.jpg"/>
+    <div style="display: flex; width: 75%;" class="justify-content-center align-items-center mx-auto">
+      <i style="font-size: x-large; width: 1.8em;"></i>
+      <h2 class="text-center" href="/library">{{ user.display_name }} </h2>
+      <i *ngIf="!ownProfile" class="text-left iconFollowPlain transformIcon" title="Follow"
+         (click)="follow()"
+         [ngClass]="{'bi-plus-square': !newFollow, 'bi-check-square-fill':newFollow, 'newFollow': followed}"></i>
+      <a *ngIf="ownProfile" class="text-left bi-pencil-square iconFollowPlain settingTransform" title="Settings"
+         href="/settings"></a>
     </div>
-    <div class="bottomBorder mx-auto pt-3" [ngClass]="{'shrink': isShrunk}"></div>
+    <div style="color: #4F4E57;" *ngIf="!ownProfile">
+      <a (click)="copyUsername()" style="cursor: pointer" title="Copy username"
+         class="shareUsernameLink"><h5
+        [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto">
+        <span class="shareUsernameLogo">&#64;</span>{{ user.username }}
+      </h5>
+      </a>
+      <span *ngIf="user.apple_music_id != undefined">
+        <span [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile && !isShrunk"></div></span>
+            <a target="_blank" href="https://music.apple.com/de/album/never-gonna-give-you-up/1559523357?i=1559523359"
+               class="appleLink" title="{{ user.display_name }}'s Apple Music">
+              <h5 [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto">
+                <i class="bi-apple appleLogo"></i> {{ user.apple_music_id }}
+              </h5>
+            </a>
+          </span>
+      <span *ngIf="user.spotify_id != undefined">
+            <span [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile && !isShrunk"></div></span>
+            <a target="_blank" href="https://open.spotify.com/intl-de/track/4PTG3Z6ehGkBFwjybzWkR8?si=a87a0f63f1bc4267"
+               class="spotifyLink" title="{{ user.display_name }}'s Spotify">
+              <h5 [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto">
+                <i class="bi-spotify spotifyLogo"></i> {{ user.spotify_id }}
+              </h5>
+            </a>
+        </span>
+    </div>
+
+    <div style="color: #4F4E57;" *ngIf="ownProfile">
+      <a (click)="copyUsername()" style="cursor: pointer" title="Copy username"
+         class="shareUsernameLink"><h5
+        [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto">
+        <span class="shareUsernameLogo">&#64;</span>{{ user.username }}
+      </h5>
+      </a>
+      <span>
+            <span [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile"></div></span>
+            <a target="{{ user.apple_music_id ? '_blank' : '_self' }}" href= "{{ user.apple_music_id ? 'https://music.apple.com/de/album/never-gonna-give-you-up/1559523357?i=1559523359' : '/settings' }}"
+               class="appleLink" title="{{ user.display_name }}'s Apple Music">
+              <h5 [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto">
+                <i class="bi-apple appleLogo"></i> {{ user.apple_music_id ? user.apple_music_id : "link now" }}
+              </h5>
+            </a>
+          </span>
+      <span>
+            <span [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile"></div></span>
+            <a target="{{ user.spotify_id ? '_blank' : '_self' }}" href="{{ user.spotify_id ? 'https://music.apple.com/de/album/never-gonna-give-you-up/1559523357?i=1559523359' : '/settings'}}"
+               class="spotifyLink" title="{{ user.display_name }}'s Spotify">
+              <h5 [ngClass]="{'shrink': isShrunk, 'hidden': isHidden, 'fst-italic': !user.spotify_id}" class="hideIfShrunk mx-auto">
+                <i class="bi-spotify spotifyLogo"></i> {{ user.spotify_id ? user.spotify_id : "link now" }}
+              </h5>
+            </a>
+        </span>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="bottomBorder mx-auto  " [ngClass]="{'shrink': isShrunk}"></div>
 </div>
-<div class="mx-auto px-5" style="top: 3em;">
-    <h2 class="align-items-center">
-    <div (click) = toggleTransformPlaylists()>
-        Playlists
-        <div class="d-inline-block" [class.transformedArrowPlaylists]="isPlaylistsTransformed" id="arrowPlaylists">
-            <i class="bi-caret-right-fill"></i>
-        </div>
-    </div>
-</h2>
-    <div class="row row-cols-auto mx-auto justify-content-center expandPlaylists"
-         [class.transformPlaylists]="isPlaylistsTransformed">
-        <app-playlist class="col my-2 p-0 mx-2" style="width: 21em" *ngFor="let playlist of playlists" [playlist]="playlist"></app-playlist>
-        <div class="col p-0 mx-2" style="width: 21em; height: 0;"></div>
-        <div class="col p-0 mx-2" style="width: 21em; height: 0;"></div>
-        <div class="col p-0 mx-2" style="width: 21em; height: 0;"></div>
-    </div>
-    <div class="text-center">
-        <div class="m-auto text-center" (click) = toggleTransformPlaylists() *ngIf="isPlaylistsTransformed">Hide</div>
-    </div>
-
-    <h2 class="align-items-center">
-        <div (click) = toggleTransformFriends()>
-            Friends
-            <div class="d-inline-block" [class.transformedArrowFriends]="isFriendsTransformed" id="arrowFriends">
-                <i class="bi-caret-right-fill"></i>
-            </div>
-        </div>
-    </h2>
-    <!--  TODO: FriendComponent with List-->
-    <div class="row row-cols-auto mx-auto justify-content-center expandFriends"
-         [class.transformFriends]="isFriendsTransformed">
-        <div class="p-0" *ngFor="let number of [1, 1, 1, 1, 1, 1,1 ,1 ,1 ,1, 1 ,1, 1 ,1 ,1 ,1 ,1 ,1 ,1 ,1,1, 1, 1 ]">
-            <img class="col p-0 mx-2 rounded-circle m-3" style="width: 10em; height: 10em;" src="https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"/>
-        </div>
-
-        <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-        <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-        <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-        <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-        <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-        <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-        <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-        <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-        <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
 
 
+<div class="mx-auto px-4" style="top: 3em;">
+  <h2 class="align-items-center">
+    <div (click)=toggleTransformPlaylists()>
+      Playlists
+      <div class="d-inline-block" [class.transformedArrowPlaylists]="isPlaylistsTransformed" id="arrowPlaylists">
+        <i class="bi-caret-right-fill"></i>
+      </div>
+    </div>
+  </h2>
+  <div class="row row-cols-auto mx-auto justify-content-center expandPlaylists"
+       [class.transformPlaylists]="isPlaylistsTransformed">
+    <app-playlist class="col my-2 p-0" style="width: 21em" *ngFor="let playlist of playlists"
+                  [playlist]="playlist"></app-playlist>
+    <div class="col p-0" style="width: 21em; height: 0;"></div>
+    <div class="col p-0" style="width: 21em; height: 0;"></div>
+    <div class="col p-0" style="width: 21em; height: 0;"></div>
+  </div>
+  <div class="text-center">
+    <div class="m-auto text-center" (click)=toggleTransformPlaylists() *ngIf="isPlaylistsTransformed">Hide</div>
+  </div>
 
+  <h2 class="align-items-center">
+    <div (click)=toggleTransformFriends()>
+      Friends
+      <div class="d-inline-block" [class.transformedArrowFriends]="isFriendsTransformed" id="arrowFriends">
+        <i class="bi-caret-right-fill"></i>
+      </div>
     </div>
-    <div class="text-center">
-        <div class="m-auto text-center" (click) = toggleTransformFriends() *ngIf="isFriendsTransformed">Hide</div>
+  </h2>
+  <!--  TODO: FriendComponent with List-->
+  <div class="row row-cols-auto mx-auto justify-content-center expandFriends"
+       [class.transformFriends]="isFriendsTransformed">
+    <div class="p-0" *ngFor="let number of [1, 1, 1, 1, 1, 1,1 ,1 ,1 ,1, 1 ,1, 1 ,1 ,1 ,1 ,1 ,1 ,1 ,1,1, 1, 1 ]">
+      <img class="col p-0 mx-2 rounded-circle m-3" style="width: 10em; height: 10em;"
+           src="/assets/papagei-foto.jpg"/>
     </div>
+
+    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
+    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
+    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
+    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
+    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
+    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
+    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
+    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
+    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
+
+  </div>
+  <div class="text-center">
+    <div class="m-auto text-center" (click)=toggleTransformFriends() *ngIf="isFriendsTransformed">Hide</div>
+  </div>
 </div>
+<div style="height: 5em;"></div>
