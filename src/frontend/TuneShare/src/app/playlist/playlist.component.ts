@@ -1,14 +1,20 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {NgClass, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-playlist',
   standalone: true,
-  imports: [],
+  imports: [
+    NgIf,
+    NgClass
+  ],
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.scss'
 })
 export class PlaylistComponent {
   @Input() playlist: any;
+
+  added: boolean = false;
 
   tilt(event: MouseEvent): void {
     const img = event.currentTarget as HTMLElement;
@@ -33,5 +39,10 @@ export class PlaylistComponent {
     img.classList.remove('tilted');
     img.style.setProperty('--rotateX', `0deg`);
     img.style.setProperty('--rotateY', `0deg`);
+  }
+
+  add(){
+    this.added = !this.added;
+    //Funktion zum Hinzufügen zur Mediathek
   }
 }

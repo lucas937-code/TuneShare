@@ -1,6 +1,5 @@
 .card {
   color: #4F4E57;
-  cursor: pointer;
   transition: transform 0.2s;
   width: 20em;
   height: 22em;
@@ -35,8 +34,15 @@
   border-radius: 1em;
 }
 
+.card-author{
+  width: 47%;
+  padding-right: 0;
+}
+
 .logos{
   text-align: right;
+  width: 53%;
+  padding-left: 0;
 }
 
 .linkedButton{
@@ -45,6 +51,16 @@
   font-size: 1.3em;
   margin: 0.15em;
   padding: 0;
+}
+
+.iconAddPlain{
+  transform: rotateY(180deg);
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.addLink:hover{
+  color: #8A5CA3;
 }
 
 .shareLink:hover{
@@ -63,7 +79,9 @@
   color: #65D46E;
 }
 
-
+.usualStyle{
+  text-decoration: none;
+}
 
 a{
   color: #4F4E57;

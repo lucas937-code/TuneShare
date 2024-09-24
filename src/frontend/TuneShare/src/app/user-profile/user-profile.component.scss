@@ -61,11 +61,10 @@
   width: 1.8em;
 }
 
-.iconFollowPlain.settingTransform:hover{
+.iconFollowPlain:hover{
   transition: transform 0.2s ease-out;
-  transform: scale(1.05);
+  transform: scale(1.55);
 }
-
 
 .iconFollowPlain.transformIcon{
   transform: rotateY(180deg);
