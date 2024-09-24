@@ -96,14 +96,16 @@ a{
 }
 
 .bottomBorder{
-  transition: width 0.5s ease-out;
+  transition: width 0.5s ease-out, padding-top 0.5s ease-out;
   width: 50%;
   border-bottom: 2px solid #4F4E57;
+  padding-top: 1em;
 }
 
 .bottomBorder.shrink{
-  transition: width 0.2s;
+  transition: width 0.2s, padding-top 0.2s;
   width: 100%;
+  padding-top: 0;
 }
 
 .imgProfile{
