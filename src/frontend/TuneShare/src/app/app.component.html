@@ -1,7 +1,7 @@
 <nav *ngIf="!isRegistrationPage" class="navbar sticky-top navbar-expand-lg navbar-dark" style="background-color: #8A5CA3; font-size: larger; z-index: 1000; height: 3.8em;">
-  <a class="navbar-brand m-0 ps-3 py-0" href="#">
-    <img ngSrc="assets/logoTuneShare.png" alt="TuneShareLogo" width="45" height="45">
-    <div class="mx-2" style="display: inline" >TuneShare </div>
+  <a class="navbar-brand m-0 p-0 ps-3 align-items-center justify-content-start container col-auto" href="#">
+    <img ngSrc="assets/logoTuneShare.png" class="col" alt="TuneShareLogo" width="45" height="45">
+    <div class="mx-2 col">TuneShare</div>
   </a>
   <ul *ngIf="isMobile" class="navbar-nav ml-0 my-0 pe-3 ps-0 d-flex flex-row align-items-center" style="font-size: x-large;">
     <li class="nav-item mx-2">
@@ -22,7 +22,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
   </ul>
-  <div class="collapse navbar-collapse px-3" id="navbarNav" [ngClass]="{ 'pb-3': isMobile }" style="background-color: #8A5CA3;">
+  <div class="collapse navbar-collapse pe-3" id="navbarNav" [ngClass]="{ 'pb-3': isMobile, 'ps-3' : isMobile }" style="background-color: #8A5CA3;">
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" href="/library">Library</a>
