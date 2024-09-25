@@ -1,4 +1,4 @@
-<a class="card mx-auto usualStyle">
+<a class="card mx-auto usualStyle" href="/playlist">
   <div class="pt-3 mx-auto">
     <a href="/playlist"><img [src]="playlist.cover_url"   class="card-img-top art-cover" style="width: 16em; height: 16em;" alt="{{ playlist.title }}"
             (mousemove)="tilt($event)" (mouseleave)="resetTilt($event)" /></a>
@@ -11,7 +11,7 @@
         <a class="linkedButton appleLink my-auto py-auto" href="https://apple.com" target="_blank"><i class="bi-apple"></i></a><a> | </a>
         <a class="linkedButton spotifyLink my-auto py-auto" href="https://www.spotify.com" target="_blank"><i class="bi-spotify"></i></a><a> | </a>
         <a class="linkedButton shareLink my-auto py-auto"><i class="bi-share"></i></a><a> | </a>
-        <a class="iconAddPlain">
+        <a class="iconAddPlain" href="javascript:">
           <i class="linkedButton addLink my-auto py-auto" title="Add"
              (click)="add()"
              [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added}">
