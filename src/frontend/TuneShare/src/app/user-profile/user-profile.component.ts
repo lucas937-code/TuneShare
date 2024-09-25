@@ -75,19 +75,19 @@ export class UserProfileComponent implements OnInit {
     this.isMobile = window.innerWidth < 992;
   }
 
-    copyUsername() {
-        navigator.clipboard.writeText("@" + this.user.username).then(() => {
-            setTimeout(() => {
-                this.showCopied = false;
-            }, 800);
-            this.showCopied = true;
-        });
-    }
+  copyUsername() {
+      navigator.clipboard.writeText("@" + this.user.username).then(() => {
+          setTimeout(() => {
+              this.showCopied = false;
+          }, 800);
+          this.showCopied = true;
+      });
+  }
 
-    follow(){
-        this.followed = !this.followed;
-        setTimeout(() => {
-          this.newFollow = this.followed;
-        }, 100);
-    }
+  follow(){
+      this.followed = !this.followed;
+      setTimeout(() => {
+        this.newFollow = this.followed;
+      }, 100);
+  }
 }

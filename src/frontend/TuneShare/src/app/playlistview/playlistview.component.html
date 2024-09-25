@@ -1,0 +1,21 @@
+<div class="pt-3 my-1 px-auto playlistHeader container">
+  <div class="row align-items-center">
+    <div class="imgPlaylist align-items-center" [ngClass]="{ 'mx-auto': isMobile }"><img [src]="currentPlaylist.cover_url" class="img my-3" alt="{{ currentPlaylist.title }}" /></div>
+    <div class="container align-items-bottom px-0" [ngClass]="{ 'row': isMobile,'text-center': isMobile, 'mx-auto': isMobile, 'justify-content-center':isMobile, 'col': !isMobile, 'text-left': !isMobile, 'px-4':!isMobile }">
+      <h5 class="row" [ngClass]="{ 'text-center': isMobile, 'mx-auto': isMobile }"><a href="/profile" class="card-author px-0" [ngClass]="{ 'text-center': isMobile, 'mx-auto': isMobile }">{{ currentPlaylist.owner_id }}</a></h5>
+      <h4 class="card-title row">{{ currentPlaylist.title }}</h4>
+      <div class="row">
+        <div class="logos align-items-center text-left px-0" [ngClass]="{ 'mt-1': isMobile, 'mt-3': !isMobile }">
+          <a class="linkedButton appleLink my-auto py-auto" href="https://apple.com" target="_blank"><i class="bi-apple"></i></a><a> | </a>
+          <a class="linkedButton spotifyLink my-auto py-auto" href="https://www.spotify.com" target="_blank"><i class="bi-spotify"></i></a><a> | </a>
+          <a class="linkedButton shareLink my-auto py-auto"><i class="bi-share"></i></a><a> | </a>
+          <i class="linkedButton addLink my-auto py-auto" title="Add"
+             (click)="add()"
+             [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added}">
+          </i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

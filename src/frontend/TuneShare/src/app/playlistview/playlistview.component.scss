@@ -1,0 +1,54 @@
+.imgPlaylist{
+  color: #4F4E57;
+  width: 15em;
+  height: 15em;
+  border: none;
+}
+
+.img{
+  width: 100%;
+  border-radius: 1em;
+  -webkit-box-shadow: 0px 0px 13px 0px #95899f;
+  -moz-box-shadow: 0px 0px 13px 0px #95899f;
+  box-shadow: 0px 0px 13px 0px #95899f;
+}
+
+.card-title{
+  white-space: pre-wrap;
+}
+
+.playlistHeader{
+  color: #4F4E57;
+  white-space: pre-wrap;
+  padding-bottom: 2em;
+  border-bottom: solid 1px #4F4E57;
+}
+
+.linkedButton{
+  background: none;
+  color: #4F4E57;
+  font-size: 1.5em;
+  margin: 0.15em;
+  padding: 0;
+  cursor: pointer;
+}
+
+.addLink:hover{
+  color: #8A5CA3;
+}
+
+.shareLink:hover{
+  color: #8A5CA3;
+}
+
+.appleLink:hover{
+  color: #E7515F;
+}
+
+.spotifyLink:hover{
+  color: #65D46E;
+}
+
+.card-author{
+  color: #4F4E57;
+}

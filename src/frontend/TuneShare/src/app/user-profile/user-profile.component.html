@@ -20,7 +20,7 @@
       </h5>
       </a>
       <span *ngIf="user.apple_music_id != undefined">
-        <span [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile && !isShrunk"></div></span>
+        <span [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile"></div></span>
             <a target="_blank" href="https://music.apple.com/de/album/never-gonna-give-you-up/1559523357?i=1559523359"
                class="appleLink" title="{{ user.display_name }}'s Apple Music">
               <h5 [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto">
@@ -29,7 +29,7 @@
             </a>
           </span>
       <span *ngIf="user.spotify_id != undefined">
-            <span [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile && !isShrunk"></div></span>
+            <span [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile"></div></span>
             <a target="_blank" href="https://open.spotify.com/intl-de/track/4PTG3Z6ehGkBFwjybzWkR8?si=a87a0f63f1bc4267"
                class="spotifyLink" title="{{ user.display_name }}'s Spotify">
               <h5 [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto">

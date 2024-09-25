@@ -1,6 +1,9 @@
-<nav *ngIf="!isRegistrationPage" class="navbar sticky-top navbar-expand-lg navbar-dark px-3" style="background-color: #8A5CA3; font-size: larger; z-index: 1000; height: 3.8em;">
-  <a class="navbar-brand m-0" href="#"><img ngSrc="assets/logoTuneShare.png" alt="TuneShareLogo" width="45" height="45"> <div class="mx-2" style="display: inline" >TuneShare </div></a>
-  <ul *ngIf="isMobile" class="navbar-nav ml-0 my-0 py-0 d-flex flex-row align-items-center" style="font-size: x-large;">
+<nav *ngIf="!isRegistrationPage" class="navbar sticky-top navbar-expand-lg navbar-dark" style="background-color: #8A5CA3; font-size: larger; z-index: 1000; height: 3.8em;">
+  <a class="navbar-brand m-0 ps-3 py-0" href="#">
+    <img ngSrc="assets/logoTuneShare.png" alt="TuneShareLogo" width="45" height="45">
+    <div class="mx-2" style="display: inline" >TuneShare </div>
+  </a>
+  <ul *ngIf="isMobile" class="navbar-nav ml-0 my-0 pe-3 ps-0 d-flex flex-row align-items-center" style="font-size: x-large;">
     <li class="nav-item mx-2">
       <a class="nav-link" href="#"><i class="bi bi-plus-circle-fill"></i></a>
     </li>
@@ -19,7 +22,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
   </ul>
-  <div class="collapse navbar-collapse" id="navbarNav">
+  <div class="collapse navbar-collapse px-3" id="navbarNav" [ngClass]="{ 'pb-3': isMobile }" style="background-color: #8A5CA3;">
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" href="/library">Library</a>
