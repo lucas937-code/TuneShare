@@ -6,69 +6,71 @@ import {PlaylistService} from "../playlist.service";
 import {User} from "../types";
 
 @Component({
-    selector: 'app-user-profile',
-    standalone: true,
-    imports: [
-        PlaylistListComponent,
-        NgForOf,
-        PlaylistComponent,
-        NgIf,
-        NgClass,
-    ],
-    templateUrl: './user-profile.component.html',
-    styleUrl: './user-profile.component.scss'
+  selector: 'app-user-profile',
+  standalone: true,
+  imports: [
+    PlaylistListComponent,
+    NgForOf,
+    PlaylistComponent,
+    NgIf,
+    NgClass,
+  ],
+  templateUrl: './user-profile.component.html',
+  styleUrl: './user-profile.component.scss'
 })
 export class UserProfileComponent implements OnInit {
-    @Input() user: User = {
-        id: 0,
-        spotify_id: "undefined",
-        apple_music_id: "MaxAverageListeningEnjoyer",
-        date_created: new Date("2000-02-02"),
-        username: "Max_2000",
-        display_name: "Max Mustermannn",
-    }
+  @Input() user: User = {
+    id: 0,
+    spotify_id: "MaxAverageListeningEnjoyer",
+    apple_music_id: undefined,
+    date_created: new Date("2000-02-02"),
+    username: "Max_2000",
+    display_name: "Max Mustermannn",
+  }
 
-    playlists: any[] = [];
-    isPlaylistsTransformed: boolean = false;
-    isFriendsTransformed: boolean = false;
-    isShrunk: boolean = false;
-    isHidden: boolean = false;
-    showCopied: boolean = false;
-    followed: boolean = false; //True = Nutzer wird bereits gefolgt
-    newFollow: boolean = this.followed;
-    ownProfile: boolean = false; //True = Nutzer sieht sein eigenes Profil an
-    isMobile: boolean = true;
+  playlists: any[] = [];
+  isPlaylistsTransformed: boolean = false;
+  isFriendsTransformed: boolean = false;
+  isShrunk: boolean = false;
+  isHidden: boolean = false;
+  showCopied: boolean = false;
+  followed: boolean = false; //True = Nutzer wird bereits gefolgt
+  newFollow: boolean = this.followed;
+  ownProfile: boolean = false; //True = Nutzer sieht sein eigenes Profil an
+  isMobile: boolean = true;
 
-    constructor(private playlistService: PlaylistService) {
-    }
+  constructor(private playlistService: PlaylistService) {
+  }
 
-    ngOnInit() {
-      this.playlists = this.playlistService.getPlaylists();
-      this.isMobile = window.innerWidth < 992;
-    }
+  ngOnInit() {
+    this.playlists = this.playlistService.getPlaylists();
+    this.isMobile = window.innerWidth < 992;
+  }
 
-    toggleTransformPlaylists() {
-        this.isPlaylistsTransformed = !this.isPlaylistsTransformed;
-    }
+  toggleTransformPlaylists() {
+    this.isPlaylistsTransformed = !this.isPlaylistsTransformed;
+  }
 
-    toggleTransformFriends() {
-        this.isFriendsTransformed = !this.isFriendsTransformed;
-    }
+  toggleTransformFriends() {
+    this.isFriendsTransformed = !this.isFriendsTransformed;
+  }
 
-    @HostListener('window:scroll', [])
-    onWindowScroll() {
-        if (window.scrollY > 0) {
-            this.isShrunk = true;
-            setTimeout(() => {
-                this.isHidden = this.isShrunk
-            }, 100);
-        } else {
-            this.isHidden = false;
-            setTimeout(() => {
-                this.isShrunk = this.isHidden = window.scrollY > 0
-            }, 1);
-        }
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    if (window.scrollY > 0) {
+      this.isShrunk = window.scrollY > 0;
+      setTimeout(() => {
+        this.isHidden = this.isShrunk
+      }, 100);
+    } else {
+      setTimeout(() => {
+        this.isHidden = window.scrollY > 0;
+        setTimeout(() => {
+          this.isShrunk = this.isHidden = window.scrollY > 0;
+        }, 1);
+      }, 5)
     }
+  }
 
   @HostListener('window:resize', ['$event'])
   onResize(): void {
@@ -76,18 +78,18 @@ export class UserProfileComponent implements OnInit {
   }
 
   copyUsername() {
-      navigator.clipboard.writeText("@" + this.user.username).then(() => {
-          setTimeout(() => {
-              this.showCopied = false;
-          }, 800);
-          this.showCopied = true;
-      });
+    navigator.clipboard.writeText("@" + this.user.username).then(() => {
+      setTimeout(() => {
+        this.showCopied = false;
+      }, 800);
+      this.showCopied = true;
+    });
   }
 
-  follow(){
-      this.followed = !this.followed;
-      setTimeout(() => {
-        this.newFollow = this.followed;
-      }, 100);
+  follow() {
+    this.followed = !this.followed;
+    setTimeout(() => {
+      this.newFollow = this.followed;
+    }, 100);
   }
 }

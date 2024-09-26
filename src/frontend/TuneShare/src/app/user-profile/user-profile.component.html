@@ -12,68 +12,61 @@
       <a *ngIf="ownProfile" class="text-left bi-pencil-square iconFollowPlain settingTransform" title="Settings"
          href="/settings"></a>
     </div>
-    <div style="color: #4F4E57;" *ngIf="!ownProfile">
-      <a (click)="copyUsername()" style="cursor: pointer" title="Copy username"
-         class="shareUsernameLink"><h5
-        [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto">
-        <span class="shareUsernameLogo">&#64;</span>{{ user.username }}
-      </h5>
-      </a>
-      <span *ngIf="user.apple_music_id != undefined">
-        <span [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile"></div></span>
+  </div>
+  <div class="bottomBorder mx-auto  " [ngClass]="{'shrink': isShrunk}"></div>
+</div>
+
+<div style="color: #4F4E57;" *ngIf="!ownProfile" class="userInfo mx-auto">
+  <a (click)="copyUsername()" style="cursor: pointer" title="Copy username"
+     class="shareUsernameLink"><h5 class="hideIfShrunk mx-auto">
+    <span class="shareUsernameLogo">&#64;</span>{{ user.username }}
+  </h5>
+  </a>
+  <span *ngIf="user.apple_music_id != undefined">
+        <span class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile"></div></span>
             <a target="_blank" href="https://music.apple.com/de/album/never-gonna-give-you-up/1559523357?i=1559523359"
                class="appleLink" title="{{ user.display_name }}'s Apple Music">
-              <h5 [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto">
+              <h5 class="hideIfShrunk mx-auto">
                 <i class="bi-apple appleLogo"></i> {{ user.apple_music_id }}
               </h5>
             </a>
           </span>
-      <span *ngIf="user.spotify_id != undefined">
-            <span [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile"></div></span>
+  <span *ngIf="user.spotify_id != undefined">
+            <span class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile"></div></span>
             <a target="_blank" href="https://open.spotify.com/intl-de/track/4PTG3Z6ehGkBFwjybzWkR8?si=a87a0f63f1bc4267"
                class="spotifyLink" title="{{ user.display_name }}'s Spotify">
-              <h5 [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto">
+              <h5 class="hideIfShrunk mx-auto">
                 <i class="bi-spotify spotifyLogo"></i> {{ user.spotify_id }}
               </h5>
             </a>
         </span>
-    </div>
-
-    <div style="color: #4F4E57;" *ngIf="ownProfile">
-      <a (click)="copyUsername()" style="cursor: pointer" title="Copy username"
-         class="shareUsernameLink"><h5
-        [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto">
-        <span class="shareUsernameLogo">&#64;</span>{{ user.username }}
-      </h5>
-      </a>
-      <span>
-            <span [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile"></div></span>
-            <a target="{{ user.apple_music_id ? '_blank' : '_self' }}" href= "{{ user.apple_music_id ? 'https://music.apple.com/de/album/never-gonna-give-you-up/1559523357?i=1559523359' : '/settings' }}"
-               class="appleLink" title="{{ user.display_name }}'s Apple Music">
-              <h5 [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto">
-                <i class="bi-apple appleLogo"></i> {{ user.apple_music_id ? user.apple_music_id : "link now" }}
-              </h5>
-            </a>
-          </span>
-      <span>
-            <span [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile"></div></span>
-            <a target="{{ user.spotify_id ? '_blank' : '_self' }}" href="{{ user.spotify_id ? 'https://music.apple.com/de/album/never-gonna-give-you-up/1559523357?i=1559523359' : '/settings'}}"
-               class="spotifyLink" title="{{ user.display_name }}'s Spotify">
-              <h5 [ngClass]="{'shrink': isShrunk, 'hidden': isHidden, 'fst-italic': !user.spotify_id}" class="hideIfShrunk mx-auto">
-                <i class="bi-spotify spotifyLogo"></i> {{ user.spotify_id ? user.spotify_id : "link now" }}
-              </h5>
-            </a>
-        </span>
-    </div>
-
-  </div>
-
-
-
-
-  <div class="bottomBorder mx-auto  " [ngClass]="{'shrink': isShrunk}"></div>
 </div>
-
+<div style="color: #4F4E57;" *ngIf="ownProfile" class="userInfo mx-auto">
+  <a (click)="copyUsername()" style="cursor: pointer" title="Copy username"
+     class="shareUsernameLink"><h5
+     class="hideIfShrunk mx-auto">
+    <span class="shareUsernameLogo">&#64;</span>{{ user.username }}
+  </h5>
+  </a>
+  <span>
+    <span [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile"></div></span>
+    <a target="{{ user.apple_music_id ? '_blank' : '_self' }}" href= "{{ user.apple_music_id ? 'https://music.apple.com/de/album/never-gonna-give-you-up/1559523357?i=1559523359' : '/settings' }}"
+       class="appleLink" title="{{ user.display_name }}'s Apple Music">
+      <h5 [ngClass]="{'fst-italic': !user.apple_music_id}" class="hideIfShrunk mx-auto">
+        <i class="bi-apple appleLogo"></i> {{ user.apple_music_id ? user.apple_music_id : "link now" }}
+      </h5>
+    </a>
+  </span>
+  <span>
+    <span class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile"></div></span>
+      <a target="{{ user.spotify_id ? '_blank' : '_self' }}" href="{{ user.spotify_id ? 'https://music.apple.com/de/album/never-gonna-give-you-up/1559523357?i=1559523359' : '/settings'}}"
+         class="spotifyLink" title="{{ user.display_name }}'s Spotify">
+        <h5 [ngClass]="{'fst-italic': !user.spotify_id}" class="hideIfShrunk mx-auto">
+          <i class="bi-spotify spotifyLogo"></i> {{ user.spotify_id ? user.spotify_id : "link now" }}
+        </h5>
+      </a>
+    </span>
+</div>
 
 <div class="mx-auto px-4" style="top: 3em;">
   <h2 class="align-items-center">
@@ -127,4 +120,4 @@
     <div class="m-auto text-center" (click)=toggleTransformFriends() *ngIf="isFriendsTransformed">Hide</div>
   </div>
 </div>
-<div style="height: 5em;"></div>
+<div style="height: 3em;"></div>
