@@ -67,7 +67,7 @@ class SpotifyView(APIView):
             token_obj.spotify_refresh_token = refresh_token
             token_obj.save()
 
-            frontend_url = 'http://localhost:4200/'
+            frontend_url = settings.FRONTEND_URL
             return redirect(frontend_url)
 
         return Response({'error': 'Invalid action'}, status=400)

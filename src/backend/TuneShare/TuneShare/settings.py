@@ -135,3 +135,5 @@ CORS_ALLOWED_ORIGINS = [
 SPOTIFY_CLIENT_ID = '7af83aa226924d8698afc58ddd239c05'
 SPOTIFY_REDIRECT_URI = 'http://localhost:8000/service/spotify/?action=callback'
 SPOTIFY_CLIENT_SECRET = 'e542b531e7a34333a70ad6bea701a676'
+
+FRONTEND_URL = 'http://localhost:4200/'
