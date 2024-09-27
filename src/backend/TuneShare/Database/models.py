@@ -51,6 +51,12 @@ class User(models.Model):
     apple_music_user_id = models.CharField(null=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
+    spotify_access_token = models.CharField(null=True)
+    spotify_refresh_token = models.CharField(null=True)
+
+    apple_music_access_token = models.CharField(null=True)
+    apple_music_refresh_token = models.CharField(null=True)
+
 
 class FollowsUser(models.Model):
     # to access a user's followers -> user.followers_user.all()

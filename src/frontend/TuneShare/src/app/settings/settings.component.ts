@@ -8,5 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
-
+  linkSpotify() {
+    window.location.href = 'http://localhost:8000/service/spotify/?action=login';
+  }
 }

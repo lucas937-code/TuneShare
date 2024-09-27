@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+import service
 
 from Database.views import PlaylistViewSet, TrackViewSet, IncludesViewSet, FollowsViewSet, UserViewSet, FollowsPlaylistViewSet
 
@@ -17,4 +18,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('register/', include('registration.urls')),
+    path('service/', include('service.urls'))
 ]
