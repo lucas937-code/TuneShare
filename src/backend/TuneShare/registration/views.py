@@ -8,7 +8,7 @@ from .supabase import get_supabase_client
 
 
 @api_view(['POST'])
-def register_user(request, *args, **kwargs):
+def register_user(request):
     serializer = RegistrationSerializer(data=request.data)
     if not serializer.is_valid():
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -23,6 +23,12 @@ def register_user(request, *args, **kwargs):
             'user': {
                 'id': response.user.id,
                 'email': response.user.email
+            },
+            'session': {
+                'access_token': response.session.access_token,
+                'refresh_token': response.session.refresh_token,
+                'expires_in': response.session.expires_in,
+                'expires_at': response.session.expires_at
             },
             'messageEn': 'Registration successful. Check your email to verify your account.',
             'messageDe': 'Registrierung erfolgreich. Klicke auf den Link in der E-Mail, um deinen account zu '
@@ -43,6 +49,12 @@ def login_user(request):
             'user': {
                 'id': response.user.id,
                 'email': response.user.email
+            },
+            'session': {
+                'access_token': response.session.access_token,
+                'refresh_token': response.session.refresh_token,
+                'expires_in': response.session.expires_in,
+                'expires_at': response.session.expires_at
             },
             'messageEn': 'Login successful',
             'messageDe': 'Login erfolgreich',
