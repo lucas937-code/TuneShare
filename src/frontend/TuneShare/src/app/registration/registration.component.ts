@@ -24,7 +24,7 @@ import {ErrorToastComponent} from "../error-toast/error-toast.component";
 })
 export class RegistrationComponent implements OnInit {
   readonly window = window;
-  private readonly registrationUrl: string = "http://localhost:8000/register/";
+  private readonly registrationUrl: string = "http://localhost:8000/auth/register/";
 
   registerForm!: FormGroup;
 

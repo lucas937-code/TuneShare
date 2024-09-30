@@ -16,6 +16,6 @@ router.register(r'follows_playlist', FollowsPlaylistViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('register/', include('registration.urls')),
+    path('auth/', include('registration.urls')),
     path('service/', include('service.urls'))
 ]
