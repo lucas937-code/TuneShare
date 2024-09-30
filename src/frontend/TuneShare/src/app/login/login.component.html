@@ -24,11 +24,19 @@
                   <div class="d-flex flex-row align-items-center mb-3">
                     <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                     <div data-mdb-input-init class="form-outline flex-fill mb-0">
-                      <input [ngClass]="{
-                        'border-danger': showErrorLabel
-                        }" type="password" id="password" class="form-control" formControlName="password"
-                             placeholder="Password"/>
-                      <label for="password"></label>
+                      <div class="input-group">
+                        <input type="{{ showPassword ? 'text': 'password'}}" [ngClass]="{
+                          'border-danger': showErrorLabel
+                          }" id="password" class="form-control" formControlName="password"
+                               placeholder="Password"/>
+                        <span class="input-group-text">
+                          <i class="bi" role="button" [ngClass]="{
+                          'bi-eye': !showPassword,
+                          'bi-eye-slash': showPassword
+                          }" (click)="showPassword = !showPassword"></i>
+                        </span>
+                      </div>
+                        <label for="password"></label>
                     </div>
                   </div>
 

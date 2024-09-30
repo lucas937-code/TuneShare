@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
 
   loading: boolean = false;
   showErrorLabel: boolean = false;
+  showPassword: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {
   }
