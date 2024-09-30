@@ -28,10 +28,18 @@
                   <div class="d-flex flex-row align-items-center mb-2">
                     <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                     <div data-mdb-input-init class="form-outline flex-fill mb-0">
-                      <input [ngClass]="{
+                      <div class="input-group">
+                        <input type="{{ showPassword ? 'text': 'password'}}" [ngClass]="{
                         'border-danger': password.invalid && (password.dirty || password.touched)
-                        }" type="password" id="password" class="form-control" formControlName="password"
-                             placeholder="Password"/>
+                        }" id="password" class="form-control" formControlName="password"
+                               placeholder="Password"/>
+                        <span class="input-group-text">
+                          <i class="bi" role="button" [ngClass]="{
+                          'bi-eye': !showPassword,
+                          'bi-eye-slash': showPassword
+                          }" (click)="showPassword = !showPassword"></i>
+                        </span>
+                      </div>
                       <label for="password"
                              *ngIf="password.invalid && (password.dirty || password.touched)"
                              class="text-danger">Password not strong enough</label>
@@ -44,10 +52,18 @@
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                     <div data-mdb-input-init class="form-outline flex-fill mb-0">
-                      <input [ngClass]="{
+                      <div class="input-group">
+                        <input type="{{ showRepeatPassword ? 'text': 'password'}}" [ngClass]="{
                         'border-danger': (repeatPassword.value != password.value || repeatPassword.invalid) && (repeatPassword.dirty || repeatPassword.touched)
-                        }" type="password" id="repeatPassword" class="form-control" formControlName="repeatPassword"
-                             placeholder="Repeat password"/>
+                        }" id="repeatPassword" class="form-control" formControlName="repeatPassword"
+                               placeholder="Repeat password"/>
+                        <span class="input-group-text">
+                          <i class="bi" role="button" [ngClass]="{
+                          'bi-eye': !showRepeatPassword,
+                          'bi-eye-slash': showRepeatPassword
+                          }" (click)="showRepeatPassword = !showRepeatPassword"></i>
+                        </span>
+                      </div>
                     </div>
                   </div>
 
@@ -63,8 +79,8 @@
                     </button>
                     <ng-template #loadingButton>
                       <button class="btn btn-primary" type="button" disabled>
-                                                <span class="spinner-border spinner-border-sm"
-                                                      aria-hidden="true"></span>
+                        <span class="spinner-border spinner-border-sm"
+                              aria-hidden="true"></span>
                         <span role="status" style="margin-left: .5em">Loading...</span>
                       </button>
                     </ng-template>
