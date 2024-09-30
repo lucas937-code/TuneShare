@@ -41,7 +41,7 @@
                             [disabled]="registerForm.invalid"
                             type="submit" data-mdb-button-init data-mdb-ripple-init
                             class="btn btn-primary btn-lg"
-                            id="submitButton">Register
+                            id="submitButton">Login
                     </button>
                     <ng-template #loadingButton>
                       <button class="btn btn-primary" type="button" disabled>
@@ -49,9 +49,10 @@
                         <span role="status" style="margin-left: .5em">Loading...</span>
                       </button>
                     </ng-template>
-                    <label *ngIf="showErrorLabel" class="text-danger d-block mt-2 text-center" for="submitButton">
+                    <label *ngIf="showErrorLabel; else emptyLabel" class="text-danger d-block mt-2 text-center" for="submitButton">
                       Please verify your login data and try again.
                     </label>
+                    <ng-template #emptyLabel><label for="submitButton"></label></ng-template>
                   </div>
 
                 </form>
