@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   playlists: Playlist[] = [];
   constructor(private playlistService: PlaylistService, private router: Router) {
     this.router.events.subscribe(() => {
-      this.isRegistrationPage = this.router.url === '/register';
+      this.isRegistrationPage = this.router.url === '/register' || this.router.url === '/login';
     })
   }
 

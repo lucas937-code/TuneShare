@@ -5,11 +5,13 @@ import {RegistrationComponent} from "./registration/registration.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
 import {SettingsComponent} from "./settings/settings.component";
 import {PlaylistviewComponent} from "./playlistview/playlistview.component";
+import {LoginComponent} from "./login/login.component";
 
 export const routes: Routes = [
   { path: "library", component: PlaylistListComponent, data : { title: 'Library' } },
   { path: "", component: HomepageComponent },
   { path: "register", component: RegistrationComponent},
+  { path: "login", component: LoginComponent},
   { path: "profile", component: UserProfileComponent },
   { path: "settings", component: SettingsComponent },
   { path: "playlist", component: PlaylistviewComponent },

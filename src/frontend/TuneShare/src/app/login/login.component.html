@@ -1,0 +1,72 @@
+<section class="vh-100" style="background-color: #8A5CA3">
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-12 col-xl-11">
+        <div class="card text-black" style="background-color: #D8C9E1;border-radius: 25px;">
+          <div class="card-body p-md-5">
+            <div class="row">
+              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+
+                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign in</p>
+
+                <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="mx-1 mx-md-4">
+
+                  <div class="d-flex flex-row align-items-center mb-3">
+                    <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                    <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                      <input [ngClass]="{
+                        'border-danger': showErrorLabel
+                        }" type="email" id="email" class="form-control" formControlName="email" placeholder="Email"/>
+                      <label for="email"></label>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-3">
+                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                      <input [ngClass]="{
+                        'border-danger': showErrorLabel
+                        }" type="password" id="password" class="form-control" formControlName="password"
+                             placeholder="Password"/>
+                      <label for="password"></label>
+                    </div>
+                  </div>
+
+                  <div class="form-check d-flex justify-content-center mb-5">
+                    <span>Don't have an account set? <a href="/register">Sign up now</a></span>
+                  </div>
+
+                  <div class="d-flex flex-column align-items-center mx-4 mb-3 mb-lg-4">
+                    <button *ngIf="!loading; else loadingButton"
+                            [disabled]="registerForm.invalid"
+                            type="submit" data-mdb-button-init data-mdb-ripple-init
+                            class="btn btn-primary btn-lg"
+                            id="submitButton">Register
+                    </button>
+                    <ng-template #loadingButton>
+                      <button class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                        <span role="status" style="margin-left: .5em">Loading...</span>
+                      </button>
+                    </ng-template>
+                    <label *ngIf="showErrorLabel" class="text-danger d-block mt-2 text-center" for="submitButton">
+                      Please verify your login data and try again.
+                    </label>
+                  </div>
+
+                </form>
+              </div>
+              <div *ngIf="window.innerWidth >= 992"
+                   class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center justify-content-center order-1 order-lg-2">
+
+                <img ngSrc="../../assets/logoTuneShare.png"
+                     class="h-auto w-75" alt="TuneShare logo" height="546" width="546" priority>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

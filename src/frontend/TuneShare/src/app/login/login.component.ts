@@ -1,40 +1,39 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {ErrorToastComponent} from "../error-toast/error-toast.component";
 import {NgClass, NgIf, NgOptimizedImage} from "@angular/common";
+import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {ErrorToastComponent} from "../error-toast/error-toast.component";
 
 @Component({
-  selector: 'app-registration',
+  selector: 'app-login',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
+    ErrorToastComponent,
     NgIf,
-    NgClass,
     NgOptimizedImage,
-    ErrorToastComponent
+    ReactiveFormsModule,
+    NgClass
   ],
-  templateUrl: './registration.component.html',
-  styleUrl: './registration.component.scss'
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss'
 })
-export class RegistrationComponent implements OnInit {
+export class LoginComponent implements OnInit {
   readonly window = window;
-  private readonly registrationUrl: string = "http://localhost:8000/auth/register/";
+  private readonly loginUrl: string = "http://localhost:8000/auth/login/";
 
   registerForm!: FormGroup;
 
   loading: boolean = false;
-  showToast: boolean = false;
+  showErrorLabel: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {
   }
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
-      email: new FormControl('', [Validators.required, Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)]),
-      password: new FormControl('', [Validators.required, Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\w)(?!.* ).{8,}$/)]),
-      repeatPassword: new FormControl('', [Validators.required])
+      email: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required])
     });
   }
 
@@ -43,12 +42,11 @@ export class RegistrationComponent implements OnInit {
     this.loading = true;
     this.registerForm.disable();
 
-    this.http.post(this.registrationUrl, payload).subscribe({
+    this.http.post(this.loginUrl, payload).subscribe({
       error: () => {
         this.loading = false;
-        this.registerForm.reset();
         this.registerForm.enable();
-        this.showToast = true;
+        this.showErrorLabel = true;
       },
       complete: () => {
         this.loading = false;
@@ -63,9 +61,5 @@ export class RegistrationComponent implements OnInit {
 
   get password() {
     return this.registerForm.controls['password'];
-  }
-
-  get repeatPassword() {
-    return this.registerForm.controls['repeatPassword'];
   }
 }
