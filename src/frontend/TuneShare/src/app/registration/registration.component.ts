@@ -30,6 +30,8 @@ export class RegistrationComponent implements OnInit {
 
   loading: boolean = false;
   showToast: boolean = false;
+  showPassword: boolean = false;
+  showRepeatPassword: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {
   }
