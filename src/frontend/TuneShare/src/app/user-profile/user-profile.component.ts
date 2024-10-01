@@ -4,6 +4,7 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {PlaylistComponent} from "../playlist/playlist.component";
 import {PlaylistService} from "../playlist.service";
 import {User} from "../types";
+import {NgbPopover} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-user-profile',
@@ -14,6 +15,7 @@ import {User} from "../types";
     PlaylistComponent,
     NgIf,
     NgClass,
+    NgbPopover,
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss'
@@ -33,7 +35,6 @@ export class UserProfileComponent implements OnInit {
   isFriendsTransformed: boolean = false;
   isShrunk: boolean = false;
   isHidden: boolean = false;
-  showCopied: boolean = false;
   followed: boolean = false; //True = Nutzer wird bereits gefolgt
   newFollow: boolean = this.followed;
   ownProfile: boolean = false; //True = Nutzer sieht sein eigenes Profil an
@@ -75,15 +76,6 @@ export class UserProfileComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(): void {
     this.isMobile = window.innerWidth < 992;
-  }
-
-  copyUsername() {
-    navigator.clipboard.writeText("@" + this.user.username).then(() => {
-      setTimeout(() => {
-        this.showCopied = false;
-      }, 800);
-      this.showCopied = true;
-    });
   }
 
   follow() {

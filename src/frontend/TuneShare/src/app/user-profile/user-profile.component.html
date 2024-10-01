@@ -1,5 +1,5 @@
-<div class="copied" *ngIf="showCopied">Copied!</div>
-<div class="mx-auto text-center sticky-top namebar align-items-center pb-0" [ngClass]="{'shrink': isShrunk, 'mobile': isMobile}">
+<div class="mx-auto text-center sticky-top namebar align-items-center pb-0"
+     [ngClass]="{'shrink': isShrunk, 'mobile': isMobile}">
   <div class="h-100 my-auto align-items-center h-100">
     <img class="rounded-circle imgProfile" [ngClass]="{'shrink': isShrunk}"
          src="/assets/papagei-foto.jpg"/>
@@ -17,10 +17,14 @@
 </div>
 
 <div style="color: #4F4E57;" *ngIf="!ownProfile" class="userInfo mx-auto">
-  <a (click)="copyUsername()" style="cursor: pointer" title="Copy username"
-     class="shareUsernameLink"><h5 class="hideIfShrunk mx-auto">
-    <span class="shareUsernameLogo">&#64;</span>{{ user.username }}
-  </h5>
+  <a ngbPopover="Copied!"
+     [closeDelay]="1500"
+     triggers="click:click"
+     style="cursor: pointer" title="Copy username"
+     class="shareUsernameLink">
+    <h5 class="hideIfShrunk mx-auto">
+      <span class="shareUsernameLogo">&#64;</span>{{ user.username }}
+    </h5>
   </a>
   <span *ngIf="user.apple_music_id != undefined">
         <span class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile"></div></span>
@@ -42,15 +46,20 @@
         </span>
 </div>
 <div style="color: #4F4E57;" *ngIf="ownProfile" class="userInfo mx-auto">
-  <a (click)="copyUsername()" style="cursor: pointer" title="Copy username"
+  <a ngbPopover="Copied!"
+     [closeDelay]="1500"
+     triggers="click:click"
+    style="cursor: pointer" title="Copy username"
      class="shareUsernameLink"><h5
-     class="hideIfShrunk mx-auto">
+    class="hideIfShrunk mx-auto">
     <span class="shareUsernameLogo">&#64;</span>{{ user.username }}
   </h5>
   </a>
   <span>
-    <span [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile"></div></span>
-    <a target="{{ user.apple_music_id ? '_blank' : '_self' }}" href= "{{ user.apple_music_id ? 'https://music.apple.com/de/album/never-gonna-give-you-up/1559523357?i=1559523359' : '/settings' }}"
+    <span [ngClass]="{'shrink': isShrunk, 'hidden': isHidden}" class="hideIfShrunk mx-auto"><span
+      *ngIf="!isMobile">  |  </span><div *ngIf="isMobile"></div></span>
+    <a target="{{ user.apple_music_id ? '_blank' : '_self' }}"
+       href="{{ user.apple_music_id ? 'https://music.apple.com/de/album/never-gonna-give-you-up/1559523357?i=1559523359' : '/settings' }}"
        class="appleLink" title="{{ user.display_name }}'s Apple Music">
       <h5 [ngClass]="{'fst-italic': !user.apple_music_id}" class="hideIfShrunk mx-auto">
         <i class="bi-apple appleLogo"></i> {{ user.apple_music_id ? user.apple_music_id : "link now" }}
@@ -59,7 +68,8 @@
   </span>
   <span>
     <span class="hideIfShrunk mx-auto"><span *ngIf="!isMobile">  |  </span><div *ngIf="isMobile"></div></span>
-      <a target="{{ user.spotify_id ? '_blank' : '_self' }}" href="{{ user.spotify_id ? 'https://music.apple.com/de/album/never-gonna-give-you-up/1559523357?i=1559523359' : '/settings'}}"
+      <a target="{{ user.spotify_id ? '_blank' : '_self' }}"
+         href="{{ user.spotify_id ? 'https://music.apple.com/de/album/never-gonna-give-you-up/1559523357?i=1559523359' : '/settings'}}"
          class="spotifyLink" title="{{ user.display_name }}'s Spotify">
         <h5 [ngClass]="{'fst-italic': !user.spotify_id}" class="hideIfShrunk mx-auto">
           <i class="bi-spotify spotifyLogo"></i> {{ user.spotify_id ? user.spotify_id : "link now" }}
