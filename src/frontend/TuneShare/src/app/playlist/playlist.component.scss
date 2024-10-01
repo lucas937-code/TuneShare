@@ -5,6 +5,7 @@
   max-height: 22em;
   border: none;
   border-radius: 1em;
+  transform: scale(1);
 }
 
 .card-title{
@@ -18,7 +19,10 @@
 
 .card:hover {
   transform: scale(1.04);
-  //background: #CAB5D6;
+}
+
+.card.isHovered{
+  transform: scale(1.04);
 }
 
 .card-text{
@@ -100,3 +104,9 @@ a{
 .card-img-top {
   transition: transform 0.2s ease-out;
 }
+
+.dropdown-toggle::after{
+  display: none;
+}
+
+

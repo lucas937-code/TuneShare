@@ -19,6 +19,7 @@ import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "
 export class PlaylistComponent implements OnInit {
   @Input() playlist: any;
 
+  menuIsHovered: boolean  = false;
   isMobile: boolean = false;
   added: boolean = false;
 
@@ -59,5 +60,12 @@ export class PlaylistComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(): void {
     this.isMobile = window.innerWidth < 992;
+  }
+
+  hoveredTrue(){
+    this.menuIsHovered = true;
+  }
+  hoveredFalse(){
+    this.menuIsHovered = false;
   }
 }

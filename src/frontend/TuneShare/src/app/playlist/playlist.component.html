@@ -1,4 +1,4 @@
-<a class="card usualStyle mx-auto" href="/playlist" [ngClass]="{}">
+<a class="card usualStyle mx-auto" href="/playlist" [ngClass]="{ 'isHovered' : menuIsHovered }">
   <div class="pt-3 mx-auto">
     <a href="/playlist"><img [src]="playlist.cover_url" class="card-img-top art-cover"
                              style="max-width: 16em; max-height: 16em;" alt="{{ playlist.title }}"
@@ -6,21 +6,21 @@
   </div>
   <div class="mx-3 mt-3 p-0">
     <a href="/playlist"><h5 class="card-title overflow-hidden">{{ playlist.title }}</h5></a>
-    <div class="row mb-2">
+    <div class="row mb-2 justify-content-between">
       <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }"><a
         href="/profile">{{ playlist.owner_id }}</a></div>
 
       <div *ngIf="!isMobile" class="col row row-cols-auto justify-content-end text-right iconAddPlain">
-        <a class="d-inline p-0" style="width: 35%" href="javascript:">
-          <i class="linkedButton addLink my-auto py-auto" title="Add"
+        <a class="p-0 me-1" style="width: 35%" href="javascript:">
+          <i class="linkedButton addLink my-auto" title="Add"
              (click)="add()"
              [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added}">
           </i>
         </a>
-        <a ngbDropdown placement="top-end" container="body" href="javascript:" class="text-end w-auto p-0 d-inline">
+        <a ngbDropdown placement="top-end" container="body" href="javascript:" class="dropdownPlaylist text-end w-auto p-0 d-inline">
           <div id="playlistExpandButtonBig" ngbDropdownToggle><i
             class="bi-three-dots-vertical"></i>
-            <div ngbDropdownMenu aria-labelledby="playlistExpandButton">
+            <div ngbDropdownMenu aria-labelledby="playlistExpandButton" (mouseenter)="hoveredTrue()" (mouseleave)="hoveredFalse()">
               <a ngbDropdownItem class="linkedButton appleLink my-auto py-auto" href="https://apple.com" target="_blank">View
                 in Apple Music</a>
               <a ngbDropdownItem class="linkedButton spotifyLink my-auto py-auto" href="https://www.spotify.com"
@@ -36,9 +36,9 @@
 
 
       <a *ngIf="isMobile" ngbDropdown placement="top-end" container="body" href="javascript:" class="text-end w-auto p-0">
-        <div class="logos w-100 text-end iconAddPlain" id="playlistExpandButtonMobile" style="max-width: 45%" ngbDropdownToggle>
+        <div class="logos text-end iconAddPlain" id="playlistExpandButtonMobile" style="max-width: 45%" ngbDropdownToggle>
           <i class="bi-three-dots-vertical"></i>
-          <div ngbDropdownMenu aria-labelledby="playlistExpandButton">
+          <div ngbDropdownMenu aria-labelledby="playlistExpandButton" (mouseenter)="hoveredTrue()" (mouseleave)="hoveredFalse()">
             <a ngbDropdownItem class="linkedButton appleLink my-auto py-auto" href="https://apple.com" target="_blank">View
               in Apple Music</a>
             <a ngbDropdownItem class="linkedButton spotifyLink my-auto py-auto" href="https://www.spotify.com"
