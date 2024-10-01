@@ -36,7 +36,7 @@
 }
 
 .card-author{
-  width: 50%;
+  width: 70%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -46,11 +46,6 @@
 .logos{
   text-align: right;
   padding-left: 0;
-  width: 45%;
-}
-
-.logos.bigLogos{
-  font-size: 1.1em;
 }
 
 .linkedButton{
@@ -61,6 +56,7 @@
 }
 
 .iconAddPlain{
+  font-size: 1.2em;
   cursor: pointer;
 }
 
