@@ -4,7 +4,7 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {PlaylistComponent} from "../playlist/playlist.component";
 import {PlaylistService} from "../playlist.service";
 import {User} from "../types";
-import {NgbPopover} from "@ng-bootstrap/ng-bootstrap";
+import {NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-user-profile',
@@ -15,7 +15,7 @@ import {NgbPopover} from "@ng-bootstrap/ng-bootstrap";
     PlaylistComponent,
     NgIf,
     NgClass,
-    NgbPopover,
+    NgbTooltip,
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss'

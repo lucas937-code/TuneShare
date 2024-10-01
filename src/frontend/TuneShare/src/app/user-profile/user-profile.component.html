@@ -17,7 +17,7 @@
 </div>
 
 <div style="color: #4F4E57;" *ngIf="!ownProfile" class="userInfo mx-auto">
-  <a ngbPopover="Copied!"
+  <a ngbTooltip="Copied!"
      [closeDelay]="1500"
      triggers="click:click"
      style="cursor: pointer" title="Copy username"
@@ -46,10 +46,10 @@
         </span>
 </div>
 <div style="color: #4F4E57;" *ngIf="ownProfile" class="userInfo mx-auto">
-  <a ngbPopover="Copied!"
+  <a ngbTooltip="Copied!"
      [closeDelay]="1500"
      triggers="click:click"
-    style="cursor: pointer" title="Copy username"
+     style="cursor: pointer" title="Copy username"
      class="shareUsernameLink"><h5
     class="hideIfShrunk mx-auto">
     <span class="shareUsernameLogo">&#64;</span>{{ user.username }}
