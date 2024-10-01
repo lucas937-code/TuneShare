@@ -38,21 +38,6 @@
   }
 }
 
-.copied {
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin-inline: auto;
-  width: fit-content;
-  padding: 0.8em;
-  background-color: #4caf50;
-  color: white;
-  top: 1em;
-  margin: auto;
-  border-radius: 5px;
-  z-index: 99999;
-}
-
 .iconFollowPlain{
   transition: transform 0.05s ease-in;
   transform: scale(1.00);
@@ -63,7 +48,7 @@
 
 .iconFollowPlain:hover{
   transition: transform 0.2s ease-out;
-  transform: scale(1.55);
+  transform: scale(1.05);
 }
 
 .iconFollowPlain.transformIcon{
@@ -73,6 +58,11 @@
 
 .iconFollowPlain.newFollow{
     transform: rotateY(360deg);
+}
+
+.userInfo{
+  text-align: center;
+  margin-bottom: 1em;
 }
 
 a{
