@@ -5,3 +5,14 @@
   height: 25%;
   width: auto;
 }
+
+.playlistsHome{
+  display: flex;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: none;
+}
+
+.singlePlaylist{
+  width: 100em;
+}

@@ -1,15 +1,19 @@
-<a class="card mx-auto usualStyle" href="/playlist">
+<a class="card usualStyle mx-auto" href="/playlist" [ngClass]="{}">
   <div class="pt-3 mx-auto">
-    <a href="/playlist"><img [src]="playlist.cover_url"   class="card-img-top art-cover" style="width: 16em; height: 16em;" alt="{{ playlist.title }}"
-            (mousemove)="tilt($event)" (mouseleave)="resetTilt($event)" /></a>
+    <a href="/playlist"><img [src]="playlist.cover_url" class="card-img-top art-cover"
+                             style="max-width: 16em; max-height: 16em;" alt="{{ playlist.title }}"
+                             (mousemove)="tilt($event)" (mouseleave)="resetTilt($event)"/></a>
   </div>
-  <div class="mx-3 mt-3 p-0">
-    <a href="/playlist"><h5 class="card-title overflow-hidden w-100">{{ playlist.title }}</h5></a>
-    <div class="row row-cols-2 mb-2 justify-content-between">
-      <div class="card-author mb-0 overflow-hidden ps-3"><a href="/profile">{{ playlist.owner_id }}</a></div>
-      <div class="logos align-items-center">
-        <a class="linkedButton appleLink my-auto py-auto" href="https://apple.com" target="_blank"><i class="bi-apple"></i></a><a> | </a>
-        <a class="linkedButton spotifyLink my-auto py-auto" href="https://www.spotify.com" target="_blank"><i class="bi-spotify"></i></a><a> | </a>
+  <div class="mx-1 mt-1 p-0">
+    <a href="/playlist"><h5 class="card-title overflow-hidden">{{ playlist.title }}</h5></a>
+    <div class="row mb-2">
+      <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }"><a href="/profile">{{ playlist.owner_id }}</a></div>
+
+      <div *ngIf="!isMobile" class="col text-end logos bigLogos align-items-center">
+        <a class="linkedButton appleLink my-auto py-auto" href="https://apple.com" target="_blank"><i
+          class="bi-apple"></i></a><a> | </a>
+        <a class="linkedButton spotifyLink my-auto py-auto" href="https://www.spotify.com" target="_blank"><i
+          class="bi-spotify"></i></a><a> | </a>
         <a class="linkedButton shareLink my-auto py-auto"><i class="bi-share"></i></a><a> | </a>
         <a class="iconAddPlain" href="javascript:">
           <i class="linkedButton addLink my-auto py-auto" title="Add"
@@ -18,6 +22,18 @@
           </i>
         </a>
       </div>
+      <a *ngIf="isMobile" ngbDropdown placement="top-end" href="javascript:" class="col text-end w-auto p-0 pe-3">
+        <div class="logos pe-3 text-end" id="playlistExpandButton" style="max-width: 45%" ngbDropdownToggle><i class="bi-three-dots-vertical"></i>
+          <div ngbDropdownMenu aria-labelledby="playlistExpandButton">
+            <a ngbDropdownItem class="linkedButton appleLink my-auto py-auto" href="https://apple.com" target="_blank">in Apple Music ansehen</a>
+            <a ngbDropdownItem class="linkedButton spotifyLink my-auto py-auto" href="https://www.spotify.com" target="_blank">in Spotify ansehen</a>
+            <a ngbDropdownItem class="linkedButton shareLink my-auto py-auto">Teilen</a>
+            <div class="dropdown-divider"></div>
+            <a ngbDropdownItem *ngIf="added" class="linkedButton shareLink my-0" (click)="add()">Remove from Library</a>
+            <a ngbDropdownItem *ngIf="!added" class="linkedButton shareLink my-0" (click)="add()">Add to library</a>
+          </div>
+        </div>
+      </a>
     </div>
   </div>
 </a>

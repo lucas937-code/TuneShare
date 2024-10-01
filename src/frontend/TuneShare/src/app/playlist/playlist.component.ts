@@ -1,19 +1,25 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnInit} from '@angular/core';
 import {NgClass, NgIf} from "@angular/common";
+import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-playlist',
   standalone: true,
   imports: [
     NgIf,
-    NgClass
+    NgClass,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbDropdown,
+    NgbDropdownItem
   ],
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.scss'
 })
-export class PlaylistComponent {
+export class PlaylistComponent implements OnInit {
   @Input() playlist: any;
 
+  isMobile: boolean = false;
   added: boolean = false;
 
   tilt(event: MouseEvent): void {
@@ -44,5 +50,14 @@ export class PlaylistComponent {
   add(){
     this.added = !this.added;
     //Funktion zum Hinzufügen zur Mediathek
+  }
+
+  ngOnInit() {
+    this.isMobile = window.innerWidth < 992;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(): void {
+    this.isMobile = window.innerWidth < 992;
   }
 }

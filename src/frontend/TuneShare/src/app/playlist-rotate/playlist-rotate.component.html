@@ -1,9 +1,14 @@
 <h2 class="mb-4">{{ title }}</h2>
+
+  <div class="container playlistsHome">
+    <div *ngFor="let playlist of playlists" class="singlePlaylist m-3"><app-playlist [playlist]="playlist"></app-playlist></div>
+  </div>
+
 <div id="{{ carouselId }}" class="carousel slide" data-bs-interval="false" data-pause="hover" style="overflow: hidden;">
   <div class="carousel-inner">
     <div class="carousel-item"
          [ngClass]="{ active: i === 0 }" *ngFor="let chunk of playlistChunks; let i = index">
-      <div class="row row-cols-3 mx-0">
+      <div class="row mx-0" [ngClass]="{ 'row-cols-4' : !isMobile, 'row-cols-2' : isMobile  }">
         <div *ngFor="let playlist of chunk">
           <app-playlist [playlist]="playlist"></app-playlist>
         </div>
