@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ErrorToastComponent} from "../error-toast/error-toast.component";
+import {ErrorToastComponent} from "../../error-toast/error-toast.component";
 import {NgClass, NgIf, NgOptimizedImage} from "@angular/common";
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {AuthResponse} from "../shared/auth-response";
 
 @Component({
   selector: 'app-login',
@@ -43,13 +44,14 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.registerForm.disable();
 
-    this.http.post(this.loginUrl, payload).subscribe({
+    this.http.post<AuthResponse>(this.loginUrl, payload).subscribe({
       error: () => {
         this.loading = false;
         this.registerForm.enable();
         this.showErrorLabel = true;
       },
-      complete: () => {
+      next: (data: AuthResponse) => {
+        localStorage.setItem('access_token', data.session.accessToken);
         this.loading = false;
         this.router.navigate(['/']);
       }

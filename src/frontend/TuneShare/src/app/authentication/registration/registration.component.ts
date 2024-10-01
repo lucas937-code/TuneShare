@@ -3,7 +3,8 @@ import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} fr
 import {NgClass, NgIf, NgOptimizedImage} from "@angular/common";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {ErrorToastComponent} from "../error-toast/error-toast.component";
+import {ErrorToastComponent} from "../../error-toast/error-toast.component";
+import {AuthResponse} from "../shared/auth-response";
 
 @Component({
   selector: 'app-registration',
@@ -45,14 +46,15 @@ export class RegistrationComponent implements OnInit {
     this.loading = true;
     this.registerForm.disable();
 
-    this.http.post(this.registrationUrl, payload).subscribe({
+    this.http.post<AuthResponse>(this.registrationUrl, payload).subscribe({
       error: () => {
         this.loading = false;
         this.registerForm.reset();
         this.registerForm.enable();
         this.showToast = true;
       },
-      complete: () => {
+      next: (data: AuthResponse) => {
+        localStorage.setItem('access_token', data.session.accessToken);
         this.loading = false;
         this.router.navigate(['/']);
       }
