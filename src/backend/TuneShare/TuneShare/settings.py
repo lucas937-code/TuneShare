@@ -142,4 +142,5 @@ FRONTEND_URL = 'http://localhost:4200/'
 EXEMPT_URLS = [
     "/auth/login/",
     "/auth/register/",
+    'auth/refresh'
 ]
