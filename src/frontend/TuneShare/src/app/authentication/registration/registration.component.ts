@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {ErrorToastComponent} from "../../error-toast/error-toast.component";
 import {AuthResponse} from "../shared/auth-response";
+import {BACKEND_URL} from "../../../main";
 
 @Component({
   selector: 'app-registration',
@@ -21,7 +22,7 @@ import {AuthResponse} from "../shared/auth-response";
 })
 export class RegistrationComponent implements OnInit {
   readonly window = window;
-  private readonly registrationUrl: string = "http://localhost:8000/auth/register/";
+  private readonly registrationUrl: string = `${BACKEND_URL}auth/register/`;
 
   registerForm!: FormGroup;
 
@@ -56,7 +57,7 @@ export class RegistrationComponent implements OnInit {
       next: (data: AuthResponse) => {
         localStorage.setItem('access_token', data.session.accessToken);
         this.loading = false;
-        this.router.navigate(['/']);
+        this.router.navigateByUrl('/');
       }
     });
   }

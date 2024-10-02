@@ -5,6 +5,7 @@ import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} fr
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthResponse} from "../shared/auth-response";
+import {BACKEND_URL} from "../../../main";
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ import {AuthResponse} from "../shared/auth-response";
 })
 export class LoginComponent implements OnInit {
   readonly window = window;
-  private readonly loginUrl: string = "http://localhost:8000/auth/login/";
+  private readonly loginUrl: string = `${BACKEND_URL}auth/login/`;
 
   registerForm!: FormGroup;
 
@@ -53,7 +54,7 @@ export class LoginComponent implements OnInit {
       next: (data: AuthResponse) => {
         localStorage.setItem('access_token', data.session.accessToken);
         this.loading = false;
-        this.router.navigate(['/']);
+        this.router.navigateByUrl('/');
       }
     });
   }
