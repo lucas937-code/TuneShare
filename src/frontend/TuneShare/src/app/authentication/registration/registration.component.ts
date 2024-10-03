@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {ErrorToastComponent} from "../../error-toast/error-toast.component";
 import {AuthResponse} from "../shared/auth-response";
 import {BACKEND_URL} from "../../../main";
+import {AuthService} from "../shared/auth.service";
 
 @Component({
   selector: 'app-registration',
@@ -31,7 +32,8 @@ export class RegistrationComponent implements OnInit {
   showPassword: boolean = false;
   showRepeatPassword: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router,
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -48,16 +50,17 @@ export class RegistrationComponent implements OnInit {
     this.registerForm.disable();
 
     this.http.post<AuthResponse>(this.registrationUrl, payload).subscribe({
-      error: () => {
+      next: (data: AuthResponse) => {
+        this.authService.accessToken = data.session.accessToken;
+        this.loading = false;
+        this.router.navigateByUrl('/');
+      },
+      error: (error) => {
+        console.error(error.error?.error || "Unknown error occurred");
         this.loading = false;
         this.registerForm.reset();
         this.registerForm.enable();
         this.showToast = true;
-      },
-      next: (data: AuthResponse) => {
-        localStorage.setItem('access_token', data.session.accessToken);
-        this.loading = false;
-        this.router.navigateByUrl('/');
       }
     });
   }
