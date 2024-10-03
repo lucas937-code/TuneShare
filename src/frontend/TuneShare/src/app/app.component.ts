@@ -1,8 +1,9 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
-import { PlaylistService } from './playlist.service';
+import {PlaylistService} from './playlist.service';
 import {Playlist} from "./types";
+import {AuthService} from "./authentication/shared/auth.service";
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,8 @@ export class AppComponent implements OnInit {
   title = 'TuneShare';
 
   playlists: Playlist[] = [];
-  constructor(private playlistService: PlaylistService, private router: Router) {
+
+  constructor(private playlistService: PlaylistService, private router: Router, protected authService: AuthService) {
     this.router.events.subscribe(() => {
       this.isRegistrationPage = this.router.url === '/register' || this.router.url === '/login';
     })
