@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {JsonPipe, NgClass, NgIf, NgOptimizedImage} from "@angular/common";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {NgClass, NgIf, NgOptimizedImage} from "@angular/common";
+import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {NgbToast} from "@ng-bootstrap/ng-bootstrap";
-import {ErrorToastComponent} from "../error-toast/error-toast.component";
+import {ErrorToastComponent} from "../../error-toast/error-toast.component";
+import {AuthResponse} from "../shared/auth-response";
+import {BACKEND_URL} from "../../../main";
 
 @Component({
   selector: 'app-registration',
@@ -13,10 +14,7 @@ import {ErrorToastComponent} from "../error-toast/error-toast.component";
     ReactiveFormsModule,
     NgIf,
     NgClass,
-    JsonPipe,
     NgOptimizedImage,
-    HttpClientModule,
-    NgbToast,
     ErrorToastComponent
   ],
   templateUrl: './registration.component.html',
@@ -24,7 +22,7 @@ import {ErrorToastComponent} from "../error-toast/error-toast.component";
 })
 export class RegistrationComponent implements OnInit {
   readonly window = window;
-  private readonly registrationUrl: string = "http://localhost:8000/auth/register/";
+  private readonly registrationUrl: string = `${BACKEND_URL}auth/register/`;
 
   registerForm!: FormGroup;
 
@@ -40,8 +38,7 @@ export class RegistrationComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)]),
       password: new FormControl('', [Validators.required, Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\w)(?!.* ).{8,}$/)]),
-      repeatPassword: new FormControl('', [Validators.required]),
-      checkbox: new FormControl(false, Validators.requiredTrue)
+      repeatPassword: new FormControl('', [Validators.required])
     });
   }
 
@@ -50,16 +47,17 @@ export class RegistrationComponent implements OnInit {
     this.loading = true;
     this.registerForm.disable();
 
-    this.http.post(this.registrationUrl, payload).subscribe({
+    this.http.post<AuthResponse>(this.registrationUrl, payload).subscribe({
       error: () => {
         this.loading = false;
         this.registerForm.reset();
         this.registerForm.enable();
         this.showToast = true;
       },
-      complete: () => {
+      next: (data: AuthResponse) => {
+        localStorage.setItem('access_token', data.session.accessToken);
         this.loading = false;
-        this.router.navigate(['/']);
+        this.router.navigateByUrl('/');
       }
     });
   }

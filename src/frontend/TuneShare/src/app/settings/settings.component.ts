@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {BACKEND_URL} from "../../main";
 
 @Component({
   selector: 'app-settings',
@@ -9,6 +10,6 @@ import { Component } from '@angular/core';
 })
 export class SettingsComponent {
   linkSpotify() {
-    window.location.href = 'http://localhost:8000/service/spotify/?action=login';
+    window.location.href = `${BACKEND_URL}service/spotify/?action=login`;
   }
 }
