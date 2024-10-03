@@ -1,4 +1,4 @@
-interface Session {
+export interface Session {
   accessToken: string;
   refreshToken: string;
   expiresIn: number;
