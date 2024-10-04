@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
         this.showErrorLabel = true;
       },
       next: (data: AuthResponse) => {
-        localStorage.setItem('access_token', data.session.accessToken);
+        localStorage.setItem('access_token', data.session.access_token);
         this.loading = false;
         this.router.navigateByUrl('/');
       }
