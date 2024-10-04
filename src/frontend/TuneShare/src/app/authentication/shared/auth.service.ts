@@ -32,7 +32,7 @@ export class AuthService {
     const url = `${BACKEND_URL}auth/refresh`;
     this.http.get<Session>(url).subscribe({
       next: (session: Session) => {
-        this.accessToken = session.accessToken;
+        this.accessToken = session.access_token;
       },
       error: () => {
         this.router.navigateByUrl('/login').catch(() => {

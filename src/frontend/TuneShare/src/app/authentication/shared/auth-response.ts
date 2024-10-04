@@ -1,8 +1,8 @@
 export interface Session {
-  accessToken: string;
-  refreshToken: string;
-  expiresIn: number;
-  expiresAt: number;
+  access_token: string;
+  refresh_token: string;
+  expires_in: number;
+  expires_at: number;
 }
 
 interface User {
