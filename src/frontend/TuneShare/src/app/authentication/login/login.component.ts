@@ -52,7 +52,6 @@ export class LoginComponent implements OnInit {
         this.showErrorLabel = true;
       },
       next: (data: AuthResponse) => {
-        console.log(data.session)
         localStorage.setItem('access_token', data.session.access_token);
         this.loading = false;
         this.router.navigateByUrl('/');
