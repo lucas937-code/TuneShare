@@ -1,10 +1,11 @@
 .card {
   color: #4F4E57;
   transition: transform 0.2s;
-  width: 20em;
-  height: 22em;
+  max-width: 20em;
+  max-height: 22em;
   border: none;
   border-radius: 1em;
+  transform: scale(1);
 }
 
 .card-title{
@@ -13,18 +14,22 @@
   white-space: nowrap;
   max-height: 2.2em;
   overflow: hidden;
-  width: 1em;
+  width: auto;
 }
 
 .card:hover {
   transform: scale(1.04);
-  //background: #CAB5D6;
+}
+
+.card.isHovered{
+  transform: scale(1.04);
 }
 
 .card-text{
   color: #4F4E57;
   overflow: hidden;
   height: auto;
+  max-font-size: 1.3em;
 }
 
 .art-cover {
@@ -35,25 +40,27 @@
 }
 
 .card-author{
-  width: 47%;
+  width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   padding-right: 0;
 }
 
 .logos{
   text-align: right;
-  width: 53%;
   padding-left: 0;
 }
 
 .linkedButton{
   background: none;
   color: #4F4E57;
-  font-size: 1.3em;
   margin: 0.15em;
   padding: 0;
 }
 
 .iconAddPlain{
+  font-size: 1.2em;
   cursor: pointer;
 }
 
@@ -97,3 +104,9 @@ a{
 .card-img-top {
   transition: transform 0.2s ease-out;
 }
+
+.dropdown-toggle::after{
+  display: none;
+}
+
+

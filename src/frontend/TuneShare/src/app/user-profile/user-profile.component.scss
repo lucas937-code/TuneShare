@@ -104,9 +104,8 @@ a{
 }
 
 .imgProfile.shrink{
-  transition: max-height 0.2s;
+  transition: max-height 0.2s ease-out;
   max-height: 3em;
-  margin-bottom: 0.05em;
 }
 
 //Playlists
