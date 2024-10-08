@@ -128,6 +128,18 @@ export class PlaylistService {
         description: "Relive the 90s with these nostalgic hits.",
         track_list: [46, 47, 48, 49, 50],
         cover_url: "/assets/papagei-foto.jpg"
+      },
+       {
+        id: 11,
+        owner_id: 110,
+        spotify_id: "37i9dQZF1DXdPec7aLTmlC",
+        apple_music_id: undefined,
+        date_created: new Date("2023-10-02"),
+        date_modified: new Date("2023-10-05"),
+        title: "Throwback 90s",
+        description: "Relive the 90s with these nostalgic hits.",
+        track_list: [46, 47, 48, 49, 50],
+        cover_url: "/assets/papagei-foto.jpg"
       }
     ];
   }

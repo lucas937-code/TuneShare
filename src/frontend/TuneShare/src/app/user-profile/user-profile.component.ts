@@ -31,8 +31,6 @@ export class UserProfileComponent implements OnInit {
   }
 
   playlists: any[] = [];
-  isPlaylistsTransformed: boolean = false;
-  isFriendsTransformed: boolean = false;
   isShrunk: boolean = false;
   isHidden: boolean = false;
   followed: boolean = false; //True = Nutzer wird bereits gefolgt
@@ -46,14 +44,6 @@ export class UserProfileComponent implements OnInit {
   ngOnInit() {
     this.playlists = this.playlistService.getPlaylists();
     this.isMobile = window.innerWidth < 992;
-  }
-
-  toggleTransformPlaylists() {
-    this.isPlaylistsTransformed = !this.isPlaylistsTransformed;
-  }
-
-  toggleTransformFriends() {
-    this.isFriendsTransformed = !this.isFriendsTransformed;
   }
 
   @HostListener('window:scroll', [])
@@ -83,5 +73,9 @@ export class UserProfileComponent implements OnInit {
     setTimeout(() => {
       this.newFollow = this.followed;
     }, 100);
+  }
+
+  copyUsername() {
+    navigator.clipboard.writeText("@" + this.user.username);
   }
 }
