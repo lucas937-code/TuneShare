@@ -6,6 +6,7 @@ import {UserProfileComponent} from "./user-profile/user-profile.component";
 import {SettingsComponent} from "./settings/settings.component";
 import {PlaylistviewComponent} from "./playlistview/playlistview.component";
 import {LoginComponent} from "./authentication/login/login.component";
+import {SearchResultsComponent} from "./search-results/search-results.component";
 
 export const routes: Routes = [
   { path: "library", component: PlaylistListComponent, data : { title: 'Library' } },
@@ -15,4 +16,5 @@ export const routes: Routes = [
   { path: "profile", component: UserProfileComponent },
   { path: "settings", component: SettingsComponent },
   { path: "playlist", component: PlaylistviewComponent },
+  { path: "search", component: SearchResultsComponent },
 ];
