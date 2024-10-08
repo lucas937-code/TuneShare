@@ -4,11 +4,12 @@ import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {PlaylistService} from './playlist.service';
 import {Playlist} from "./types";
 import {AuthService} from "./authentication/shared/auth.service";
+import {FormsModule, NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgOptimizedImage, NgIf, NgClass, NgForOf],
+  imports: [RouterOutlet, NgOptimizedImage, NgIf, NgClass, NgForOf, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -27,6 +28,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.isMobile = window.innerWidth < 992;
+  }
+
+  submitSearch(f: NgForm) {
+    console.log(f.value);
+    this.router.navigate(['search']);
+    f.resetForm();
   }
 
   @HostListener('window:resize', ['$event'])

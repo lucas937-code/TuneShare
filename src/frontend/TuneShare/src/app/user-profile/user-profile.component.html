@@ -21,7 +21,7 @@
      [closeDelay]="1500"
      triggers="click:click"
      style="cursor: pointer" title="Copy username"
-     class="shareUsernameLink">
+     class="shareUsernameLink" (click)="copyUsername()">
     <h5 class="hideIfShrunk mx-auto">
       <span class="shareUsernameLogo">&#64;</span>{{ user.username }}
     </h5>
@@ -77,63 +77,5 @@
       </a>
     </span>
 </div>
-
-<div class="mx-auto px-4" style="top: 3em;">
-  <h2 class="align-items-center">
-    <div (click)=toggleTransformPlaylists()>
-      Playlists
-      <div class="d-inline-block" [class.transformedArrowPlaylists]="isPlaylistsTransformed" id="arrowPlaylists">
-        <i class="bi-caret-right-fill"></i>
-      </div>
-    </div>
-  </h2>
-  <div class="row row-cols-auto mx-auto justify-content-center expandPlaylists"
-       [class.transformPlaylists]="isPlaylistsTransformed">
-    <app-playlist class="col my-2 p-0" style="width: 21em" *ngFor="let playlist of playlists"
-                  [playlist]="playlist"></app-playlist>
-    <div class="col p-0" style="width: 21em; height: 0;"></div>
-    <div class="col p-0" style="width: 21em; height: 0;"></div>
-    <div class="col p-0" style="width: 21em; height: 0;"></div>
-  </div>
-  <div class="text-center">
-    <div class="m-auto text-center" (click)=toggleTransformPlaylists() *ngIf="isPlaylistsTransformed">Hide</div>
-  </div>
-
-  <h2 class="align-items-center">
-    <div (click)=toggleTransformFriends()>
-      Friends
-      <div class="d-inline-block" [class.transformedArrowFriends]="isFriendsTransformed" id="arrowFriends">
-        <i class="bi-caret-right-fill"></i>
-      </div>
-    </div>
-  </h2>
-  <!--  TODO: FriendComponent with List-->
-  <div class="row row-cols-auto mx-auto justify-content-center expandFriends"
-       [class.transformFriends]="isFriendsTransformed">
-    <div class="p-0" *ngFor="let number of [1, 1, 1, 1, 1, 1,1 ,1 ,1 ,1, 1 ,1, 1 ,1 ,1 ,1 ,1 ,1 ,1 ,1,1, 1, 1 ]">
-      <img class="col p-0 mx-2 rounded-circle m-3" style="width: 10em; height: 10em;"
-           src="/assets/papagei-foto.jpg"/>
-    </div>
-
-    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-    <div class="col p-0 mx-2" style="width: 10em; height: 0;"></div>
-
-  </div>
-  <div class="text-center">
-    <div class="m-auto text-center" (click)=toggleTransformFriends() *ngIf="isFriendsTransformed">Hide</div>
-  </div>
-</div>
+<app-playlistList title="Playlists"></app-playlistList>
 <div style="height: 3em;"></div>
