@@ -3,7 +3,6 @@ import {BACKEND_URL} from "../../../main";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {Session} from "./auth-response";
-import * as console from "node:console";
 
 @Injectable({
   providedIn: 'root'
