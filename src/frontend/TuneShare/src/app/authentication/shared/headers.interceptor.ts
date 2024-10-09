@@ -5,6 +5,11 @@ import {Router} from "@angular/router";
 import {EMPTY} from "rxjs";
 
 export const headersInterceptor: HttpInterceptorFn = (req, next) => {
+  const excludedUrls: string[] = ['/auth/login/', '/auth/register/', '/auth/refresh/'];
+
+  if (excludedUrls.some(url => req.url.includes(url)))
+    return next(req);
+
   const authService = inject(AuthService);
   const router = inject(Router);
 

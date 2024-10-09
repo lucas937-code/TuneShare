@@ -2,7 +2,7 @@ from django.conf import settings
 from django.shortcuts import redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 import requests
 from Database.models import User
 
@@ -30,7 +30,7 @@ class SpotifyView(APIView):
             'https://accounts.spotify.com/authorize'
             f'?response_type=code&client_id={client_id}&scope={scope}&redirect_uri={redirect_uri}'
         )
-        return HttpResponseRedirect(auth_url)
+        return JsonResponse({'auth_url': auth_url})
 
     def spotify_callback(self, request):
         action = request.query_params.get('action')

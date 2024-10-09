@@ -140,7 +140,8 @@ SPOTIFY_CLIENT_SECRET = 'e542b531e7a34333a70ad6bea701a676'
 FRONTEND_URL = 'http://localhost:4200/'
 
 EXEMPT_URLS = [
-    "/auth/login/",
-    "/auth/register/",
-    '/auth/refresh'
+    '/auth/login/',
+    '/auth/register/',
+    '/auth/refresh/',
+    '/api/',
 ]

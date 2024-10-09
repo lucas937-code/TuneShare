@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {BACKEND_URL} from "../../main";
 import {FormsModule} from "@angular/forms";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-settings',
@@ -13,6 +14,9 @@ import {FormsModule} from "@angular/forms";
 })
 export class SettingsComponent {
 
+  constructor(private http: HttpClient) {
+  }
+
   checkbox: boolean = false;
 
   saveSettings() {
@@ -20,7 +24,8 @@ export class SettingsComponent {
   }
 
   linkSpotify() {
-    window.location.href = `${BACKEND_URL}service/spotify/?action=login`;
+    this.http.get<{ auth_url: string }>(`${BACKEND_URL}service/spotify/?action=login`)
+      .subscribe(response => window.location.href = response.auth_url)
   }
 
 }
