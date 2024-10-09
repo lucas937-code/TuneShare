@@ -6,6 +6,7 @@ import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthResponse} from "../shared/auth-response";
 import {BACKEND_URL} from "../../../main";
+import {AuthService} from "../shared/auth.service";
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,8 @@ export class LoginComponent implements OnInit {
   showErrorLabel: boolean = false;
   showPassword: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router,
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -52,7 +54,8 @@ export class LoginComponent implements OnInit {
         this.showErrorLabel = true;
       },
       next: (data: AuthResponse) => {
-        localStorage.setItem('access_token', data.session.access_token);
+        this.authService.accessToken = data.session.access_token;
+        this.authService.userId = data.user.id;
         this.loading = false;
         this.router.navigateByUrl('/');
       }

@@ -52,6 +52,7 @@ export class RegistrationComponent implements OnInit {
     this.http.post<AuthResponse>(this.registrationUrl, payload).subscribe({
       next: (data: AuthResponse) => {
         this.authService.accessToken = data.session.access_token;
+        this.authService.userId = data.user.id;
         this.loading = false;
         this.router.navigateByUrl('/');
       },

@@ -1,23 +1,34 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BACKEND_URL} from "../../../main";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {Session} from "./auth-response";
+import * as console from "node:console";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private readonly accessTokenKey: string = 'access_token';
+  private _userId: string | null = null;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) {
+  }
 
-  set accessToken(token: string) {
-    localStorage.setItem(this.accessTokenKey, token);
+  set accessToken(value: string) {
+    localStorage.setItem(this.accessTokenKey, value);
   }
 
   get accessToken(): string | null {
     return localStorage.getItem(this.accessTokenKey);
+  }
+
+  get userId(): string | null {
+    return this._userId;
+  }
+
+  set userId(value: string | null) {
+    this._userId = value;
   }
 
   clearAccessToken(): void {
