@@ -1,7 +1,7 @@
 <div class="container mt-4">
-  <h2 class="mb-4">Results for search ''</h2>
+  <h2 class="mb-4">Results for '{{ this.input }}'</h2>
   <div class="mt-3">
     <div class="container" style="border-bottom: 2px solid #8A5CA3;"></div>
-    <div *ngFor="let user of findings"><app-user-listed [username]="user.username" [displayname]="user.displayname"></app-user-listed></div>
+    <div *ngFor="let user of filteredUserList"><app-user-listed [username]="user.username" [displayname]="user.displayname"></app-user-listed></div>
   </div>
 </div>
