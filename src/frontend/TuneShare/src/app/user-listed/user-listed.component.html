@@ -1,6 +1,15 @@
 <div class="card py-0">
   <div class="container inside py-1"><a href="/profile" style="text-decoration: none; color: black">
-    <h4 class="displayname mb-0">{{ this.displayname }}</h4>
-    <h5>&#64;{{ this.username }}</h5>
+    <div class="d-flex align-items-center">
+      <a href="javascript:" class="d-inline pe-1">
+        <i class="text-left iconFollowPlain" title="Follow"
+           (click)="follow()"
+           [ngClass]="{'bi-plus-square': !followed, 'bi-check-square-fill':followed}"></i>
+      </a>
+      <div>
+      <h4 class="displayname mb-0 px-2">{{ this.displayname }}</h4>
+      <h5 class="px-2">&#64;{{ this.username }}</h5>
+      </div>
+    </div>
   </a></div>
 </div>

@@ -1,14 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {UserListedComponent} from "../user-listed/user-listed.component";
 import {NgForOf} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
+import {ListOfUsersComponent} from "../list-of-users/list-of-users.component";
 
 @Component({
   selector: 'app-search-results',
   standalone: true,
   imports: [
     UserListedComponent,
-    NgForOf
+    NgForOf,
+    ListOfUsersComponent
   ],
   templateUrl: './search-results.component.html',
   styleUrl: './search-results.component.scss'
