@@ -15,19 +15,13 @@ import {Subscription} from "rxjs";
     PlaylistComponent
   ]
 })
-export class PlaylistListComponent implements OnInit, OnDestroy {
+export class PlaylistListComponent implements OnInit{
   playlists: any[] = [];
-  @Input() title: string = "Library";
-  subscriptions: Subscription = new Subscription();
+  @Input() headline: string = "Library";
 
-  constructor(private playlistService: PlaylistService, private route: ActivatedRoute) {}
+  constructor(private playlistService: PlaylistService) {}
 
-  ngOnInit() {
+  ngOnInit(){
     this.playlists = this.playlistService.getPlaylists();
   }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
 }
-
