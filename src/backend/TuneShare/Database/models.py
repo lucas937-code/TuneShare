@@ -1,3 +1,5 @@
+import uuid
+
 from django.core.validators import RegexValidator
 from django.db import models
 
@@ -44,12 +46,10 @@ class User(models.Model):
             ),
         ]
     )
-    display_name = models.CharField()
-    email = models.EmailField()
-    password = models.CharField()
     spotify_user_id = models.CharField(null=True)
     apple_music_user_id = models.CharField(null=True)
     date_created = models.DateTimeField(auto_now_add=True)
+    user_uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     spotify_access_token = models.CharField(null=True)
     spotify_refresh_token = models.CharField(null=True)

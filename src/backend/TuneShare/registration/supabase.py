@@ -22,7 +22,7 @@ class SupabaseJWTAuthenticationMiddleware:
         self.jwt_secret = settings.SUPABASE_KEY
 
     def __call__(self, request):
-        if request.path in settings.EXEMPT_URLS:
+        if request.path in settings.EXEMPT_URLS or request.path.startswith('/admin'):
             return self.get_response(request)
 
         auth_header = request.headers.get('Authorization')

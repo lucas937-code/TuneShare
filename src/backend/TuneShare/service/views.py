@@ -2,7 +2,7 @@ from django.conf import settings
 from django.shortcuts import redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 import requests
 from Database.models import User
 
@@ -12,11 +12,9 @@ class SpotifyView(APIView):
     def get(self, request, *args, **kwargs):
         action = request.query_params.get('action')
 
-        # Handle Spotify login
         if action == 'login':
             return self.spotify_login(request)
 
-        # Handle Spotify callback
         elif action == 'callback':
             return self.spotify_callback(request)
 
@@ -25,12 +23,12 @@ class SpotifyView(APIView):
     def spotify_login(self, request):
         client_id = settings.SPOTIFY_CLIENT_ID
         redirect_uri = settings.SPOTIFY_REDIRECT_URI
-        scope = 'user-read-private user-read-email'
+        scope = "ugc-image-upload user-read-playback-state user-modify-playback-state user-read-currently-playing app-remote-control streaming playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public user-follow-modify user-follow-read user-read-playback-position user-top-read user-read-recently-played user-library-modify user-library-read user-read-email user-read-private"
         auth_url = (
             'https://accounts.spotify.com/authorize'
             f'?response_type=code&client_id={client_id}&scope={scope}&redirect_uri={redirect_uri}'
         )
-        return HttpResponseRedirect(auth_url)
+        return JsonResponse({'auth_url': auth_url})
 
     def spotify_callback(self, request):
         action = request.query_params.get('action')
@@ -57,17 +55,16 @@ class SpotifyView(APIView):
             if response.status_code != 200:
                 return Response({'error': 'Failed to fetch token'}, status=response.status_code)
 
-
             response_data = response.json()
             access_token = response_data.get('access_token')
             refresh_token = response_data.get('refresh_token')
 
-            token_obj, created = User.objects.get_or_create(id=1)
+            token_obj, created = User.objects.get_or_create(user_uuid=request.user.id)
+
             token_obj.spotify_access_token = access_token
             token_obj.spotify_refresh_token = refresh_token
             token_obj.save()
 
-            frontend_url = settings.FRONTEND_URL
-            return redirect(frontend_url)
+            return Response("", status=200)
 
         return Response({'error': 'Invalid action'}, status=400)
