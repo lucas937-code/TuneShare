@@ -75,12 +75,4 @@ export class PlaylistComponent implements OnInit {
   copyLink() {
     navigator.clipboard.writeText("");  //TODO add link to specific playlist
   }
-
-  exportToSpotify() {
-    console.log('exportToSpotify()'); //TODO export Function
-  }
-
-  exportToApplemusic() {
-    console.log('exportToApplemusic()'); //TODO export Function
-  }
 }
