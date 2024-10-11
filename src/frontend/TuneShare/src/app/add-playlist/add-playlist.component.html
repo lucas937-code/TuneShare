@@ -1,10 +1,10 @@
 <div class="py-3">
   <ul class="nav nav-tabs">
       <li class="nav-item" style="padding-left: 2em;">
-        <a class="nav-link linkText" [ngClass]="{ 'active': spotify }" href="/addplaylist?type=spotify">Spotify</a>
+        <a class="nav-link linkText" (click)="spotifyActive()" [ngClass]="{ 'active': spotify }">Spotify</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link linkText" [ngClass]="{ 'active': !spotify }" href="/addplaylist?type=applemusic">Apple Music</a>
+        <a class="nav-link linkText" (click)="applemusicActive()" [ngClass]="{ 'active': !spotify }">Apple Music</a>
       </li>
 <!--      <li class="nav-item">-->
 <!--        <a class="nav-link disabled" tabindex="-1" aria-disabled="true"><i class="bi-person-wheelchair"></i></a>-->
@@ -12,6 +12,7 @@
   </ul>
   <div class="mainContainer pt-3">
     <h5>Choose playlist to import</h5>
-    <app-playlistList headline="" [playlists]="playlists"></app-playlistList>
+    <app-playlistList [playlists]="playlistsSpotify" *ngIf="spotify"></app-playlistList>
+    <app-playlistList [playlists]="playlistsApplemusic" *ngIf="!spotify"></app-playlistList>
   </div>
 </div>
