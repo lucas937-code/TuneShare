@@ -20,7 +20,7 @@ export class AddPlaylistComponent implements OnInit {
 
   spotify: boolean = true;
   empty: boolean = false;
-  linkedSpotify: boolean = false; //Abfrage
+  linkedSpotify: boolean = true; //TODO Abfrage
   linkedApplemusic: boolean = false;
   playlistsSpotify: Playlist[] = [];
   playlistsApplemusic: Playlist[] = [];
