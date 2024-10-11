@@ -2,8 +2,7 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {NgForOf} from "@angular/common";
 import {PlaylistService} from "../playlist.service";
 import {PlaylistComponent} from "../playlist/playlist.component";
-import {ActivatedRoute} from "@angular/router";
-import {Subscription} from "rxjs";
+import {Playlist} from "../types";
 
 @Component({
   selector: 'app-playlistList',
@@ -15,13 +14,8 @@ import {Subscription} from "rxjs";
     PlaylistComponent
   ]
 })
-export class PlaylistListComponent implements OnInit{
-  playlists: any[] = [];
+export class PlaylistListComponent{
+  @Input() playlists: Playlist[] = [];
   @Input() headline: string = "Library";
 
-  constructor(private playlistService: PlaylistService) {}
-
-  ngOnInit(){
-    this.playlists = this.playlistService.getPlaylists();
-  }
 }
