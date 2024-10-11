@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
 import {NgClass, NgIf} from "@angular/common";
 import {Playlist} from "../types";
 import {PlaylistListComponent} from "../playlistList/playlist-list.component";
@@ -20,6 +19,9 @@ import {switchMap} from "rxjs";
 export class AddPlaylistComponent implements OnInit {
 
   spotify: boolean = true;
+  empty: boolean = false;
+  linkedSpotify: boolean = false; //Abfrage
+  linkedApplemusic: boolean = false;
   playlistsSpotify: Playlist[] = [];
   playlistsApplemusic: Playlist[] = [];
 
@@ -71,13 +73,17 @@ export class AddPlaylistComponent implements OnInit {
         cover_url: "/assets/papagei-foto.jpg"
       }
     ]
+
+    this.spotifyActive()
   }
 
   spotifyActive() {
     this.spotify = true;
+    this.empty = this.playlistsSpotify.length === 0;
   }
 
   applemusicActive() {
     this.spotify = false;
+    this.empty = this.playlistsApplemusic.length === 0;
   }
 }
