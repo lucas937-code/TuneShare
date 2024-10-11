@@ -74,3 +74,18 @@ td, th{
   -moz-box-shadow: 0px 0px 6px 0px #95899f;
   box-shadow: 0px 0px 6px 0px #95899f;
 }
+
+.btn.btn-primary{
+  background: #8A5CA3;
+  border: 2px solid #8A5CA3;
+}
+
+.btn-primary:hover{
+  background: #724c85;
+  border-color: #724c85;
+}
+
+btn.btn-secondary{
+  color: white;
+  background: #4F4E57;
+}

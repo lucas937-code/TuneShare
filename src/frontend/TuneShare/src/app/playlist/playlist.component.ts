@@ -1,6 +1,7 @@
 import {Component, HostListener, Input, OnInit} from '@angular/core';
 import {NgClass, NgIf} from "@angular/common";
-import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
+import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
+import {ConfirmExportComponent} from "../confirm-export/confirm-export.component";
 
 @Component({
   selector: 'app-playlist',
@@ -11,7 +12,9 @@ import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "
     NgbDropdownToggle,
     NgbDropdownMenu,
     NgbDropdown,
-    NgbDropdownItem
+    NgbDropdownItem,
+    NgbTooltip,
+    ConfirmExportComponent
   ],
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.scss'
@@ -67,5 +70,17 @@ export class PlaylistComponent implements OnInit {
   }
   hoveredFalse(){
     this.menuIsHovered = false;
+  }
+
+  copyLink() {
+    navigator.clipboard.writeText("");  //TODO add link to specific playlist
+  }
+
+  exportToSpotify() {
+    console.log('exportToSpotify()'); //TODO export Function
+  }
+
+  exportToApplemusic() {
+    console.log('exportToApplemusic()'); //TODO export Function
   }
 }
