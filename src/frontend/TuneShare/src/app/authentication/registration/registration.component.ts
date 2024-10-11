@@ -45,7 +45,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const payload = {email: this.email.value, password: this.password.value};
+    const payload = {email: this.email.value, password: this.password.value, username: null, display_name: null};
     this.loading = true;
     this.registerForm.disable();
 
