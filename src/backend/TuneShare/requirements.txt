@@ -5,3 +5,5 @@ djangorestframework
 django-cors-headers
 supabase
 requests
+pyjwt
+cryptography

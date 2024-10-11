@@ -1,11 +1,9 @@
 from django.conf import settings
-from django.shortcuts import redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import JsonResponse
 import requests
 from Database.models import User
-
 
 class SpotifyView(APIView):
 
@@ -95,7 +93,8 @@ class SpotifyView(APIView):
 
         if action == 'playlists':
             playlists = requests.get(f"https://api.spotify.com/v1/users/{request.headers["spotify-user-id"]}/playlists",
-                                     headers={"Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"})
+                                     headers={
+                                         "Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"})
 
             if playlists.status_code != 200:
                 return Response({'error': 'Failed to get playlists'}, status=playlists.status_code)
@@ -123,7 +122,8 @@ class SpotifyView(APIView):
         if action == 'get_playlist':
 
             playlist = requests.get(f"https://api.spotify.com/v1/playlists/{request.headers["playlist-id"]}",
-                                     headers={"Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"})
+                                    headers={
+                                        "Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"})
 
             if playlist.status_code != 200:
                 return Response({'error': 'Failed to get playlist'}, status=playlist.status_code)
