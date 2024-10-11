@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {BACKEND_URL} from "../../main";
 import {FormsModule} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
-import {switchMap} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
+import {SpotifyService} from "../spotify.service";
 
 @Component({
   selector: 'app-settings',
@@ -16,7 +16,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class SettingsComponent implements OnInit {
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private spotifyService: SpotifyService) {
   }
 
   checkbox: boolean = false;
@@ -37,10 +37,6 @@ export class SettingsComponent implements OnInit {
   }
 
   linkSpotify() {
-    this.http.get<{ auth_url: string }>(`${BACKEND_URL}service/spotify/?action=login`)
-      .subscribe(response => {
-        window.location.href = response.auth_url
-      })
+    this.spotifyService.authorizeUser().subscribe();
   }
-
 }

@@ -18,6 +18,15 @@ class SpotifyView(APIView):
         elif action == 'callback':
             return self.spotify_callback(request)
 
+        elif action == 'playlists':
+            return self.spotify_playlists(request)
+
+        elif action == 'get_playlist':
+            return self.get_playlist(request)
+
+        elif action == 'get_current_user':
+            return self.get_current_user(request)
+
         return Response({'error': 'Invalid action'}, status=400)
 
     def spotify_login(self, request):
@@ -68,3 +77,83 @@ class SpotifyView(APIView):
             return Response("", status=200)
 
         return Response({'error': 'Invalid action'}, status=400)
+
+    def get_current_user(self, request):
+        action = request.query_params.get('action')
+
+        if action == 'get_current_user':
+            spotify_user = requests.get("https://api.spotify.com/v1/me", headers={
+                'Authorization': f'Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}'})
+
+            if spotify_user.status_code != 200:
+                return Response({'error': 'Failed to get profile'}, status=spotify_user.status_code)
+
+            return Response(spotify_user.json(), status=200)
+
+    def spotify_playlists(self, request):
+        action = request.query_params.get('action')
+
+        if action == 'playlists':
+            playlists = requests.get(f"https://api.spotify.com/v1/users/{request.headers["spotify-user-id"]}/playlists",
+                                     headers={"Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"})
+
+            if playlists.status_code != 200:
+                return Response({'error': 'Failed to get playlists'}, status=playlists.status_code)
+
+            playlists = playlists.json()
+            frontend_playlists = []
+
+            for playlist in playlists['items']:
+                cover_url = ""
+                if len(playlist['images']) >= 1:
+                    cover_url = playlist['images'][0]['url']
+                frontend_playlists.append({
+                    'spotify_id': playlist['id'],
+                    'owner_id': playlist['owner']['id'],
+                    'title': playlist['name'],
+                    'description': playlist['description'],
+                    'cover_url': cover_url
+                })
+
+            return Response(frontend_playlists, status=200)
+
+    def get_playlist(self, request):
+        action = request.query_params.get('action')
+
+        if action == 'get_playlist':
+
+            playlist = requests.get(f"https://api.spotify.com/v1/playlists/{request.headers["playlist-id"]}",
+                                     headers={"Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"})
+
+            if playlist.status_code != 200:
+                return Response({'error': 'Failed to get playlist'}, status=playlist.status_code)
+
+            playlist = playlist.json()
+
+            frontend_tracks = []
+
+            for track in playlist['tracks']['items']:
+                cover_url = ""
+                if len(track['track']['album']['images']) >= 1:
+                    cover_url = track['track']['album']['images'][0]['url']
+
+                frontend_tracks.append({
+                    'spotify_id': track['track']['id'],
+                    'title': track['track']['name'],
+                    'artist': track['track']['artists'][0]['name'],
+                    'cover_url': cover_url
+                })
+
+            cover_url = ""
+            if len(playlist['images']) >= 1:
+                cover_url = playlist['images'][0]['url']
+            frontend_playlist = {
+                'spotify_id': playlist['id'],
+                'owner_id': playlist['owner']['id'],
+                'title': playlist['name'],
+                'description': playlist['description'],
+                'cover_url': cover_url,
+                'track_list': frontend_tracks
+            }
+
+            return Response(frontend_playlist, status=200)
