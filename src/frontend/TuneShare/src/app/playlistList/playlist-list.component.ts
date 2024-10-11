@@ -1,6 +1,5 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {NgForOf} from "@angular/common";
-import {PlaylistService} from "../playlist.service";
 import {PlaylistComponent} from "../playlist/playlist.component";
 import {Playlist} from "../types";
 
@@ -16,6 +15,4 @@ import {Playlist} from "../types";
 })
 export class PlaylistListComponent{
   @Input() playlists: Playlist[] = [];
-  @Input() headline: string = "Library";
-
 }
