@@ -8,6 +8,7 @@ import {PlaylistviewComponent} from "./playlistview/playlistview.component";
 import {LoginComponent} from "./authentication/login/login.component";
 import {SearchResultsComponent} from "./search-results/search-results.component";
 import {AddPlaylistComponent} from "./add-playlist/add-playlist.component";
+import {FollowedListComponent} from "./followed-list/followed-list.component";
 
 export const routes: Routes = [
   { path: "library", component: PlaylistListComponent, data : { title: 'Library' } },
@@ -19,4 +20,5 @@ export const routes: Routes = [
   { path: "playlist", component: PlaylistviewComponent },
   { path: "search", component: SearchResultsComponent },
   { path: "addplaylist", component: AddPlaylistComponent },
+  { path: "followed", component: FollowedListComponent },
 ];
