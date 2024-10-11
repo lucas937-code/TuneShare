@@ -4,6 +4,8 @@ import {FormsModule} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
 import {SpotifyService} from "../spotify.service";
+import {AppleMusicService} from "../apple-music.service";
+import {switchMap} from "rxjs";
 
 @Component({
   selector: 'app-settings',
@@ -16,7 +18,8 @@ import {SpotifyService} from "../spotify.service";
 })
 export class SettingsComponent implements OnInit {
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private spotifyService: SpotifyService) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private spotifyService: SpotifyService,
+              private appleMusicService: AppleMusicService) {
   }
 
   checkbox: boolean = false;
@@ -38,5 +41,18 @@ export class SettingsComponent implements OnInit {
 
   linkSpotify() {
     this.spotifyService.authorizeUser().subscribe();
+  }
+
+  async linkAppleMusic() {
+    // this.appleMusicService.initialize()
+    //   .pipe(switchMap(() => {
+    //     return this.appleMusicService.authorizeUser();
+    //   })).subscribe({
+    //     error: err => console.error('Failed to authorize user', err)
+    //   });
+
+    this.appleMusicService.getPlaylists().subscribe({
+      next: playlists => console.log(playlists)
+    });
   }
 }
