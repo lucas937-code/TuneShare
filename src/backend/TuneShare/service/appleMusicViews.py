@@ -9,7 +9,6 @@ import datetime
 from Database.models import User, Playlist, Track, IncludesTrack
 
 
-
 class AppleMusicView(APIView):
     def get(self, request, *args, **kwargs):
         action = request.query_params.get('action')
@@ -154,12 +153,12 @@ class AppleMusicView(APIView):
         if 'artwork' in playlist['attributes'].keys():
             cover_url = playlist['attributes']['artwork']['url'].replace("{w}x{h}", "500x500")
         frontend_playlist = {
-                "apple_music_id": playlist['id'],
-                "title": playlist['attributes']['name'],
-                "description": description,
-                "cover_url": cover_url,
-                "track_list": tracks
-            }
+            "apple_music_id": playlist['id'],
+            "title": playlist['attributes']['name'],
+            "description": description,
+            "cover_url": cover_url,
+            "track_list": tracks
+        }
 
         return Response(frontend_playlist, status=200)
 
@@ -193,7 +192,8 @@ class AppleMusicView(APIView):
         playlist = self.apple_music_get_playlist(request).data
 
         playlist_owner = User.objects.get(user_uuid=request.user.id)
-        playlist_object, created = Playlist.objects.get_or_create(owner_id=playlist_owner, origin_id=playlist['apple_music_id'])
+        playlist_object, created = Playlist.objects.get_or_create(owner_id=playlist_owner,
+                                                                  origin_id=playlist['apple_music_id'])
 
         playlist_object.title = playlist['title']
         playlist_object.cover_url = playlist['cover_url']
@@ -226,10 +226,28 @@ class AppleMusicView(APIView):
         track_list = []
 
         for track_included in included_tracks:
-            track_list.append({
-                "id": track_included.track.apple_music_id,
-                "type": "songs"
-            })
+            if track_included.track.apple_music_id:
+                track_list.append({
+                    "id": track_included.track.apple_music_id,
+                    "type": "songs"
+                })
+            else:
+                url = f"https://api.music.apple.com/v1/catalog/de/search?term={track_included.track.artist} {track_included.track.title}&types=songs&limit=1"
+                headers = {
+                    'Authorization': f'Bearer {developer_token}',
+                    'Music-User-Token': music_user_token
+                }
+                response = requests.get(url, headers=headers)
+
+                if 'errors' not in response.json().keys():
+                    track = Track.objects.get(id=track_included.track.id)
+                    track.apple_music_id = response.json()['results']['songs']['data'][0]['id']
+
+                    track.save()
+                    track_list.append({
+                        "id": track.apple_music_id,
+                        "type": "songs"
+                    })
 
         request_body = {
             "attributes": {
