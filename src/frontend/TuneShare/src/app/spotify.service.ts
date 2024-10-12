@@ -24,18 +24,10 @@ export class SpotifyService {
   }
 
   getPlaylists(user_id: string): Observable<Playlist[]> {
-    return this.http.get<Playlist[]>(`${BACKEND_URL}service/spotify/?action=playlists`, {
-      headers: {
-        "spotify-user-id": user_id
-      }
-    });
+    return this.http.get<Playlist[]>(`${BACKEND_URL}service/spotify/?action=playlists&user_id=${user_id}`);
   }
 
   getPlaylist(playlist_id: string): Observable<Playlist> {
-    return this.http.get<Playlist>(`${BACKEND_URL}service/spotify/?action=get_playlist`, {
-      headers: {
-        "playlist-id": playlist_id
-      }
-    });
+    return this.http.get<Playlist>(`${BACKEND_URL}service/spotify/?action=get_playlist&playlist_id=${playlist_id}`);
   }
 }

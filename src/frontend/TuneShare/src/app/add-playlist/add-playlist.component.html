@@ -12,7 +12,7 @@
     <app-playlistList [playlists]="playlistsSpotify" *ngIf="spotify && linkedSpotify"></app-playlistList>
     <app-playlistList [playlists]="playlistsApplemusic" *ngIf="!spotify && linkedApplemusic"></app-playlistList>
     <div *ngIf="empty && (linkedSpotify && spotify || linkedApplemusic && !spotify)" class="text-center"><h5>No
-      playlists available! Ensure that they are set to public in {{ spotify ? "Spotify" : "Apple Music" }}!</h5>
+      playlists available!</h5>
     </div>
     <div *ngIf="!linkedSpotify && spotify || !linkedApplemusic && !spotify" class="text-center"><h5>To add playlists from your <span [ngClass]="{ 'appleLink' : !spotify, 'spotifyLink' : spotify }">{{ spotify ? "Spotify" : "Apple Music" }}</span> Account link it to TuneShare in
       the <a href="/settings" style="color: #8A5CA3">settings</a>!</h5></div>
