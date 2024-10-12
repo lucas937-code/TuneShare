@@ -4,8 +4,8 @@
   <div class="carousel-inner rotatecontainer">
     <div class="carousel-item"
          [ngClass]="{ active: i === 0 }" *ngFor="let chunk of playlistChunks; let i = index">
-      <div class="row mx-0" [ngClass]="{ 'row-cols-4' : !isMobile, 'row-cols-2' : isMobile  }">
-        <div *ngFor="let playlist of chunk">
+      <div class="row mx-0" [ngClass]="{ 'row-cols-3' : !isMobile, 'row-cols-2' : isMobile  }">
+        <div *ngFor="let playlist of chunk" [ngClass]="{ 'px-1':isMobile, 'px-2':!isMobile }">
           <app-playlist [playlist]="playlist"></app-playlist>
         </div>
       </div>
