@@ -1,21 +1,10 @@
-from Database.views import PlaylistViewSet, TrackViewSet, IncludesViewSet, FollowsViewSet, UserViewSet, \
-    FollowsPlaylistViewSet
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-
-router = DefaultRouter()
-router.register(r'playlist', PlaylistViewSet)
-router.register(r'track', TrackViewSet)
-router.register(r'includes', IncludesViewSet)
-router.register(r'follows_user', FollowsViewSet)
-router.register(r'user', UserViewSet)
-router.register(r'follows_playlist', FollowsPlaylistViewSet)
 
 # Main URL configuration
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    path('api/', include('Database.urls')),
     path('auth/', include('registration.urls')),
     path('service/', include('service.urls'))
 ]

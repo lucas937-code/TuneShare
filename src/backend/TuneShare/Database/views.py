@@ -43,6 +43,12 @@ class UserViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         return destroy(self, request, *args, **kwargs)
 
+    def get_followed_users(self, request, *args, **kwargs):
+        user_uuid = request.user.id
+        user = User.objects.get(user_uuid=user_uuid)
+        followed_users = FollowsUser.objects.filter(follower_id=user.id).values_list('followed_id', flat=True)
+        return Response(list(followed_users), status=status.HTTP_200_OK)
+
 
 class PlaylistViewSet(viewsets.ModelViewSet):
     queryset = Playlist.objects.all()

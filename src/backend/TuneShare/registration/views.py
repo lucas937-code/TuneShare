@@ -15,14 +15,23 @@ def register_user(request):
 
     email = serializer.validated_data['email']
     password = serializer.validated_data['password']
+    username = serializer.validated_data['username']
+    display_name = serializer.validated_data['display_name']
 
     supabase = get_supabase_client()
     try:
         response = supabase.auth.sign_up({'email': email, 'password': password})
+        supabase.table('Database_user').insert({
+            'username': username if username else response.user.id,
+            'display_name': display_name,
+            'user_uuid': response.user.id,
+        }).execute()
         data = {
             'user': {
                 'id': response.user.id,
-                'email': response.user.email
+                'email': response.user.email,
+                'username': username,
+                'display_name': display_name
             },
             'session': {
                 'access_token': response.session.access_token,

@@ -43,7 +43,7 @@ export class SettingsComponent implements OnInit {
     this.spotifyService.authorizeUser().subscribe();
   }
 
-  async linkAppleMusic() {
+  linkAppleMusic() {
     this.appleMusicService.initialize()
       .pipe(switchMap(() => {
         return this.appleMusicService.authorizeUser();
