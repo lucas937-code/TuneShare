@@ -107,4 +107,11 @@ export class AppleMusicService {
       .set('id', playlist_id);
     return this.http.get<any>(`${BACKEND_URL}service/apple_music/`, {params});
   }
+
+  exportToAppleMusic(playlist_id: number): Observable<any> {
+    const params = new HttpParams()
+      .set('action', 'export_to_apple_music')
+      .set('playlist_id', playlist_id);
+    return this.http.get<any>(`${BACKEND_URL}service/apple_music/`, {params});
+  }
 }
