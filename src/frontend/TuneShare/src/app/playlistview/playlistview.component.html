@@ -9,7 +9,7 @@
           <a class="linkedButton appleLink my-auto py-auto"
               data-bs-toggle="modal" data-bs-target="#confirmExportApplemusic"
           ><i class="bi-apple"></i></a><a> | </a>
-          <a class="linkedButton spotifyLink my-auto py-auto" (click)="exportToSpotify()"
+          <a class="linkedButton spotifyLink my-auto py-auto"
              data-bs-toggle="modal" data-bs-target="#confirmExportSpotify"
           ><i class="bi-spotify"></i></a><a> | </a>
           <a class="linkedButton shareLink my-auto py-auto" (click)="copyLink()"
@@ -52,10 +52,10 @@
 </div>
 
 <!-- Popups -->
-<div class="modal fade" id="confirmExportApplemusic" tabindex="-1" role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
-  <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="false"></app-confirm-export>
+<div class="modal fade" #m id="confirmExportApplemusic" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
+  <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="false" [id]="m"></app-confirm-export>
 </div>
 
-<div class="modal fade" id="confirmExportSpotify" tabindex="-1" role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
-  <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="true"></app-confirm-export>
+<div class="modal fade" #m id="confirmExportSpotify" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
+  <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="true" [id]="m"></app-confirm-export>
 </div>
