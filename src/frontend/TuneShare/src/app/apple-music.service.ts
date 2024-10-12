@@ -91,4 +91,8 @@ export class AppleMusicService {
   getPlaylists(): Observable<Playlist[]> {
     return this.http.get<Playlist[]>(`${BACKEND_URL}service/apple_music/?action=playlists`);
   }
+
+  getPlaylist(playlist_id: string): Observable<Playlist> {
+    return this.http.get<Playlist>(`${BACKEND_URL}service/apple_music/?action=get_playlist&id=${playlist_id}`);
+  }
 }

@@ -6,9 +6,18 @@
       <h4 class="card-title row"><div class="px-0" [ngClass]="{ 'text-center': isMobile, 'mx-auto': isMobile }">{{ currentPlaylist.title }}</div></h4>
       <div class="row">
         <div class="logos align-items-center text-left px-0" [ngClass]="{ 'mt-1': isMobile, 'mt-3': !isMobile }">
-          <a class="linkedButton appleLink my-auto py-auto" href="https://apple.com" target="_blank"><i class="bi-apple"></i></a><a> | </a>
-          <a class="linkedButton spotifyLink my-auto py-auto" href="https://www.spotify.com" target="_blank"><i class="bi-spotify"></i></a><a> | </a>
-          <a class="linkedButton shareLink my-auto py-auto"><i class="bi-share"></i></a><a> | </a>
+          <a class="linkedButton appleLink my-auto py-auto"
+              data-bs-toggle="modal" data-bs-target="#confirmExportApplemusic"
+          ><i class="bi-apple"></i></a><a> | </a>
+          <a class="linkedButton spotifyLink my-auto py-auto" (click)="exportToSpotify()"
+             data-bs-toggle="modal" data-bs-target="#confirmExportSpotify"
+          ><i class="bi-spotify"></i></a><a> | </a>
+          <a class="linkedButton shareLink my-auto py-auto" (click)="copyLink()"
+             ngbTooltip="Link copied!"
+             [closeDelay]="1500"
+             triggers="click:click"
+             style="cursor: pointer" title="Copy Link"
+          ><i class="bi-share"></i></a><a> | </a>
           <i class="linkedButton addLink my-auto py-auto" title="Add"
              (click)="add()"
              [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added}">
@@ -40,4 +49,13 @@
     </tr>
     </tbody>
   </table>
+</div>
+
+<!-- Popups -->
+<div class="modal fade" id="confirmExportApplemusic" tabindex="-1" role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
+  <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="false"></app-confirm-export>
+</div>
+
+<div class="modal fade" id="confirmExportSpotify" tabindex="-1" role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
+  <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="true"></app-confirm-export>
 </div>
