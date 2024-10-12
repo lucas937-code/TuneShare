@@ -1,9 +1,12 @@
-from django.conf import settings
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from django.http import JsonResponse
 import requests
-from Database.models import User
+from Database.models import User, Track
+from Database.serializers import PlaylistSerializer, TrackSerializer, IncludesSerializer
+from django.conf import settings
+from django.http import JsonResponse
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 
 class SpotifyView(APIView):
 
@@ -24,6 +27,9 @@ class SpotifyView(APIView):
 
         elif action == 'get_current_user':
             return self.get_current_user(request)
+
+        elif action == 'add_to_tuneshare':
+            return self.add_to_tuneshare(request)
 
         return Response({'error': 'Invalid action'}, status=400)
 
@@ -92,9 +98,10 @@ class SpotifyView(APIView):
         action = request.query_params.get('action')
 
         if action == 'playlists':
-            playlists = requests.get(f"https://api.spotify.com/v1/users/{request.query_params.get("user_id")}/playlists",
-                                     headers={
-                                         "Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"})
+            playlists = requests.get(
+                f"https://api.spotify.com/v1/users/{request.query_params.get("user_id")}/playlists",
+                headers={
+                    "Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"})
 
             if playlists.status_code != 200:
                 return Response({'error': 'Failed to get playlists'}, status=playlists.status_code)
@@ -151,3 +158,64 @@ class SpotifyView(APIView):
             }
 
             return Response(frontend_playlist, status=200)
+
+    def add_to_tuneshare(self, request):
+        action = request.query_params.get('action')
+
+        if action == 'add_to_tuneshare':
+            playlist_id = request.query_params.get("playlist_id")
+            user = User.objects.get(user_uuid=request.user.id)
+            spotify_token = user.spotify_access_token
+
+            response = requests.get(f"https://api.spotify.com/v1/playlists/{playlist_id}",
+                                    headers={"Authorization": f"Bearer {spotify_token}"})
+            if response.status_code != 200:
+                return Response({'error': 'Failed to get playlist from Spotify'}, status=response.status_code)
+
+            playlist_data = response.json()
+
+            cover_url = playlist_data['images'][0]['url'] if playlist_data['images'] else ""
+            playlist_payload = {
+                'title': playlist_data['name'],
+                'cover_url': cover_url,
+                'owner_id': user.id,
+                'is_public': True
+            }
+
+            playlist_serializer = PlaylistSerializer(data=playlist_payload)
+            if playlist_serializer.is_valid():
+                playlist_instance = playlist_serializer.save()
+            else:
+                return Response(playlist_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+            for track_item in playlist_data['tracks']['items']:
+                track_data = track_item['track']
+                track_cover_url = track_data['album']['images'][0]['url'] if track_data['album']['images'] else ""
+                track_payload = {
+                    'spotify_id': track_data['id'],
+                    'title': track_data['name'],
+                    'artist': track_data['artists'][0]['name'],
+                }
+
+                existing_track = Track.objects.filter(spotify_id=track_data['id']).first()
+                if existing_track:
+                    track_instance = existing_track  # Track existiert bereits
+                else:
+                    track_serializer = TrackSerializer(data=track_payload)
+                    if track_serializer.is_valid():
+                        track_instance = track_serializer.save()
+                    else:
+                        return Response(track_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+                includes_payload = {
+                    'playlist': playlist_instance.id,
+                    'track': track_instance.id
+                }
+
+                includes_serializer = IncludesSerializer(data=includes_payload)
+                if includes_serializer.is_valid():
+                    includes_serializer.save()
+                else:
+                    return Response(includes_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+            return Response(PlaylistSerializer(playlist_instance).data, status=status.HTTP_201_CREATED)
