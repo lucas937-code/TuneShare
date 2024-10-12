@@ -1,6 +1,6 @@
-<a class="card usualStyle mx-auto" href="/playlist" [ngClass]="{ 'isHovered' : menuIsHovered }">
+<a class="card usualStyle mx-auto" href="{{ this.url }}" [ngClass]="{ 'isHovered' : menuIsHovered }">
   <div class="pt-3 mx-auto">
-    <a href="/playlist">
+    <a href="{{ this.url }}">
       <div class="cover-bg"><img [src]="playlist.cover_url"
                                  class="card-img-top art-cover"
                                  style="max-width: 14.5em; max-height: 14.5em;"
@@ -10,10 +10,16 @@
     </a>
   </div>
   <div class="mx-4 mt-3 mb-2 p-0" [ngClass]="{ 'smallerfont':isMobile }">
-    <a href="/playlist"><h5 class="card-title overflow-hidden" [ngClass]="{ 'smallerfontHeadline':isMobile }">{{ playlist.title }}</h5></a>
+    <a href="{{ this.url }}"><h5 class="card-title overflow-hidden" [ngClass]="{ 'smallerfontHeadline':isMobile }">{{ playlist.title }}</h5></a>
     <div class="row mb-2 justify-content-between">
-      <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }"><a
+      <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='ts'"><a
         href="/profile">{{ playlist.owner_id }}</a></div>
+      <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='sp'">
+        <i class="bi-spotify" style="font-size: larger"></i><i class="ps-1" style="font-weight: lighter; vertical-align: center"> {{ playlist.owner_id }}</i>
+      </div>
+      <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='am'">
+        <i class="bi-apple" style="font-size: larger"></i><i style="font-weight: lighter; vertical-align: center"> Music</i>
+      </div>
 
       <div *ngIf="!isMobile" class="col row row-cols-auto justify-content-end text-right iconAddPlain">
         <a class="p-0 me-1" style="width: 35%" href="javascript:">
@@ -24,7 +30,7 @@
         </a>
         <a ngbDropdown placement="top-end" container="body" href="javascript:"
            class="dropdownPlaylist text-end w-auto p-0 d-inline">
-          <div id="playlistExpandButtonBig" ngbDropdownToggle><i
+          <div id="playlistExpandButtonBig" ngbDropdownToggle *ngIf="type=='ts'"><i
             class="bi-three-dots-vertical"></i>
             <div ngbDropdownMenu aria-labelledby="playlistExpandButton" (mouseenter)="hoveredTrue()"
                  (mouseleave)="hoveredFalse()">

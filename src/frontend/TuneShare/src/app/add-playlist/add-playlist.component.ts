@@ -68,7 +68,6 @@ export class AddPlaylistComponent implements OnInit {
   spotifyActive() {
     this.spotify = true;
     this.empty = this.playlistsSpotify.length === 0;
-    console.log(this.playlistsSpotify[0]);
   }
 
   applemusicActive() {

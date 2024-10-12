@@ -96,7 +96,7 @@ export class AppleMusicService {
 
   getPlaylist(playlist_id: string): Observable<Playlist> {
     const params = new HttpParams()
-      .set('action', 'get_playlists')
+      .set('action', 'get_playlist')
       .set('id', playlist_id);
     return this.http.get<Playlist>(`${BACKEND_URL}service/apple_music/`, {params});
   }

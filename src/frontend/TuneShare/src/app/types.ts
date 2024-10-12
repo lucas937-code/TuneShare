@@ -44,3 +44,5 @@ export interface SpotifyUser {
   display_name: string;
   uri: string;
 }
+
+export type playlistType =  "sp" | "am" | "ts";
