@@ -48,6 +48,7 @@ class Playlist(models.Model):
     cover_url = models.URLField(max_length=500)
     is_public = models.BooleanField(default=False)
     owner_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    origin_id = models.TextField(null=False, default="")
 
     def __str__(self):
         return self.title
