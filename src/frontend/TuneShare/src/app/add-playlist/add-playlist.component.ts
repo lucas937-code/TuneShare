@@ -74,8 +74,8 @@ export class AddPlaylistComponent implements OnInit {
     this.spotify = false;
     this.empty = this.playlistsApplemusic.length === 0;
   }
-
-  buttonClicked() {
-    this.appleMusicService.exportToAppleMusic(6).subscribe(re => console.log(re));
-  }
+  //  TODO remove test code
+  // buttonClicked() {
+  //   this.appleMusicService.exportToAppleMusic(6).subscribe(re => console.log(re));
+  // }
 }
