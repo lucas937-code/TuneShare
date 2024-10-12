@@ -46,8 +46,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'], url_path='follows')
     def get_followed_users(self, request, *args, **kwargs):
-        user_uuid = request.user.id
-        user = User.objects.get(user_uuid=user_uuid)
+        user = User.objects.get(user_uuid=request.user.id)
         followed_users = FollowsUser.objects.filter(follower_id=user.id) \
             .select_related('followed_id') \
             .values(
@@ -57,6 +56,12 @@ class UserViewSet(viewsets.ModelViewSet):
             'followed_id__display_name'
         )
         return Response(list(followed_users), status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['get'], url_path='playlists')
+    def get_playlists_of_user(self, request, pk=None):
+        playlists = Playlist.objects.filter(owner_id_id=pk)
+        serializer = PlaylistSerializer(playlists, many=True)
+        return Response(serializer.data, status.HTTP_200_OK)
 
 
 class PlaylistViewSet(viewsets.ModelViewSet):
