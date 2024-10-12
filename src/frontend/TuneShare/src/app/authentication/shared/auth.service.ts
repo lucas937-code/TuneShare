@@ -9,7 +9,7 @@ import {Session} from "./auth-response";
 })
 export class AuthService {
   private readonly accessTokenKey: string = 'access_token';
-  private _userId: string | null = null;
+  private readonly expiresAtKey: string = 'token_expires_at';
 
   constructor(private http: HttpClient, private router: Router) {
   }
@@ -22,12 +22,18 @@ export class AuthService {
     return localStorage.getItem(this.accessTokenKey);
   }
 
-  get userId(): string | null {
-    return this._userId;
+  set expiresAt(value: number) {
+    localStorage.setItem(this.expiresAtKey, value.toString())
   }
 
-  set userId(value: string | null) {
-    this._userId = value;
+  get tokenIsExpired(): boolean {
+    const expiresAt: string | null = localStorage.getItem(this.expiresAtKey);
+    if (expiresAt === null) {
+      return true;
+    }
+    const expiresAtNum = +expiresAt;
+    const currentTime = Math.floor(Date.now() / 1000)
+    return expiresAtNum < currentTime;
   }
 
   clearAccessToken(): void {
