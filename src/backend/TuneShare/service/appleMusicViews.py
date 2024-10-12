@@ -132,6 +132,9 @@ class AppleMusicView(APIView):
 
         tracks = []
         for track in playlist['relationships']['tracks']['data']:
+            cover_url = "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
+            if 'artwork' in track['attributes'].keys():
+                cover_url = track['attributes']['artwork']['url'].replace("{w}x{h}", "500x500")
             tracks.append({
                 'apple_music_id': track['id'],
                 'title': track['attributes']['name'],
@@ -146,7 +149,7 @@ class AppleMusicView(APIView):
                 "title": playlist['attributes']['name'],
                 "description": description,
                 "cover_url": cover_url,
-                "tracks": tracks
+                "track_list": tracks
             }
 
         return Response(frontend_playlist, status=200)

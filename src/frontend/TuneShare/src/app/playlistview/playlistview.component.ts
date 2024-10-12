@@ -36,13 +36,14 @@ export class PlaylistviewComponent implements OnInit {
   added: boolean = false;
   isMobile: boolean = false;
   type: playlistType = "ts";
-
+  id_type: string | number = -1;
   tracks: Track[] | undefined;
 
   ngOnInit() {
     this.isMobile = window.innerWidth < 992;
     this.route.queryParams.subscribe(params => {
       this.type = params['type'];
+      this.id_type = params['playlist'];
       switch (this.type) {
         case "ts": {
 
@@ -52,8 +53,7 @@ export class PlaylistviewComponent implements OnInit {
           this.applemusicService.getPlaylist(params['playlist']).subscribe({
             next: playlist => {
               this.currentPlaylist = playlist;
-              console.log(this.currentPlaylist.tracks);
-              this.tracks = this.currentPlaylist.tracks;
+              this.tracks = this.currentPlaylist.track_list;
             }
           });
           break;
@@ -63,6 +63,7 @@ export class PlaylistviewComponent implements OnInit {
             next: playlist => {
               this.currentPlaylist = playlist;
               this.tracks = this.currentPlaylist.track_list;
+              console.log(this.currentPlaylist);
             }
           })
           break;
