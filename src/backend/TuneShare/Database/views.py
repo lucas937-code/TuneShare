@@ -83,6 +83,12 @@ class PlaylistViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(playlist)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @action(detail=True, methods=['get'], url_path='tracks')
+    def get_tracks_in_playlist(self, request, pk=None):
+        tracks = Track.objects.filter(tracks__playlist_id=pk)
+        serializer = TrackSerializer(tracks, many=True)
+        return Response(serializer.data, status.HTTP_200_OK)
+
 
 class TrackViewSet(viewsets.ModelViewSet):
     queryset = Track.objects.all()
