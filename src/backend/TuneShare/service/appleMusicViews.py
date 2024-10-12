@@ -6,7 +6,7 @@ import requests
 import jwt
 from django.conf import settings
 import datetime
-from Database.models import User
+from Database.models import User, Playlist, Track, IncludesTrack
 
 
 
@@ -28,6 +28,9 @@ class AppleMusicView(APIView):
 
         elif action == 'get_current_user':
             return self.apple_music_get_current_user(request)
+
+        elif action == 'import_to_tuneshare':
+            return self.import_to_tuneshare(request)
 
         return Response({'error': 'Invalid action'}, status=400)
 
@@ -167,3 +170,32 @@ class AppleMusicView(APIView):
             return Response({'error': 'Failed to fetch user'}, status=response.status_code)
 
         return Response(response.json(), status=200)
+
+    def import_to_tuneshare(self, request):
+        music_user_token = User.objects.get(user_uuid=request.user.id).apple_music_access_token
+        if not music_user_token:
+            return JsonResponse({'error': 'Music-User-Token is required'}, status=400)
+
+        playlist = self.apple_music_get_playlist(request).data
+
+        playlist_owner = User.objects.get(user_uuid=request.user.id)
+        playlist_object, created = Playlist.objects.get_or_create(owner_id=playlist_owner, origin_id=playlist['apple_music_id'])
+
+        playlist_object.title = playlist['title']
+        playlist_object.cover_url = playlist['cover_url']
+        playlist_object.is_public = True
+
+        playlist_object.save()
+
+        included_tracks = IncludesTrack.objects.filter(playlist_id=playlist_object)
+        included_tracks.delete()
+
+        for index, track in enumerate(playlist['tracks']):
+            track_object, created = Track.objects.get_or_create(title=track['title'], artist=track['artist'])
+            track_object.apple_music_id = track['apple_music_id']
+            track_object.save()
+
+            included = IncludesTrack.objects.create(position=index + 1, playlist=playlist_object, track=track_object)
+            included.save()
+
+        return Response({}, status=200)
