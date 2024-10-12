@@ -58,10 +58,10 @@
 </a>
 
 <!-- Popups -->
-<div class="modal fade" id="confirmExportApplemusic" tabindex="-1" role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
-  <app-confirm-export [currentPlaylist]="playlist" [spotify]="false"></app-confirm-export>
+<div class="modal fade" #m id="confirmExportApplemusic" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
+  <app-confirm-export [currentPlaylist]="playlist" [spotify]="false" [id]="m"></app-confirm-export>
 </div>
 
-<div class="modal fade" id="confirmExportSpotify" tabindex="-1" role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
-  <app-confirm-export [currentPlaylist]="playlist" [spotify]="true"></app-confirm-export>
+<div class="modal fade" #m id="confirmExportSpotify" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
+  <app-confirm-export [currentPlaylist]="playlist" [spotify]="true" [id]="m"></app-confirm-export>
 </div>
