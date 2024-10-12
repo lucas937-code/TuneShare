@@ -9,8 +9,8 @@
                                  (mouseleave)="resetTilt($event)"/></div>
     </a>
   </div>
-  <div class="mx-4 mt-3 mb-2 p-0">
-    <a href="/playlist"><h5 class="card-title overflow-hidden">{{ playlist.title }}</h5></a>
+  <div class="mx-4 mt-3 mb-2 p-0" [ngClass]="{ 'smallerfont':isMobile }">
+    <a href="/playlist"><h5 class="card-title overflow-hidden" [ngClass]="{ 'smallerfontHeadline':isMobile }">{{ playlist.title }}</h5></a>
     <div class="row mb-2 justify-content-between">
       <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }"><a
         href="/profile">{{ playlist.owner_id }}</a></div>

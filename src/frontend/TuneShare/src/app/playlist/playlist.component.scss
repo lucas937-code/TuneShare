@@ -2,6 +2,7 @@
   color: #4F4E57;
   transition: transform 0.2s;
   max-width: 20em;
+  height: 100%;
   border: none;
   border-radius: 1em;
   transform: scale(1);
@@ -120,11 +121,32 @@ a{
   justify-items: center;
   text-align: center;
   max-width: 16em;
-  max-height: 16em;
+  height: 16em;
   border-radius: 1em;
   padding: 0.7em;
 
   -webkit-box-shadow: 0px 0px 5px 0px rgba(149, 137, 159, 0.17);
   -moz-box-shadow: 0px 0px 5px 0px rgba(149, 137, 159, 0.17);
   box-shadow: 0px 0px 5px 0px rgba(149, 137, 159, 0.17);
+}
+
+@media (max-width: 767px) {
+  .smallerfont {
+    font-size: small;
+  }
+  .smallerfontHeadline{
+    font-size: medium;
+  }
+}
+
+@media (max-width: 575px) {
+  .smallerfont {
+    font-size: smaller;
+  }
+  .smallerfontHeadline{
+    font-size: medium;
+  }
+  .cover-bg{
+    height: auto;
+  }
 }

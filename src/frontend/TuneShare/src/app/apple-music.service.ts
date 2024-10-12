@@ -100,4 +100,11 @@ export class AppleMusicService {
       .set('id', playlist_id);
     return this.http.get<Playlist>(`${BACKEND_URL}service/apple_music/`, {params});
   }
+
+  importFromAppleMusic(playlist_id: string): Observable<any> {
+    const params = new HttpParams()
+      .set('action', 'import_to_tuneshare')
+      .set('id', playlist_id);
+    return this.http.get<any>(`${BACKEND_URL}service/apple_music/`, {params});
+  }
 }
