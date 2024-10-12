@@ -1,4 +1,4 @@
-<div class="pt-4 mt-1 px-auto pb-3 mb-4 playlistHeader container">
+<div *ngIf="currentPlaylist" class="pt-4 mt-1 px-auto pb-3 mb-4 playlistHeader container">
   <div class="row align-items-center">
     <div class="imgPlaylist align-items-center" [ngClass]="{ 'mx-auto': isMobile }"><img [src]="currentPlaylist.cover_url" class="img my-3" alt="{{ currentPlaylist.title }}" /></div>
     <div class="container align-items-bottom px-0" [ngClass]="{ 'row': isMobile,'text-center': isMobile, 'mx-auto': isMobile, 'justify-content-center':isMobile, 'col': !isMobile, 'text-left': !isMobile, 'px-4':!isMobile }">
@@ -27,7 +27,7 @@
     </div>
   </div>
 </div>
-<div class="table-responsive mx-4 trackTable">
+<div *ngIf="currentPlaylist && tracks" class="table-responsive mx-4 trackTable">
   <table class="table table-striped container p-1">
     <caption>{{ tracks.length }} tracks</caption>
     <thead *ngIf="!isMobile">
@@ -35,34 +35,28 @@
       <th class="text-end" scope="col" style="width: 1em;">#</th>
       <th scope="col"></th>
       <th scope="col" style="font-weight: normal"><b>Title</b> | <span style="font-weight: lighter">Artist(s)</span></th>
-<!--      <th scope="col">Artist</th>-->
-<!--      <th class="durationCol" *ngIf="!isMobile" scope="col">Duration</th>-->
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let track of tracks, let i = index" class="align-items-center">
         <th class="text-end" *ngIf="!isMobile">{{ i }}</th>
-        <th style="width: 4.5em;" scope="row"><img src="/assets/papagei-foto.jpg" class="rounded-1 trackImg" style="width: 3em; height: 3em;"></th>
+        <th style="width: 4.5em;" scope="row"><img src="{{ track.cover_url }}" class="rounded-1 trackImg" style="width: 3em; height: 3em;"></th>
         <td class="align-items-center" >
           <div>
             <div class="trackInfo m-0 p-0"><b>{{ track.title }}</b></div>
             <div class="trackInfo m-0 p-0" style="font-weight: lighter">{{ track.artist }}</div>
           </div>
         </td>
-
-<!--        <td>{{ track.title }}</td>-->
-<!--        <td>{{ track.artist }}</td>-->
-<!--        <td class="durationCol" *ngIf="!isMobile">{{ track.duration }}</td>-->
     </tr>
     </tbody>
   </table>
 </div>
 
 <!-- Popups -->
-<div class="modal fade" #m id="confirmExportApplemusic" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
+<div *ngIf="currentPlaylist" class="modal fade" #m id="confirmExportApplemusic" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
   <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="false" [id]="m"></app-confirm-export>
 </div>
 
-<div class="modal fade" #m id="confirmExportSpotify" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
+<div *ngIf="currentPlaylist" class="modal fade" #m id="confirmExportSpotify" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
   <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="true" [id]="m"></app-confirm-export>
 </div>

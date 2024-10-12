@@ -1,6 +1,6 @@
-<a class="card usualStyle mx-auto" href="/playlist" [ngClass]="{ 'isHovered' : menuIsHovered }">
+<a class="card usualStyle mx-auto" href="{{ this.url }}" [ngClass]="{ 'isHovered' : menuIsHovered }">
   <div class="pt-3 mx-auto">
-    <a href="/playlist">
+    <a href="{{ this.url }}">
       <div class="cover-bg"><img [src]="playlist.cover_url"
                                  class="card-img-top art-cover"
                                  style="max-width: 14.5em; max-height: 14.5em;"
@@ -10,7 +10,7 @@
     </a>
   </div>
   <div class="mx-4 mt-3 mb-2 p-0" [ngClass]="{ 'smallerfont':isMobile }">
-    <a href="/playlist"><h5 class="card-title overflow-hidden" [ngClass]="{ 'smallerfontHeadline':isMobile }">{{ playlist.title }}</h5></a>
+    <a href="{{ this.url }}"><h5 class="card-title overflow-hidden" [ngClass]="{ 'smallerfontHeadline':isMobile }">{{ playlist.title }}</h5></a>
     <div class="row mb-2 justify-content-between">
       <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }"><a
         href="/profile">{{ playlist.owner_id }}</a></div>
