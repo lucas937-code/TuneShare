@@ -37,7 +37,7 @@ class IncludesTrack(models.Model):
 class User(models.Model):
     id = models.AutoField(primary_key=True)
     username = models.CharField(
-        max_length=30,
+        max_length=40,
         unique=True,
         validators=[
             RegexValidator(
@@ -46,7 +46,7 @@ class User(models.Model):
             ),
         ]
     )
-    display_name = models.CharField(null=True, max_length=36)
+    display_name = models.CharField(null=True, max_length=30)
     spotify_user_id = models.CharField(null=True)
     apple_music_user_id = models.CharField(null=True)
     date_created = models.DateTimeField(auto_now_add=True)

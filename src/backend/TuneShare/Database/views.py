@@ -46,7 +46,14 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_followed_users(self, request, *args, **kwargs):
         user_uuid = request.user.id
         user = User.objects.get(user_uuid=user_uuid)
-        followed_users = FollowsUser.objects.filter(follower_id=user.id).values_list('followed_id', flat=True)
+        followed_users = FollowsUser.objects.filter(follower_id=user.id) \
+            .select_related('followed_id') \
+            .values(
+            'followed_id_id',  # ID des gefolgten Benutzers
+            'followed_id__user_uuid',  # UUID des gefolgten Benutzers
+            'followed_id__username',  # Username des gefolgten Benutzers
+            'followed_id__display_name'  # Display-Name des gefolgten Benutzers
+        )
         return Response(list(followed_users), status=status.HTTP_200_OK)
 
 
