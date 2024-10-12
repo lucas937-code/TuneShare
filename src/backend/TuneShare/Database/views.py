@@ -1,4 +1,5 @@
 from rest_framework import viewsets, status
+from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from .models import Playlist, User, Track, IncludesTrack, FollowsUser, FollowsPlaylist
@@ -43,16 +44,17 @@ class UserViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         return destroy(self, request, *args, **kwargs)
 
+    @action(detail=False, methods=['get'], url_path='follows')
     def get_followed_users(self, request, *args, **kwargs):
         user_uuid = request.user.id
         user = User.objects.get(user_uuid=user_uuid)
         followed_users = FollowsUser.objects.filter(follower_id=user.id) \
             .select_related('followed_id') \
             .values(
-            'followed_id_id',  # ID des gefolgten Benutzers
-            'followed_id__user_uuid',  # UUID des gefolgten Benutzers
-            'followed_id__username',  # Username des gefolgten Benutzers
-            'followed_id__display_name'  # Display-Name des gefolgten Benutzers
+            'followed_id_id',
+            'followed_id__user_uuid',
+            'followed_id__username',
+            'followed_id__display_name'
         )
         return Response(list(followed_users), status=status.HTTP_200_OK)
 
