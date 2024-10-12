@@ -80,12 +80,8 @@ export class AppleMusicService {
         observer.error(error);
       });
     }).pipe(switchMap(musicUserToken => {
-      return this.http.get<any>(`${BACKEND_URL}service/apple_music/?action=callback`, {
-        headers : {
-          'music-user-token': musicUserToken
-        }
-      });
-    }))
+      return this.http.get<any>(`${BACKEND_URL}service/apple_music/?action=callback&music_user_token=${musicUserToken}`);
+    }));
   }
 
   getPlaylists(): Observable<Playlist[]> {

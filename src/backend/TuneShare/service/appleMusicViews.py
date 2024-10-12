@@ -55,7 +55,7 @@ class AppleMusicView(APIView):
         return JsonResponse({'developer_token': developer_token})
 
     def callback(self, request):
-        music_user_token = request.headers['music-user-token']
+        music_user_token = request.query_params.get('music_user_token')
 
         if music_user_token:
             token_obj, created = User.objects.get_or_create(user_uuid=request.user.id)
