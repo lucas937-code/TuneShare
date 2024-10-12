@@ -54,115 +54,106 @@ class AppleMusicView(APIView):
         return token
 
     def apple_music_login(self, request):
-        action = request.query_params.get('action')
-
-        if action == 'login':
-            developer_token = self.generate_apple_music_token()
-            return JsonResponse({'developer_token': developer_token})
+        developer_token = self.generate_apple_music_token()
+        return JsonResponse({'developer_token': developer_token})
 
     def callback(self, request):
-        action = request.query_params.get('action')
+        music_user_token = request.query_params.get('music_user_token')
 
-        if action == 'callback':
-            music_user_token = request.query_params.get('music_user_token')
+        if music_user_token:
+            token_obj, created = User.objects.get_or_create(user_uuid=request.user.id)
 
-            if music_user_token:
-                token_obj, created = User.objects.get_or_create(user_uuid=request.user.id)
+            token_obj.apple_music_access_token = music_user_token
+            token_obj.save()
 
-                token_obj.apple_music_access_token = music_user_token
-                token_obj.save()
-
-                return Response(status=200)
-            return Response({'error': 'Music-User-Token is required'}, status=400)
+            return Response(status=200)
+        return Response({'error': 'Music-User-Token is required'}, status=400)
 
     def apple_music_playlists(self, request):
-        action = request.query_params.get('action')
+        music_user_token = User.objects.get(user_uuid=request.user.id).apple_music_access_token
+        if not music_user_token:
+            return JsonResponse({'error': 'Music-User-Token is required'}, status=400)
 
-        if action == 'playlists':
-            music_user_token = User.objects.get(user_uuid=request.user.id).apple_music_access_token
-            if not music_user_token:
-                return JsonResponse({'error': 'Music-User-Token is required'}, status=400)
+        developer_token = self.generate_apple_music_token()
 
-            developer_token = self.generate_apple_music_token()
+        url = "https://api.music.apple.com/v1/me/library/playlists?limit=100"
+        headers = {
+            'Authorization': f'Bearer {developer_token}',
+            'Music-User-Token': music_user_token
+        }
 
-            url = "https://api.music.apple.com/v1/me/library/playlists?limit=100"
-            headers = {
-                'Authorization': f'Bearer {developer_token}',
-                'Music-User-Token': music_user_token
-            }
+        response = requests.get(url, headers=headers)
+        if response.status_code != 200:
+            return Response({'error': 'Failed to fetch playlists'}, status=response.status_code)
 
-            response = requests.get(url, headers=headers)
-            if response.status_code != 200:
-                return Response({'error': 'Failed to fetch playlists'}, status=response.status_code)
+        apple_music_playlists = response.json()['data']
+        frontend_playlists = []
 
-            apple_music_playlists = response.json()['data']
-            frontend_playlists = []
-
-            for playlist in apple_music_playlists:
-                cover_url = "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
-                if 'artwork' in playlist['attributes'].keys():
-                    cover_url = playlist['attributes']['artwork']['url'].replace("{w}x{h}", "500x500")
-
-                description = ''
-                if 'description' in playlist['attributes'].keys():
-                    description = playlist['attributes']['description']['standard']
-                frontend_playlists.append({
-                    "apple_music_id": playlist['id'],
-                    "title": playlist['attributes']['name'],
-                    "description": description,
-                    "cover_url": cover_url
-                })
-
-            return Response(frontend_playlists, status=200)
-
-    def apple_music_get_playlist(self, request):
-        action = request.query_params.get('action')
-
-        if action == 'get_playlist':
-            music_user_token = User.objects.get(user_uuid=request.user.id).apple_music_access_token
-            playlist_id = request.query_params.get('id')
-            if not music_user_token or not playlist_id:
-                return JsonResponse({'error': 'Music-User-Token and playlist-id are required'}, status=400)
-
-            developer_token = self.generate_apple_music_token()
-
-            url = f"https://api.music.apple.com/v1/me/library/playlists/{playlist_id}?include=tracks"
-            headers = {
-                'Authorization': f'Bearer {developer_token}',
-                'Music-User-Token': music_user_token
-            }
-
-            response = requests.get(url, headers=headers)
-            if response.status_code != 200:
-                return Response({'error': 'Failed to fetch playlist'}, status=response.status_code)
-
-            playlist = response.json()['data'][0]
-
+        for playlist in apple_music_playlists:
             cover_url = "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
             if 'artwork' in playlist['attributes'].keys():
                 cover_url = playlist['attributes']['artwork']['url'].replace("{w}x{h}", "500x500")
+
             description = ''
             if 'description' in playlist['attributes'].keys():
                 description = playlist['attributes']['description']['standard']
+            frontend_playlists.append({
+                "apple_music_id": playlist['id'],
+                "title": playlist['attributes']['name'],
+                "description": description,
+                "cover_url": cover_url
+            })
 
-            tracks = []
-            for track in playlist['relationships']['tracks']['data']:
-                tracks.append({
-                    'apple_music_id': track['id'],
-                    'title': track['attributes']['name'],
-                    'artist': track['attributes']['artistName'],
-                    'cover_url': cover_url
-                })
+        return Response(frontend_playlists, status=200)
 
-            frontend_playlist = {
-                    "apple_music_id": playlist['id'],
-                    "title": playlist['attributes']['name'],
-                    "description": description,
-                    "cover_url": playlist['attributes']['artwork']['url'].replace("{w}x{h}", "500x500"),
-                    "tracks": tracks
-                }
+    def apple_music_get_playlist(self, request):
+        music_user_token = User.objects.get(user_uuid=request.user.id).apple_music_access_token
+        playlist_id = request.query_params.get('id')
+        if not music_user_token or not playlist_id:
+            return JsonResponse({'error': 'Music-User-Token and playlist-id are required'}, status=400)
 
-            return Response(frontend_playlist, status=200)
+        developer_token = self.generate_apple_music_token()
+
+        url = f"https://api.music.apple.com/v1/me/library/playlists/{playlist_id}?include=tracks"
+        headers = {
+            'Authorization': f'Bearer {developer_token}',
+            'Music-User-Token': music_user_token
+        }
+
+        response = requests.get(url, headers=headers)
+        if response.status_code != 200:
+            return Response({'error': 'Failed to fetch playlist'}, status=response.status_code)
+
+        playlist = response.json()['data'][0]
+
+        cover_url = "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
+        if 'artwork' in playlist['attributes'].keys():
+            cover_url = playlist['attributes']['artwork']['url'].replace("{w}x{h}", "500x500")
+        description = ''
+        if 'description' in playlist['attributes'].keys():
+            description = playlist['attributes']['description']['standard']
+
+        tracks = []
+        for track in playlist['relationships']['tracks']['data']:
+            catalog_id = track['id']
+            if 'catalogId' in track['attributes']['playParams']:
+                catalog_id = track['attributes']['playParams']['catalogId']
+            tracks.append({
+                'apple_music_id': catalog_id,
+                'title': track['attributes']['name'],
+                'artist': track['attributes']['artistName'],
+                'cover_url': cover_url
+            })
+
+        frontend_playlist = {
+                "apple_music_id": playlist['id'],
+                "title": playlist['attributes']['name'],
+                "description": description,
+                "cover_url": playlist['attributes']['artwork']['url'].replace("{w}x{h}", "500x500"),
+                "tracks": tracks
+            }
+
+        return Response(frontend_playlist, status=200)
 
     def apple_music_get_current_user(self, request):
         action = request.query_params.get('action')
@@ -187,34 +178,30 @@ class AppleMusicView(APIView):
             return Response(response.json(), status=200)
 
     def import_to_tuneshare(self, request):
-        action = request.query_params.get('action')
+        music_user_token = User.objects.get(user_uuid=request.user.id).apple_music_access_token
+        if not music_user_token:
+            return JsonResponse({'error': 'Music-User-Token is required'}, status=400)
 
-        if action == 'import_to_tuneshare':
-            music_user_token = User.objects.get(user_uuid=request.user.id).apple_music_access_token
-            if not music_user_token:
-                return JsonResponse({'error': 'Music-User-Token is required'}, status=400)
+        playlist = self.apple_music_get_playlist(request).data
 
-            playlist = self.apple_music_get_playlist(request).data
+        playlist_owner = User.objects.get(user_uuid=request.user.id)
+        playlist_object, created = Playlist.objects.get_or_create(owner_id=playlist_owner, origin_id=playlist['apple_music_id'])
 
-            playlist_owner = User.objects.get(user_uuid=request.user.id)
-            playlist_object, created = Playlist.objects.get_or_create(owner_id=playlist_owner, origin_id=playlist['apple_music_id'])
+        playlist_object.title = playlist['title']
+        playlist_object.cover_url = playlist['cover_url']
+        playlist_object.is_public = True
 
-            playlist_object.title = playlist['title']
-            playlist_object.cover_url = playlist['cover_url']
-            playlist_object.is_public = True
+        playlist_object.save()
 
-            playlist_object.save()
+        included_tracks = IncludesTrack.objects.filter(playlist_id=playlist_object)
+        included_tracks.delete()
 
-            included_tracks = IncludesTrack.objects.filter(playlist_id=playlist_object)
-            included_tracks.delete()
+        for index, track in enumerate(playlist['tracks']):
+            track_object, created = Track.objects.get_or_create(title=track['title'], artist=track['artist'])
+            track_object.apple_music_id = track['apple_music_id']
+            track_object.save()
 
-            for index, track in enumerate(playlist['tracks']):
-                track_object, created = Track.objects.get_or_create(title=track['title'], artist=track['artist'])
-                track_object.apple_music_id = track['apple_music_id']
-                track_object.save()
+            included = IncludesTrack.objects.create(position=index + 1, playlist=playlist_object, track=track_object)
+            included.save()
 
-                included = IncludesTrack.objects.create(position=index + 1, playlist=playlist_object, track=track_object)
-                included.save()
-
-            return Response({}, status=200)
-
+        return Response({}, status=200)
