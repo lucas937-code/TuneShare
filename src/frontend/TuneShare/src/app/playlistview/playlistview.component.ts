@@ -2,6 +2,8 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {PlaylistComponent} from "../playlist/playlist.component";
 import {PlaylistService} from "../playlist.service";
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {NgbTooltip, NgbTooltipModule} from "@ng-bootstrap/ng-bootstrap";
+import {ConfirmExportComponent} from "../confirm-export/confirm-export.component";
 
 @Component({
   selector: 'app-playlistview',
@@ -12,6 +14,9 @@ import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
     NgForOf,
     NgOptimizedImage,
     NgIf,
+    NgbTooltip,
+    NgbTooltipModule,
+    ConfirmExportComponent
   ],
   templateUrl: './playlistview.component.html',
   styleUrl: './playlistview.component.scss'
@@ -452,7 +457,7 @@ export class PlaylistviewComponent implements OnInit {
     },
   ];
 
-  constructor(private playlistService: PlaylistService) {}
+  constructor(private playlistService: PlaylistService) { }
 
   ngOnInit() {
     this.isMobile = window.innerWidth < 992;
@@ -466,5 +471,17 @@ export class PlaylistviewComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(): void {
     this.isMobile = window.innerWidth < 992;
+  }
+
+  copyLink() {
+    navigator.clipboard.writeText(window.location.href); //TODO add link to specific playlist
+  }
+
+  exportToSpotify() {
+    console.log('exportToSpotify()'); //TODO export Function
+  }
+
+  exportToApplemusic() {
+    console.log('exportToApplemusic()'); //TODO export Function
   }
 }

@@ -1,0 +1,18 @@
+<div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title"
+          id="confirmExportLabel">Export to <span
+        [ngClass]="{ 'spotifyColor':spotify, 'applemusicColor':!spotify }">{{ this.spotify ? "Spotify" : "Apple Music" }}
+      </span></h5>
+    </div>
+    <div class="modal-body">
+      <b>{{ this.currentPlaylist.title }}</b> will be added to your {{ this.spotify ? "Spotify" : "Apple Music" }}
+      library.
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="export()">Confirm</button>
+    </div>
+  </div>
+</div>

@@ -21,11 +21,14 @@
           <div id="playlistExpandButtonBig" ngbDropdownToggle><i
             class="bi-three-dots-vertical"></i>
             <div ngbDropdownMenu aria-labelledby="playlistExpandButton" (mouseenter)="hoveredTrue()" (mouseleave)="hoveredFalse()">
-              <a ngbDropdownItem class="linkedButton appleLink my-auto py-auto" href="https://apple.com" target="_blank">View
-                in Apple Music</a>
-              <a ngbDropdownItem class="linkedButton spotifyLink my-auto py-auto" href="https://www.spotify.com"
-                 target="_blank">View in Spotify</a>
-              <a ngbDropdownItem class="linkedButton shareLink my-auto py-auto">Share Link</a>
+              <a ngbDropdownItem class="linkedButton appleLink my-auto py-auto"
+                 data-bs-toggle="modal" data-bs-target="#confirmExportApplemusic"
+              >Export to Apple Music</a>
+              <a ngbDropdownItem class="linkedButton spotifyLink my-auto py-auto"
+                 data-bs-toggle="modal" data-bs-target="#confirmExportSpotify"
+              >Export to Spotify</a>
+              <a ngbDropdownItem class="linkedButton shareLink my-auto py-auto" (click)="copyLink()"
+              >Copy link</a>
               <div class="dropdown-divider"></div>
               <a ngbDropdownItem *ngIf="added" class="linkedButton shareLink my-0" (click)="add()">Remove from Library</a>
               <a ngbDropdownItem *ngIf="!added" class="linkedButton shareLink my-0" (click)="add()">Add to library</a>
@@ -53,3 +56,12 @@
     </div>
   </div>
 </a>
+
+<!-- Popups -->
+<div class="modal fade" id="confirmExportApplemusic" tabindex="-1" role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
+  <app-confirm-export [currentPlaylist]="playlist" [spotify]="false"></app-confirm-export>
+</div>
+
+<div class="modal fade" id="confirmExportSpotify" tabindex="-1" role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
+  <app-confirm-export [currentPlaylist]="playlist" [spotify]="true"></app-confirm-export>
+</div>
