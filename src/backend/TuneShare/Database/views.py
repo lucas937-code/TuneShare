@@ -73,7 +73,8 @@ class PlaylistViewSet(viewsets.ModelViewSet):
         return destroy(self, request, *args, **kwargs)
 
     def list(self, request, *args, **kwargs):
-        playlists = self.get_queryset()  # Default queryset, can be customized
+        user = User.objects.get(user_uuid=request.user.id)
+        playlists = self.get_queryset().filter(owner_id=user)
         serializer = self.get_serializer(playlists, many=True)
         return Response(serializer.data)
 
