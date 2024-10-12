@@ -24,7 +24,7 @@ export class PlaylistRotateComponent implements OnInit {
 
   ngOnInit(): void {
     this.isMobile = window.innerWidth < 992;
-    this.playlistChunks = this.chunkArray(this.playlists, this.isMobile ? 2 : 4);
+    this.playlistChunks = this.chunkArray(this.playlists, this.isMobile ? 2 : 3);
   }
 
   chunkArray(arr: any[], chunkSize: number): any[][] {
@@ -38,6 +38,6 @@ export class PlaylistRotateComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(): void {
     this.isMobile = window.innerWidth < 992;
-    this.playlistChunks = this.chunkArray(this.playlists, this.isMobile ? 2 : 4);
+    this.playlistChunks = this.chunkArray(this.playlists, this.isMobile ? 2 : 3);
   }
 }

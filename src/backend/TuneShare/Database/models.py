@@ -3,18 +3,6 @@ import uuid
 from django.core.validators import RegexValidator
 from django.db import models
 
-class Playlist(models.Model):
-    id = models.AutoField(primary_key=True)
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-
-    title = models.CharField(max_length=100)
-    cover_url = models.URLField(max_length=500)
-    is_public = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.title
-
 
 class Track(models.Model):
     id = models.AutoField(primary_key=True)
@@ -24,14 +12,6 @@ class Track(models.Model):
 
     date_created = models.DateTimeField(auto_now_add=True)
     artist = models.CharField()
-
-
-class IncludesTrack(models.Model):
-    # to access a playlists songs -> playlist.tracks.all()
-    position = models.IntegerField()
-    playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE)
-    track = models.ForeignKey(Track, on_delete=models.CASCADE, related_name='tracks')
-
 
 
 class User(models.Model):
@@ -57,6 +37,28 @@ class User(models.Model):
 
     apple_music_access_token = models.CharField(null=True)
     apple_music_refresh_token = models.CharField(null=True)
+
+
+class Playlist(models.Model):
+    id = models.AutoField(primary_key=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    title = models.CharField(max_length=100)
+    cover_url = models.URLField(max_length=500)
+    is_public = models.BooleanField(default=False)
+    owner_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    origin_id = models.TextField(null=False, default="")
+
+    def __str__(self):
+        return self.title
+
+
+class IncludesTrack(models.Model):
+    # to access a playlists songs -> playlist.tracks.all()
+    position = models.IntegerField()
+    playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE)
+    track = models.ForeignKey(Track, on_delete=models.CASCADE, related_name='tracks')
 
 
 class FollowsUser(models.Model):

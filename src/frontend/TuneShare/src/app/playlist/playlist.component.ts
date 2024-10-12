@@ -1,6 +1,8 @@
 import {Component, HostListener, Input, OnInit} from '@angular/core';
 import {NgClass, NgIf} from "@angular/common";
-import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
+import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
+import {ConfirmExportComponent} from "../confirm-export/confirm-export.component";
+import {Playlist, playlistType, Track} from "../types";
 
 @Component({
   selector: 'app-playlist',
@@ -11,17 +13,36 @@ import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "
     NgbDropdownToggle,
     NgbDropdownMenu,
     NgbDropdown,
-    NgbDropdownItem
+    NgbDropdownItem,
+    NgbTooltip,
+    ConfirmExportComponent
   ],
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.scss'
 })
 export class PlaylistComponent implements OnInit {
-  @Input() playlist: any;
+  @Input() playlist: Playlist = {
+    id: undefined,
+    owner_id: -1,
+    spotify_id: undefined,
+    apple_music_id: undefined,
+
+    date_created: undefined,
+    date_modified: undefined,
+
+    title: "undefined",
+    description: undefined,
+
+    track_list: undefined,
+    cover_url: "/assets/papagei-foto.jpg",
+  };
 
   menuIsHovered: boolean  = false;
   isMobile: boolean = false;
   added: boolean = false;
+  url: string = "/playlist?playlist="
+  id_type: string | number = "";
+  type: playlistType = "ts"
 
   tilt(event: MouseEvent): void {
     const img = event.currentTarget as HTMLElement;
@@ -55,6 +76,17 @@ export class PlaylistComponent implements OnInit {
 
   ngOnInit() {
     this.isMobile = window.innerWidth < 992;
+    if(this.playlist.id != undefined){
+      this.type = "ts";
+      this.id_type = this.playlist.id;
+    }else if(this.playlist.spotify_id != undefined){
+      this.type = "sp";
+      this.id_type = this.playlist.spotify_id;
+    }else if(this.playlist.apple_music_id != undefined){
+      this.type = "am";
+      this.id_type = this.playlist.apple_music_id;
+    }
+    this.url="/playlist?playlist="+this.id_type+"&type="+this.type;
   }
 
   @HostListener('window:resize', ['$event'])
@@ -67,5 +99,9 @@ export class PlaylistComponent implements OnInit {
   }
   hoveredFalse(){
     this.menuIsHovered = false;
+  }
+
+  copyLink() {
+    navigator.clipboard.writeText("localhost:4200"+this.url);  //TODO add link to specific playlist
   }
 }

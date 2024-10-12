@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {concatMap, from, Observable, switchMap, throwError} from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Playlist } from "./types";
@@ -34,7 +34,9 @@ export class AppleMusicService {
   }
 
   private getDeveloperToken(): Observable<any> {
-    return this.http.get(`${BACKEND_URL}service/apple_music/?action=login`);
+    const params = new HttpParams()
+      .set('action', 'login');
+    return this.http.get(`${BACKEND_URL}service/apple_music/`, {params});
   }
 
   private setupMusicKit(): Promise<void> {
@@ -80,15 +82,36 @@ export class AppleMusicService {
         observer.error(error);
       });
     }).pipe(switchMap(musicUserToken => {
-      return this.http.get<any>(`${BACKEND_URL}service/apple_music/?action=callback`, {
-        headers : {
-          'music-user-token': musicUserToken
-        }
-      });
-    }))
+      const params = new HttpParams()
+        .set('action', 'callback')
+        .set('music_user_token', musicUserToken);
+      return this.http.get<any>(`${BACKEND_URL}service/apple_music/`, {params});
+    }));
   }
 
   getPlaylists(): Observable<Playlist[]> {
-    return this.http.get<Playlist[]>(`${BACKEND_URL}service/apple_music/?action=playlists`);
+    const params = new HttpParams().set('action', 'playlists');
+    return this.http.get<Playlist[]>(`${BACKEND_URL}service/apple_music/`, {params});
+  }
+
+  getPlaylist(playlist_id: string): Observable<Playlist> {
+    const params = new HttpParams()
+      .set('action', 'get_playlist')
+      .set('id', playlist_id);
+    return this.http.get<Playlist>(`${BACKEND_URL}service/apple_music/`, {params});
+  }
+
+  importFromAppleMusic(playlist_id: string): Observable<any> {
+    const params = new HttpParams()
+      .set('action', 'import_to_tuneshare')
+      .set('id', playlist_id);
+    return this.http.get<any>(`${BACKEND_URL}service/apple_music/`, {params});
+  }
+
+  exportToAppleMusic(playlist_id: number): Observable<any> {
+    const params = new HttpParams()
+      .set('action', 'export_to_apple_music')
+      .set('playlist_id', playlist_id);
+    return this.http.get<any>(`${BACKEND_URL}service/apple_music/`, {params});
   }
 }

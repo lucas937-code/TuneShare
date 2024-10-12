@@ -92,7 +92,7 @@ class SpotifyView(APIView):
         action = request.query_params.get('action')
 
         if action == 'playlists':
-            playlists = requests.get(f"https://api.spotify.com/v1/users/{request.headers["spotify-user-id"]}/playlists",
+            playlists = requests.get(f"https://api.spotify.com/v1/users/{request.query_params.get("user_id")}/playlists",
                                      headers={
                                          "Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"})
 
@@ -103,9 +103,7 @@ class SpotifyView(APIView):
             frontend_playlists = []
 
             for playlist in playlists['items']:
-                cover_url = ""
-                if len(playlist['images']) >= 1:
-                    cover_url = playlist['images'][0]['url']
+                cover_url = playlist['images'][0]['url'] if playlist['images'] else ""
                 frontend_playlists.append({
                     'spotify_id': playlist['id'],
                     'owner_id': playlist['owner']['id'],
@@ -121,7 +119,7 @@ class SpotifyView(APIView):
 
         if action == 'get_playlist':
 
-            playlist = requests.get(f"https://api.spotify.com/v1/playlists/{request.headers["playlist-id"]}",
+            playlist = requests.get(f"https://api.spotify.com/v1/playlists/{request.query_params.get("playlist_id")}",
                                     headers={
                                         "Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"})
 
@@ -133,9 +131,7 @@ class SpotifyView(APIView):
             frontend_tracks = []
 
             for track in playlist['tracks']['items']:
-                cover_url = ""
-                if len(track['track']['album']['images']) >= 1:
-                    cover_url = track['track']['album']['images'][0]['url']
+                cover_url = track['track']['album']['images'][0]['url'] if track['track']['album']['images'] else ""
 
                 frontend_tracks.append({
                     'spotify_id': track['track']['id'],
@@ -144,9 +140,7 @@ class SpotifyView(APIView):
                     'cover_url': cover_url
                 })
 
-            cover_url = ""
-            if len(playlist['images']) >= 1:
-                cover_url = playlist['images'][0]['url']
+            cover_url = playlist['images'][0]['url'] if playlist['images'] else ""
             frontend_playlist = {
                 'spotify_id': playlist['id'],
                 'owner_id': playlist['owner']['id'],

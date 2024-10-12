@@ -43,16 +43,12 @@ export class SettingsComponent implements OnInit {
     this.spotifyService.authorizeUser().subscribe();
   }
 
-  async linkAppleMusic() {
-    // this.appleMusicService.initialize()
-    //   .pipe(switchMap(() => {
-    //     return this.appleMusicService.authorizeUser();
-    //   })).subscribe({
-    //     error: err => console.error('Failed to authorize user', err)
-    //   });
-
-    this.appleMusicService.getPlaylists().subscribe({
-      next: playlists => console.log(playlists)
-    });
+  linkAppleMusic() {
+    this.appleMusicService.initialize()
+      .pipe(switchMap(() => {
+        return this.appleMusicService.authorizeUser();
+      })).subscribe({
+        error: err => console.error('Failed to authorize user', err)
+      });
   }
 }
