@@ -3,7 +3,7 @@ import {PlaylistListComponent} from "../playlistList/playlist-list.component";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {PlaylistComponent} from "../playlist/playlist.component";
 import {PlaylistService} from "../playlist.service";
-import {User} from "../types";
+import {Playlist, User} from "../types";
 import {NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
@@ -30,7 +30,7 @@ export class UserProfileComponent implements OnInit {
     display_name: "Max Mustermannn",
   }
 
-  playlists: any[] = [];
+  playlists: Playlist[] = [];
   isShrunk: boolean = false;
   isHidden: boolean = false;
   followed: boolean = false; //True = Nutzer wird bereits gefolgt
@@ -42,7 +42,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.playlists = this.playlistService.getPlaylists();
+    this.playlists = this.playlistService.getPlaylists(); //TODO Replace with UserPlaylists
     this.isMobile = window.innerWidth < 992;
   }
 
