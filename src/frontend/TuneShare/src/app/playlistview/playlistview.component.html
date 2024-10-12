@@ -34,18 +34,25 @@
     <tr>
       <th class="text-end" scope="col" style="width: 1em;">#</th>
       <th scope="col"></th>
-      <th class="durationCol" *ngIf="!isMobile" scope="col">Title</th>
-      <th scope="col">Artist</th>
-      <th scope="col">Duration</th>
+      <th scope="col" style="font-weight: normal"><b>Title</b> | <span style="font-weight: lighter">Artist(s)</span></th>
+<!--      <th scope="col">Artist</th>-->
+<!--      <th class="durationCol" *ngIf="!isMobile" scope="col">Duration</th>-->
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let track of tracks, let i = index" class="playlistRow align-items-center">
+    <tr *ngFor="let track of tracks, let i = index" class="align-items-center">
         <th class="text-end" *ngIf="!isMobile">{{ i }}</th>
         <th style="width: 4.5em;" scope="row"><img src="/assets/papagei-foto.jpg" class="rounded-1 trackImg" style="width: 3em; height: 3em;"></th>
-        <td>{{ track.title }}</td>
-        <td>{{ track.artist }}</td>
-        <td class="durationCol" *ngIf="!isMobile">{{ track.duration }}</td>
+        <td class="align-items-center" >
+          <div>
+            <div class="trackInfo m-0 p-0"><b>{{ track.title }}</b></div>
+            <div class="trackInfo m-0 p-0" style="font-weight: lighter">{{ track.artist }}</div>
+          </div>
+        </td>
+
+<!--        <td>{{ track.title }}</td>-->
+<!--        <td>{{ track.artist }}</td>-->
+<!--        <td class="durationCol" *ngIf="!isMobile">{{ track.duration }}</td>-->
     </tr>
     </tbody>
   </table>

@@ -4,6 +4,9 @@ import {PlaylistService} from "../playlist.service";
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {NgbTooltip, NgbTooltipModule} from "@ng-bootstrap/ng-bootstrap";
 import {ConfirmExportComponent} from "../confirm-export/confirm-export.component";
+import {Track} from "../types";
+import {SpotifyService} from "../spotify.service";
+import {AppleMusicService} from "../apple-music.service";
 
 @Component({
   selector: 'app-playlistview',
@@ -23,441 +26,50 @@ import {ConfirmExportComponent} from "../confirm-export/confirm-export.component
 })
 export class PlaylistviewComponent implements OnInit {
 
+  constructor(private playlistService: PlaylistService, private spotifyServie: SpotifyService, private applemusicService: AppleMusicService) {
+  }
+
   currentPlaylist: any = this.playlistService.getPlaylists()[1];
 
   added: boolean = false;
   isMobile: boolean = false;
 
-  tracks: any[] = [
-    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaunePaulPosaunePaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },{
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaunePaulPosaunePaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },{
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaunePaulPosaunePaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },{
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaunePaulPosaunePaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },{
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaunePaulPosaunePaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
-    },    {
-      id: 1, cover_url: "/assets/papagei-foto.jpg", title: "test1", artist: "LucasListener", duration: "03:03"
-    },
-    {
-      id: 2, cover_url: "/assets/papagei-foto.jpg", title: "test2", artist: "PaulPosaune", duration: "01:01"
+  tracks: Track[] = [
+
+    {
+      id: 1,
+      spotify_id: "one",
+      apple_music_id: "one",
+
+      date_created: new Date("2024-06-06"),
+
+      title: "My new Playlist",
+      artist: "Newcomer",
+      cover_url: "/assets/papagei-foto.jpg",
+    },
+    {
+      id: 1,
+      spotify_id: "one",
+      apple_music_id: "one",
+
+      date_created: new Date("2024-06-06"),
+
+      title: "My new Playlist",
+      artist: "Newcomer",
+      cover_url: "/assets/papagei-foto.jpg",
+    },
+    {
+      id: 1,
+      spotify_id: "one",
+      apple_music_id: "one",
+
+      date_created: new Date("2024-06-06"),
+
+      title: "My new Playlist",
+      artist: "Newcomer",
+      cover_url: "/assets/papagei-foto.jpg",
     },
   ];
-
-  constructor(private playlistService: PlaylistService) { }
 
   ngOnInit() {
     this.isMobile = window.innerWidth < 992;

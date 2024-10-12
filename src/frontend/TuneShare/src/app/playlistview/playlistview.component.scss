@@ -52,10 +52,6 @@
   color: #4F4E57;
 }
 
-.playlistRow:hover{
-  transform: scale(1.002);
-}
-
 td, th{
   line-height: 3em;
   overflow: hidden;
@@ -89,3 +85,11 @@ btn.btn-secondary{
   color: white;
   background: #4F4E57;
 }
+
+.trackInfo{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5em;
+}
+
