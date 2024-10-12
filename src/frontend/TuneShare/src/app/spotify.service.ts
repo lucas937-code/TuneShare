@@ -14,7 +14,7 @@ export class SpotifyService {
   authorizeUser(): Observable<any> {
     const params = new HttpParams()
       .set('action', 'login');
-    return this.http.get<{ auth_url: string }>(`${BACKEND_URL}service/spotify`, {params})
+    return this.http.get<{ auth_url: string }>(`${BACKEND_URL}service/spotify/`, {params})
       .pipe(tap(response => {
           window.location.href = response.auth_url;
         }
@@ -24,14 +24,14 @@ export class SpotifyService {
   getCurrentUser(): Observable<SpotifyUser> {
     const params = new HttpParams()
       .set('action', 'get_current_user');
-    return this.http.get<SpotifyUser>(`${BACKEND_URL}service/spotify`, {params});
+    return this.http.get<SpotifyUser>(`${BACKEND_URL}service/spotify/`, {params});
   }
 
   getPlaylists(user_id: string): Observable<Playlist[]> {
     const params = new HttpParams()
       .set('action', 'playlists')
       .set('user_id', user_id);
-    return this.http.get<Playlist[]>(`${BACKEND_URL}service/spotify`, {params});
+    return this.http.get<Playlist[]>(`${BACKEND_URL}service/spotify/`, {params});
   }
 
   getPlaylist(playlist_id: string): Observable<Playlist> {

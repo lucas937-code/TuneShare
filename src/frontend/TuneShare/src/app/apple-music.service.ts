@@ -36,7 +36,7 @@ export class AppleMusicService {
   private getDeveloperToken(): Observable<any> {
     const params = new HttpParams()
       .set('action', 'login');
-    return this.http.get(`${BACKEND_URL}service/apple_music`, {params});
+    return this.http.get(`${BACKEND_URL}service/apple_music/`, {params});
   }
 
   private setupMusicKit(): Promise<void> {
@@ -85,19 +85,19 @@ export class AppleMusicService {
       const params = new HttpParams()
         .set('action', 'callback')
         .set('music_user_token', musicUserToken);
-      return this.http.get<any>(`${BACKEND_URL}service/apple_music`, {params});
+      return this.http.get<any>(`${BACKEND_URL}service/apple_music/`, {params});
     }));
   }
 
   getPlaylists(): Observable<Playlist[]> {
     const params = new HttpParams().set('action', 'playlists');
-    return this.http.get<Playlist[]>(`${BACKEND_URL}service/apple_music`, {params});
+    return this.http.get<Playlist[]>(`${BACKEND_URL}service/apple_music/`, {params});
   }
 
   getPlaylist(playlist_id: string): Observable<Playlist> {
     const params = new HttpParams()
       .set('action', 'get_playlists')
       .set('id', playlist_id);
-    return this.http.get<Playlist>(`${BACKEND_URL}service/apple_music`, {params});
+    return this.http.get<Playlist>(`${BACKEND_URL}service/apple_music/`, {params});
   }
 }
