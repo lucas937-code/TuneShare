@@ -178,7 +178,7 @@ class SpotifyView(APIView):
             playlist_payload = {
                 'title': playlist_data['name'],
                 'cover_url': cover_url,
-                'owner_id': user.id,
+                'owner_id_id': user.id,
                 'is_public': True
             }
 
@@ -195,6 +195,7 @@ class SpotifyView(APIView):
                     'spotify_id': track_data['id'],
                     'title': track_data['name'],
                     'artist': track_data['artists'][0]['name'],
+                    'cover_url': track_cover_url
                 }
 
                 existing_track = Track.objects.filter(spotify_id=track_data['id']).first()
