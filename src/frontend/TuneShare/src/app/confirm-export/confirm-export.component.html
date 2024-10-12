@@ -1,4 +1,4 @@
-<div *ngIf="stage==1" class="modal-dialog modal-dialog-centered" role="document">
+<div *ngIf="stage=='confirm'" class="modal-dialog modal-dialog-centered" role="document">
   <div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title"
@@ -18,7 +18,7 @@
   </div>
 </div>
 
-<div *ngIf="stage==2" class="modal-dialog modal-dialog-centered" role="document">
+<div *ngIf="stage=='running'" class="modal-dialog modal-dialog-centered" role="document">
   <div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title"
@@ -30,7 +30,7 @@
   </div>
 </div>
 
-<div *ngIf="stage==3" class="modal-dialog modal-dialog-centered" role="document">
+<div *ngIf="stage=='success'" class="modal-dialog modal-dialog-centered" role="document">
   <div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title"
@@ -46,7 +46,7 @@
   </div>
 </div>
 
-<div *ngIf="stage==4" class="modal-dialog modal-dialog-centered" role="document">
+<div *ngIf="stage=='failed'" class="modal-dialog modal-dialog-centered" role="document">
   <div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title"

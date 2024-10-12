@@ -16,19 +16,19 @@ export class ConfirmExportComponent implements AfterViewInit{
   @Input() spotify: boolean | undefined;
   @Input() currentPlaylist: any;
   @Input() id: HTMLDivElement | undefined;
-  stage:number = 1; // 1=confirm; 2=running;3=success;4=failed
+  stage: "confirm" | "running" | "success" | "failed" = "confirm";
 
   ngAfterViewInit() {
 
     if (this.id) {
       this.id.addEventListener('hidden.bs.modal', (event) => {
-        this.stage=1;
+        this.stage = "confirm";
       });
     }
   }
 
   export() {
-    this.stage = 2
+    this.stage = "running";
     setTimeout(() => {  //TODO Timeout entfernen und auf Ergebnis warten
       if (this.spotify) {
         this.stage = this.exportToSpotify();
@@ -38,13 +38,13 @@ export class ConfirmExportComponent implements AfterViewInit{
     }, 2000);
   }
 
-  exportToSpotify(): number {
-    let success: boolean = false; //Ergebnis des Exports
-    return success ? 3 : 4;
+  exportToSpotify(): "success" | "failed" {
+    let success: boolean = false;
+    return success ? "success" : "failed";
   }
 
-  exportToApplemusic():number {
-    let success: boolean = true;  //Ergebnis des Exports
-    return success ? 3 : 4;
+  exportToApplemusic(): "success" | "failed"  {
+    let success: boolean = true;
+    return success ? "success" : "failed";
   }
 }
