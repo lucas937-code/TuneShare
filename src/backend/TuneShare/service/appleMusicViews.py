@@ -87,6 +87,10 @@ class AppleMusicView(APIView):
         frontend_playlists = []
 
         for playlist in apple_music_playlists:
+            cover_url = ""
+            if 'artwork' in playlist['attributes'].keys():
+                cover_url = playlist['attributes']['artwork']['url'].replace("{w}x{h}", "500x500")
+
             description = ''
             if 'description' in playlist['attributes'].keys():
                 description = playlist['attributes']['description']['standard']
@@ -94,7 +98,7 @@ class AppleMusicView(APIView):
                 "apple_music_id": playlist['id'],
                 "title": playlist['attributes']['name'],
                 "description": description,
-                "cover_url": playlist['attributes']['artwork']['url'].replace("{w}x{h}", "500x500")
+                "cover_url": cover_url
             })
 
         return Response(frontend_playlists, status=200)
@@ -119,6 +123,9 @@ class AppleMusicView(APIView):
 
         playlist = response.json()['data'][0]
 
+        cover_url = ""
+        if 'artwork' in playlist['attributes'].keys():
+            cover_url = playlist['attributes']['artwork']['url'].replace("{w}x{h}", "500x500")
         description = ''
         if 'description' in playlist['attributes'].keys():
             description = playlist['attributes']['description']['standard']
@@ -129,7 +136,7 @@ class AppleMusicView(APIView):
                 'apple_music_id': track['id'],
                 'title': track['attributes']['name'],
                 'artist': track['attributes']['artistName'],
-                'cover_url': track['attributes']['artwork']['url'].replace("{w}x{h}", "500x500")
+                'cover_url': cover_url
             })
 
         frontend_playlist = {
