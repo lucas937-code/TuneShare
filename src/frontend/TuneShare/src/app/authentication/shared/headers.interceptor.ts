@@ -1,8 +1,6 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import {HttpInterceptorFn} from '@angular/common/http';
 import {inject} from "@angular/core";
 import {AuthService} from "./auth.service";
-import {Router} from "@angular/router";
-import {EMPTY} from "rxjs";
 
 export const headersInterceptor: HttpInterceptorFn = (req, next) => {
   const excludedUrls: string[] = ['/auth/login/', '/auth/register/', '/auth/refresh/'];
@@ -11,13 +9,11 @@ export const headersInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
 
   const authService = inject(AuthService);
-  const router = inject(Router);
 
   const accessToken = authService.accessToken;
 
-  if (!accessToken) {
-    router.navigateByUrl('/login').catch(() => console.error('Navigation error occurred'));
-    return EMPTY;
+  if (authService.tokenIsExpired || !accessToken) {
+    authService.refreshToken();
   }
 
   const authReq = req.clone({
