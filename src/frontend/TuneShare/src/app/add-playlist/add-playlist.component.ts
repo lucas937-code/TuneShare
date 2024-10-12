@@ -32,7 +32,10 @@ export class AddPlaylistComponent implements OnInit {
     this.spotifyService.getCurrentUser().pipe(switchMap(current_user => {
       return this.spotifyService.getPlaylists(current_user.id)
     })).subscribe({
-      next: playlists => this.playlistsSpotify = playlists
+      next: playlists => {
+        this.playlistsSpotify = playlists;
+        this.empty = this.playlistsSpotify.length == 0;
+      }
     });
 
     this.playlistsApplemusic = [
