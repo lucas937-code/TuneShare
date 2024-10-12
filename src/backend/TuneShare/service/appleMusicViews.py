@@ -32,6 +32,9 @@ class AppleMusicView(APIView):
         elif action == 'import_to_tuneshare':
             return self.import_to_tuneshare(request)
 
+        elif action == 'export_to_apple_music':
+            return self.export_to_apple_music(request)
+
         return Response({'error': 'Invalid action'}, status=400)
 
     def generate_apple_music_token(self):
@@ -205,3 +208,46 @@ class AppleMusicView(APIView):
             included.save()
 
         return Response({}, status=200)
+
+    def export_to_apple_music(self, request):
+        music_user_token = User.objects.get(user_uuid=request.user.id).apple_music_access_token
+        if not music_user_token:
+            return JsonResponse({'error': 'Music-User-Token is required'}, status=400)
+
+        developer_token = self.generate_apple_music_token()
+
+        playlist = Playlist.objects.get(id=request.query_params.get('playlist_id'))
+        included_tracks = IncludesTrack.objects.filter(playlist=playlist)
+        track_list = []
+
+        for track_included in included_tracks:
+            track_list.append({
+                "id": track_included.track.apple_music_id,
+                "type": "songs"
+            })
+
+        request_body = {
+            "attributes": {
+                "name": playlist.title,
+                "description": ""
+            },
+            "relationships": {
+                "tracks": {
+                    "data": track_list
+                }
+            }
+        }
+
+        url = "https://api.music.apple.com/v1/me/library/playlists"
+        headers = {
+            'Authorization': f'Bearer {developer_token}',
+            'Music-User-Token': music_user_token,
+            'Content-Type': 'application/json'
+        }
+
+        response = requests.post(url, headers=headers, json=request_body)
+
+        if response.status_code == 200:
+            return Response(response.json(), status=200)
+        else:
+            return Response(response.json(), status=response.status_code)
