@@ -46,7 +46,7 @@ class User(models.Model):
             ),
         ]
     )
-    display_name = models.CharField(null=True, max_length=30)
+    display_name = models.CharField(null=True, max_length=36)
     spotify_user_id = models.CharField(null=True)
     apple_music_user_id = models.CharField(null=True)
     date_created = models.DateTimeField(auto_now_add=True)

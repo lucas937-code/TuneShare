@@ -22,7 +22,7 @@ def register_user(request):
     try:
         response = supabase.auth.sign_up({'email': email, 'password': password})
         supabase.table('Database_user').insert({
-            'username': username if username else request.user.id,
+            'username': username if username else response.user.id,
             'display_name': display_name,
             'user_uuid': response.user.id,
         }).execute()
