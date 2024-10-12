@@ -73,7 +73,7 @@ class AppleMusicView(APIView):
 
         developer_token = self.generate_apple_music_token()
 
-        url = "https://api.music.apple.com/v1/me/library/playlists"
+        url = "https://api.music.apple.com/v1/me/library/playlists?limit=100"
         headers = {
             'Authorization': f'Bearer {developer_token}',
             'Music-User-Token': music_user_token
@@ -87,7 +87,7 @@ class AppleMusicView(APIView):
         frontend_playlists = []
 
         for playlist in apple_music_playlists:
-            cover_url = ""
+            cover_url = "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
             if 'artwork' in playlist['attributes'].keys():
                 cover_url = playlist['attributes']['artwork']['url'].replace("{w}x{h}", "500x500")
 
@@ -123,7 +123,7 @@ class AppleMusicView(APIView):
 
         playlist = response.json()['data'][0]
 
-        cover_url = ""
+        cover_url = "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
         if 'artwork' in playlist['attributes'].keys():
             cover_url = playlist['attributes']['artwork']['url'].replace("{w}x{h}", "500x500")
         description = ''
