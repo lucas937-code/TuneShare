@@ -92,7 +92,7 @@ class SpotifyView(APIView):
         action = request.query_params.get('action')
 
         if action == 'playlists':
-            playlists = requests.get(f"https://api.spotify.com/v1/users/{request.query_params.get("spotify_user_id")}/playlists",
+            playlists = requests.get(f"https://api.spotify.com/v1/users/{request.query_params.get("user_id")}/playlists",
                                      headers={
                                          "Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"})
 
