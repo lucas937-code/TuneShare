@@ -1,3 +1,5 @@
+import base64
+
 import requests
 from Database.models import User, Track, Playlist, IncludesTrack
 from django.conf import settings
@@ -27,6 +29,37 @@ class SpotifyView(APIView):
                 return self.add_to_tuneshare(request)
             case _:
                 return Response({'error': 'Invalid action'}, status=400)
+
+    def refresh_access_token(self, request):
+        user = User.objects.get(user_uuid=request.user.id)
+        refresh_token = user.spotify_refresh_token
+
+        client_creds = f"{settings.SPOTIFY_CLIENT_ID}:{settings.SPOTIFY_CLIENT_SECRET}"
+        client_creds_b64 = base64.b64encode(client_creds.encode())
+
+        headers = {
+            'Authorization': f"Basic {client_creds_b64.decode()}",
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+
+        data = {
+            'grant_type': 'refresh_token',
+            'refresh_token': refresh_token,
+        }
+
+        response = requests.post('https://accounts.spotify.com/api/token', headers=headers, data=data)
+
+        if response.status_code != 200:
+            return Response({'error': 'Failed to refresh token'}, status=response.status_code)
+
+        access_token = response.json().get('access_token')
+
+        if access_token:
+            user.spotify_access_token = access_token
+            user.save()
+            return Response({"message": "Token refreshed successfully"}, status=200)
+        else:
+            return Response({'error': 'Access token missing in the response'}, status=500)
 
     def spotify_login(self, request):
         client_id = settings.SPOTIFY_CLIENT_ID
@@ -77,8 +110,14 @@ class SpotifyView(APIView):
         spotify_user = requests.get("https://api.spotify.com/v1/me", headers={
             'Authorization': f'Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}'})
 
+
         if spotify_user.status_code != 200:
-            return Response({'error': 'Failed to get profile'}, status=spotify_user.status_code)
+            self.refresh_access_token(request)
+            spotify_user = requests.get("https://api.spotify.com/v1/me", headers={
+                'Authorization': f'Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}'})
+
+            if spotify_user.status_code != 200:
+                return Response({'error': 'Failed to get profile'}, status=spotify_user.status_code)
 
         return Response(spotify_user.json(), status=200)
 
@@ -89,7 +128,13 @@ class SpotifyView(APIView):
                 "Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"})
 
         if playlists.status_code != 200:
-            return Response({'error': 'Failed to get playlists'}, status=playlists.status_code)
+            self.refresh_access_token(request)
+            playlists = requests.get(
+                f"https://api.spotify.com/v1/users/{request.query_params.get("user_id")}/playlists",
+                headers={
+                    "Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"})
+            if playlists.status_code != 200:
+                return Response({'error': 'Failed to get playlists'}, status=playlists.status_code)
 
         playlists = playlists.json()
         frontend_playlists = []
@@ -112,6 +157,10 @@ class SpotifyView(APIView):
                                     "Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"})
 
         if playlist.status_code != 200:
+            self.refresh_access_token(request)
+            playlist = requests.get(f"https://api.spotify.com/v1/playlists/{request.query_params.get("playlist_id")}",
+                                    headers={
+                                        "Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"})
             return Response({'error': 'Failed to get playlist'}, status=playlist.status_code)
 
         playlist = playlist.json()
