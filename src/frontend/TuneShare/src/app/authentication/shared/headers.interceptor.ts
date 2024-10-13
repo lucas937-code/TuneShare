@@ -28,7 +28,8 @@ export const headersInterceptor: HttpInterceptorFn = (req, next) => {
           setHeaders: {
             'Authorization': `Bearer ${updatedAccessToken}`,
             'X-CSRFToken': csrfToken
-          }
+          },
+          withCredentials: true
         });
         return next(authReq);
       })
@@ -40,7 +41,8 @@ export const headersInterceptor: HttpInterceptorFn = (req, next) => {
     setHeaders: {
       'Authorization': `Bearer ${accessToken}`,
       'X-CSRFToken': csrfToken
-    }
+    },
+    withCredentials: true
   })
   return next(authReq);
 };
