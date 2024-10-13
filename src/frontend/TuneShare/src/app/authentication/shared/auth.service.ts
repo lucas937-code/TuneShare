@@ -38,10 +38,6 @@ export class AuthService {
     return expiresAtNum < currentTime;
   }
 
-  clearAccessToken(): void {
-    localStorage.removeItem(this.accessTokenKey);
-  }
-
   get isLoggedIn(): boolean {
     return !!this.accessToken;
   }
