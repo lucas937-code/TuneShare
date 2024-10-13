@@ -1,5 +1,6 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
+from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 
 from .models import Playlist, User, Track, IncludesTrack, FollowsUser, FollowsPlaylist
@@ -32,6 +33,8 @@ def destroy(view_set, request, *args, **kwargs):
 
 
 class UserViewSet(viewsets.ModelViewSet):
+    search_fields = ['username', 'display_name']
+    filter_backends = (SearchFilter,)
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -65,6 +68,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class PlaylistViewSet(viewsets.ModelViewSet):
+    search_fields = ['title']
+    filter_backends = (SearchFilter,)
     queryset = Playlist.objects.all()
     serializer_class = PlaylistSerializer
 
@@ -77,17 +82,6 @@ class PlaylistViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         return destroy(self, request, *args, **kwargs)
 
-    def list(self, request, *args, **kwargs):
-        user = User.objects.get(user_uuid=request.user.id)
-        playlists = self.get_queryset().filter(owner_id=user)
-        serializer = self.get_serializer(playlists, many=True)
-        return Response(serializer.data)
-
-    def retrieve(self, request, *args, **kwargs):
-        playlist = self.get_object()
-        serializer = self.get_serializer(playlist)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
     @action(detail=True, methods=['get'], url_path='tracks')
     def get_tracks_in_playlist(self, request, pk=None):
         tracks = Track.objects.filter(tracks__playlist_id=pk)
@@ -96,6 +90,8 @@ class PlaylistViewSet(viewsets.ModelViewSet):
 
 
 class TrackViewSet(viewsets.ModelViewSet):
+    search_fields = ['title', 'artist']
+    filter_backends = (SearchFilter,)
     queryset = Track.objects.all()
     serializer_class = TrackSerializer
 
