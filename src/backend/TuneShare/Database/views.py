@@ -54,11 +54,18 @@ class UserViewSet(viewsets.ModelViewSet):
             .select_related('followed_id') \
             .values(
             'followed_id_id',
-            'followed_id__user_uuid',
             'followed_id__username',
             'followed_id__display_name'
         )
-        return Response(list(followed_users), status=status.HTTP_200_OK)
+        response_data = [
+            {
+                "id": user['followed_id_id'],
+                "username": user['followed_id__username'],
+                "display_name": user['followed_id__display_name']
+            }
+            for user in followed_users
+        ]
+        return Response(response_data, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['get'], url_path='current')
     def get_current_user(self, request):
