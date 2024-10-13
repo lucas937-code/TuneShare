@@ -159,6 +159,9 @@ class SpotifyView(APIView):
         for index, track in enumerate(spotify_playlist['track_list']):
             track_data, already_created = Track.objects.get_or_create(title=track['title'], artist=track['artist'])
             track_data.spotify_id = track['spotify_id']
+            if already_created:
+                track_data.cover_url = track['cover_url']
+
             track_data.save()
 
             includes = IncludesTrack.objects.create(position=index + 1, playlist=playlist_data, track=track_data)

@@ -128,9 +128,6 @@ class AppleMusicView(APIView):
 
         playlist = response.json()['data'][0]
 
-        cover_url = "https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080"
-        if 'artwork' in playlist['attributes'].keys():
-            cover_url = playlist['attributes']['artwork']['url'].replace("{w}x{h}", "500x500")
         description = ''
         if 'description' in playlist['attributes'].keys():
             description = playlist['attributes']['description']['standard']
@@ -207,6 +204,9 @@ class AppleMusicView(APIView):
         for index, track in enumerate(playlist['tracks']):
             track_object, created = Track.objects.get_or_create(title=track['title'], artist=track['artist'])
             track_object.apple_music_id = track['apple_music_id']
+            if created:
+                track_object.cover_url = track['cover_url']
+
             track_object.save()
 
             included = IncludesTrack.objects.create(position=index + 1, playlist=playlist_object, track=track_object)

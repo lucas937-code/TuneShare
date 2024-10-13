@@ -12,6 +12,7 @@ class Track(models.Model):
 
     date_created = models.DateTimeField(auto_now_add=True)
     artist = models.CharField()
+    cover_url = models.CharField(null=False, default='https://img.fotocommunity.com/papagei-frisst-loewenzahn-5b0326d5-65d2-4914-a1b6-1751830ed208.jpg?height=1080')
 
 
 class User(models.Model):
