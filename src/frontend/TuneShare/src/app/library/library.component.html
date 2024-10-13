@@ -1,4 +1,6 @@
 <div class="mt-4 mb-5 px-4 mx-auto" style="width: 95%">
   <h2 class="mb-1 container text-center">Library</h2>
-  <app-playlistList [playlists]="playlists"></app-playlistList>
+  <app-playlistList *ngIf="playlists.length>0" [playlists]="playlists"></app-playlistList>
+  <div *ngIf="playlists.length==0" class="text-center mt-5"><h5>No playlists in library!</h5>
+  </div>
 </div>

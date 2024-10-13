@@ -1,8 +1,8 @@
-import {Component, HostListener, Input, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {NgClass, NgIf} from "@angular/common";
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 import {ConfirmExportComponent} from "../confirm-export/confirm-export.component";
-import {Playlist, playlistType, Track} from "../types";
+import {Playlist, playlistType, Track, User} from "../types";
 import {TuneShareService} from "../tune-share.service";
 
 @Component({
@@ -21,7 +21,7 @@ import {TuneShareService} from "../tune-share.service";
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.scss'
 })
-export class PlaylistComponent implements OnInit {
+export class PlaylistComponent implements OnInit, OnChanges {
   @Input() playlist: Playlist = {
     id: undefined,
     owner_id: -1,
@@ -44,7 +44,7 @@ export class PlaylistComponent implements OnInit {
   url: string = "/playlist?playlist="
   id_type: string | number = "";
   type: playlistType = "ts"
-  display_name: string = "";
+  user: User | undefined;
 
   constructor(private tuneshareService : TuneShareService) {}
 
@@ -78,14 +78,18 @@ export class PlaylistComponent implements OnInit {
     //Funktion zum Hinzufügen zur Mediathek
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(this.playlist);
+    this.tuneshareService.getUser(this.playlist.owner_id).subscribe({
+      next: user => {
+        this.user = user;
+      }
+    });
+  }
+
   ngOnInit() {
     this.isMobile = window.innerWidth < 992;
 
-    this.tuneshareService.getUser(this.playlist.owner_id).subscribe({
-      next: user => {
-        this.display_name = user.display_name;
-      }
-    })
     if(this.playlist.id != undefined){
       this.type = "ts";
       this.id_type = this.playlist.id;

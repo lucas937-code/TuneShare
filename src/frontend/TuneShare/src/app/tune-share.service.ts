@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import { BACKEND_URL } from "../main";
 import {Playlist, Track, User} from "./types";
-import {map, Observable, switchMap} from "rxjs";
+import {map, Observable, switchMap, tap} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +40,7 @@ export class TuneShareService {
   getPlaylist(playlist_id: number): Observable<Playlist> {
     return this.http.get<Playlist>(`${BACKEND_URL}api/playlist/${playlist_id}/`).pipe(
       switchMap(playlist =>
-        this.http.get<Track[]>(`${BACKEND_URL}api/playlist/${playlist_id}/tracks`).pipe(
+        this.http.get<Track[]>(`${BACKEND_URL}api/playlist/${playlist_id}/tracks/`).pipe(
           map(track_list => {
             playlist.track_list = track_list;
             return playlist;

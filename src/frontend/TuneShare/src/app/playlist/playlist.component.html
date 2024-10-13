@@ -13,7 +13,7 @@
     <a href="{{ this.url }}"><h5 class="card-title overflow-hidden" [ngClass]="{ 'smallerfontHeadline':isMobile }">{{ playlist.title }}</h5></a>
     <div class="row mb-2 justify-content-between">
       <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='ts'"><a
-        href="/profile">{{ this.display_name }}</a></div>
+        href="/profile?p={{ this.user?.id }}">&#64;{{ this.user?.username }}</a></div>
       <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='sp'">
         <i class="bi-spotify" style="font-size: larger"></i><i class="ps-1" style="font-weight: lighter; vertical-align: center"> {{ playlist.owner_id }}</i>
       </div>
@@ -53,19 +53,22 @@
 
 
       <a *ngIf="isMobile" ngbDropdown placement="top-end" container="body" href="javascript:"
-         class="text-end w-auto p-0">
-        <div class="logos text-end iconAddPlain" id="playlistExpandButtonMobile" style="max-width: 45%"
-             ngbDropdownToggle>
-          <i class="bi-three-dots-vertical"></i>
+         class="dropdownPlaylist text-end w-auto p-0 d-inline">
+        <div id="playlistExpandButtonMobile" ngbDropdownToggle *ngIf="type=='ts'"><i
+          class="bi-three-dots-vertical"></i>
           <div ngbDropdownMenu aria-labelledby="playlistExpandButton" (mouseenter)="hoveredTrue()"
                (mouseleave)="hoveredFalse()">
-            <a ngbDropdownItem class="linkedButton appleLink my-auto py-auto" href="https://apple.com" target="_blank">View
-              in Apple Music</a>
-            <a ngbDropdownItem class="linkedButton spotifyLink my-auto py-auto" href="https://www.spotify.com"
-               target="_blank">View in Spotify</a>
-            <a ngbDropdownItem class="linkedButton shareLink my-auto py-auto">Share Link</a>
+            <a ngbDropdownItem class="linkedButton appleLink my-auto py-auto"
+               data-bs-toggle="modal" data-bs-target="#confirmExportApplemusic"
+            >Export to Apple Music</a>
+            <a ngbDropdownItem class="linkedButton spotifyLink my-auto py-auto"
+               data-bs-toggle="modal" data-bs-target="#confirmExportSpotify"
+            >Export to Spotify</a>
+            <a ngbDropdownItem class="linkedButton shareLink my-auto py-auto" (click)="copyLink()"
+            >Copy link</a>
             <div class="dropdown-divider"></div>
-            <a ngbDropdownItem *ngIf="added" class="linkedButton shareLink my-0" (click)="add()">Remove from Library</a>
+            <a ngbDropdownItem *ngIf="added" class="linkedButton shareLink my-0" (click)="add()">Remove from
+              Library</a>
             <a ngbDropdownItem *ngIf="!added" class="linkedButton shareLink my-0" (click)="add()">Add to library</a>
           </div>
         </div>

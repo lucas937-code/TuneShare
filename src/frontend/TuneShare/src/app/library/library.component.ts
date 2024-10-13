@@ -3,12 +3,14 @@ import {PlaylistListComponent} from "../playlistList/playlist-list.component";
 import {TuneShareService} from "../tune-share.service";
 import {switchMap} from "rxjs";
 import {Playlist} from "../types";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-library',
   standalone: true,
   imports: [
-    PlaylistListComponent
+    PlaylistListComponent,
+    NgIf
   ],
   templateUrl: './library.component.html',
   styleUrl: './library.component.scss'

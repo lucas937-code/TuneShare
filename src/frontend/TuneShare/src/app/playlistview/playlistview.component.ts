@@ -7,6 +7,7 @@ import {playlistType, Track} from "../types";
 import {SpotifyService} from "../spotify.service";
 import {AppleMusicService} from "../apple-music.service";
 import {ActivatedRoute} from "@angular/router";
+import {TuneShareService} from "../tune-share.service";
 
 @Component({
   selector: 'app-playlistview',
@@ -26,7 +27,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class PlaylistviewComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private spotifyService: SpotifyService, private applemusicService: AppleMusicService) {}
+  constructor(private route: ActivatedRoute, private spotifyService: SpotifyService, private applemusicService: AppleMusicService, private tuneshareService: TuneShareService) {}
 
   currentPlaylist: any;
 
@@ -43,7 +44,13 @@ export class PlaylistviewComponent implements OnInit {
       this.id_type = params['playlist'];
       switch (this.type) {
         case "ts": {
-
+          this.tuneshareService.getPlaylist(params['playlist']).subscribe({
+            next: playlist => {
+              console.log(playlist);
+              this.currentPlaylist = playlist;
+              this.tracks = this.currentPlaylist.track_list;
+            }
+          });
           break;
         }
         case "am": {
