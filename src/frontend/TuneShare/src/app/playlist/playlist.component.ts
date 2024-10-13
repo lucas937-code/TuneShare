@@ -4,6 +4,8 @@ import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbToo
 import {ConfirmExportComponent} from "../confirm-export/confirm-export.component";
 import {Playlist, playlistType, Track, User} from "../types";
 import {TuneShareService} from "../tune-share.service";
+import {AppleMusicService} from "../apple-music.service";
+import {SpotifyService} from "../spotify.service";
 
 @Component({
   selector: 'app-playlist',
@@ -46,7 +48,7 @@ export class PlaylistComponent implements OnInit, OnChanges {
   type: playlistType = "ts"
   user: User | undefined;
 
-  constructor(private tuneshareService : TuneShareService) {}
+  constructor(private tuneshareService : TuneShareService, private appleMusicService: AppleMusicService, private spotifyService: SpotifyService) {}
 
   tilt(event: MouseEvent): void {
     const img = event.currentTarget as HTMLElement;
@@ -75,7 +77,11 @@ export class PlaylistComponent implements OnInit, OnChanges {
 
   add(){
     this.added = !this.added;
-    //Funktion zum Hinzufügen zur Mediathek
+
+    if (this.playlist.apple_music_id)
+      this.appleMusicService.importFromAppleMusic(this.playlist.apple_music_id).subscribe();
+    if (this.playlist.spotify_id)
+      this.spotifyService.importFromSpotify(this.playlist.spotify_id).subscribe();
   }
 
   ngOnChanges() {

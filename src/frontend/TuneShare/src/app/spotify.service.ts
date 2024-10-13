@@ -40,4 +40,11 @@ export class SpotifyService {
       .set('playlist_id', playlist_id);
     return this.http.get<Playlist>(`${BACKEND_URL}service/spotify/`, {params});
   }
+
+  importFromSpotify(playlist_id: string): Observable<any> {
+    const params = new HttpParams()
+      .set('action', 'add_to_tuneshare')
+      .set('playlist_id', playlist_id);
+    return this.http.get<any>(`${BACKEND_URL}service/spotify/`, {params});
+  }
 }

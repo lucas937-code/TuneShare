@@ -74,9 +74,13 @@ export class PlaylistviewComponent implements OnInit {
     });
   }
 
-  add() {
+  add(){
     this.added = !this.added;
-    //Funktion zum Hinzufügen zur Mediathek
+
+    if (this.currentPlaylist.apple_music_id)
+      this.applemusicService.importFromAppleMusic(this.currentPlaylist.apple_music_id).subscribe();
+    if (this.currentPlaylist.spotify_id)
+      this.spotifyService.importFromSpotify(this.currentPlaylist.spotify_id).subscribe();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -86,15 +90,5 @@ export class PlaylistviewComponent implements OnInit {
 
   copyLink() {
     navigator.clipboard.writeText(window.location.href); //TODO add link to specific playlist
-  }
-
-  importSpotify() {
-    this.added = !this.added;
-  }
-
-  importApplemusic() {
-    this.added = !this.added;
-
-    this.applemusicService.importFromAppleMusic(this.currentPlaylist.apple_music_id).subscribe(() => console.log("success!"));
   }
 }
