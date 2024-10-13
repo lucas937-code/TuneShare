@@ -67,7 +67,7 @@
 </div>
 <div *ngIf="currentPlaylist && tracks" class="table-responsive mx-4 trackTable">
   <table class="table table-striped container p-1">
-    <caption>{{ tracks.length }} tracks</caption>
+    <caption>{{ tracks.length }} track<span *ngIf="tracks.length!=1">s</span></caption>
     <thead *ngIf="!isMobile">
     <tr>
       <th class="text-end" scope="col" style="width: 1em;">#</th>
