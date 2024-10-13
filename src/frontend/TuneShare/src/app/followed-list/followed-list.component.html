@@ -1,4 +1,4 @@
 <div class="container mt-4">
   <h2 class="mb-4 text-center">Followed</h2>
-  <app-list-of-users [userList]="follower"></app-list-of-users>
+  <app-list-of-users *ngIf="follower" [userList]="follower"></app-list-of-users>
 </div>
