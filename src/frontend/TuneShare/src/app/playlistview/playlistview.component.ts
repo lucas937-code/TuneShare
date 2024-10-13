@@ -1,6 +1,5 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {PlaylistComponent} from "../playlist/playlist.component";
-import {PlaylistService} from "../playlist.service";
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {NgbTooltip, NgbTooltipModule} from "@ng-bootstrap/ng-bootstrap";
 import {ConfirmExportComponent} from "../confirm-export/confirm-export.component";
@@ -8,7 +7,6 @@ import {playlistType, Track} from "../types";
 import {SpotifyService} from "../spotify.service";
 import {AppleMusicService} from "../apple-music.service";
 import {ActivatedRoute} from "@angular/router";
-import {switchMap} from "rxjs";
 
 @Component({
   selector: 'app-playlistview',
@@ -28,8 +26,7 @@ import {switchMap} from "rxjs";
 })
 export class PlaylistviewComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private spotifyService: SpotifyService, private applemusicService: AppleMusicService) {
-  }
+  constructor(private route: ActivatedRoute, private spotifyService: SpotifyService, private applemusicService: AppleMusicService) {}
 
   currentPlaylist: any;
 

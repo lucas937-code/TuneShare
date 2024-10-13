@@ -1,5 +1,6 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {NgClass, NgIf} from "@angular/common";
+import {User} from "../types";
 
 @Component({
   selector: 'app-user-listed',
@@ -12,10 +13,9 @@ import {NgClass, NgIf} from "@angular/common";
   styleUrl: './user-listed.component.scss'
 })
 export class UserListedComponent {
-  @Input() username : string | undefined;
-  @Input() displayname : string | undefined;
-
+  @Input() user: User | undefined;
   followed: boolean = false;
+
 
   follow() {
     this.followed = !this.followed;

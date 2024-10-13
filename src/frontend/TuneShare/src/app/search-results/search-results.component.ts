@@ -24,10 +24,10 @@ export class SearchResultsComponent implements OnInit {
   constructor(private route: ActivatedRoute) {
     this.userList = [
       {
-        username: "max", displayname: "maxxx"
+        username: "max", display_name: "maxxx", id: 1
       },
       {
-        username: "min", displayname: "minxx"
+        username: "min", display_name: "minxx", id: 2
       }
     ]
   }

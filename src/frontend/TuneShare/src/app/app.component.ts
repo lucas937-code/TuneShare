@@ -1,10 +1,10 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
-import {PlaylistService} from './playlist.service';
-import {Playlist} from "./types";
+import {Playlist, User} from "./types";
 import {AuthService} from "./authentication/shared/auth.service";
 import {FormsModule, NgForm} from "@angular/forms";
+import {TuneShareService} from "./tune-share.service";
 
 @Component({
   selector: 'app-root',
@@ -17,10 +17,11 @@ export class AppComponent implements OnInit {
   isRegistrationPage: boolean = false;
   isMobile: boolean = false;
   title = 'TuneShare';
+  user : User | undefined;
 
   playlists: Playlist[] = [];
 
-  constructor(private playlistService: PlaylistService, private router: Router, protected authService: AuthService) {
+  constructor(private router: Router, protected authService: AuthService, private tuneshareService: TuneShareService) {
     this.router.events.subscribe(() => {
       this.isRegistrationPage = this.router.url === '/register' || this.router.url === '/login';
     })
@@ -28,6 +29,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.isMobile = window.innerWidth < 992;
+    this.tuneshareService.getCurrentUser().subscribe({
+      next: user => {
+        this.user = user;
+      }
+    })
   }
 
   submitSearch(f: NgForm) {
