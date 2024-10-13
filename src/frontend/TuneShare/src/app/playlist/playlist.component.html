@@ -13,7 +13,7 @@
     <a href="{{ this.url }}"><h5 class="card-title overflow-hidden" [ngClass]="{ 'smallerfontHeadline':isMobile }">{{ playlist.title }}</h5></a>
     <div class="row mb-2 justify-content-between">
       <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='ts'"><a
-        href="/profile">{{ playlist.owner_id }}</a></div>
+        href="/profile">{{ this.display_name }}</a></div>
       <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='sp'">
         <i class="bi-spotify" style="font-size: larger"></i><i class="ps-1" style="font-weight: lighter; vertical-align: center"> {{ playlist.owner_id }}</i>
       </div>

@@ -27,9 +27,9 @@ export class UserProfileComponent implements OnInit {
   playlists: Playlist[] = [];
   isShrunk: boolean = false;
   isHidden: boolean = false;
-  followed: boolean = false; //True = Nutzer wird bereits gefolgt
+  followed: boolean = false;
   newFollow: boolean = this.followed;
-  ownProfile: boolean = false; //True = Nutzer sieht sein eigenes Profil an
+  ownProfile: boolean = false;
   isMobile: boolean = true;
 
   constructor(private route : ActivatedRoute, private tuneshareService: TuneShareService) {}
@@ -49,6 +49,11 @@ export class UserProfileComponent implements OnInit {
               this.playlists = playlists;
             }
           })
+          this.tuneshareService.getFollowedUsers().subscribe({
+            next: users => {
+              this.followed = this.newFollow = users.find(foundUser => foundUser.id == user.id) != undefined;
+            }
+          });
         }
       })
     });
@@ -77,7 +82,7 @@ export class UserProfileComponent implements OnInit {
     this.isMobile = window.innerWidth < 992;
   }
 
-  follow() {
+  followAnimation() {
     this.followed = !this.followed;
     setTimeout(() => {
       this.newFollow = this.followed;

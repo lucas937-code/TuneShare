@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NgClass, NgIf} from "@angular/common";
 import {User} from "../types";
+import {TuneShareService} from "../tune-share.service";
 
 @Component({
   selector: 'app-user-listed',
@@ -14,13 +15,20 @@ import {User} from "../types";
 })
 export class UserListedComponent implements OnInit {
   @Input() user: User | undefined;
-  displayname: string = "[unknown displayname]";
-  username: string = "[unknown username]";
+  displayname: string | undefined;
+  username: string |undefined ;
   followed: boolean = false;
 
+  constructor(private tuneShareService: TuneShareService) {}
+
   ngOnInit() {
-    this.username = this.user?.username ? this.user?.username : this.username;
-    this.displayname = this.user?.display_name ? this.user?.display_name : this.displayname;
+    this.tuneShareService.getFollowedUsers().subscribe({
+      next: users => {
+        this.followed = users.find(foundUser => foundUser.id == this.user?.id) != undefined;
+        this.username = this.user?.username ? this.user?.username : "[unknown username]";
+        this.displayname = this.user?.display_name ? this.user?.display_name : "[unknown displayname]";
+      }
+    });
   }
 
   follow() {

@@ -3,6 +3,7 @@ import {NgClass, NgIf} from "@angular/common";
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 import {ConfirmExportComponent} from "../confirm-export/confirm-export.component";
 import {Playlist, playlistType, Track} from "../types";
+import {TuneShareService} from "../tune-share.service";
 
 @Component({
   selector: 'app-playlist',
@@ -43,6 +44,9 @@ export class PlaylistComponent implements OnInit {
   url: string = "/playlist?playlist="
   id_type: string | number = "";
   type: playlistType = "ts"
+  display_name: string = "";
+
+  constructor(private tuneshareService : TuneShareService) {}
 
   tilt(event: MouseEvent): void {
     const img = event.currentTarget as HTMLElement;
@@ -76,6 +80,12 @@ export class PlaylistComponent implements OnInit {
 
   ngOnInit() {
     this.isMobile = window.innerWidth < 992;
+
+    this.tuneshareService.getUser(this.playlist.owner_id).subscribe({
+      next: user => {
+        this.display_name = user.display_name;
+      }
+    })
     if(this.playlist.id != undefined){
       this.type = "ts";
       this.id_type = this.playlist.id;
@@ -102,6 +112,6 @@ export class PlaylistComponent implements OnInit {
   }
 
   copyLink() {
-    navigator.clipboard.writeText("localhost:4200"+this.url);  //TODO add link to specific playlist
+    navigator.clipboard.writeText("localhost:4200"+this.url);
   }
 }

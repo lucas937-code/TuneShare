@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {NgForOf} from "@angular/common";
 import {UserListedComponent} from "../user-listed/user-listed.component";
+import {User} from "../types";
 
 @Component({
   selector: 'app-list-of-users',
@@ -14,5 +15,5 @@ import {UserListedComponent} from "../user-listed/user-listed.component";
 })
 export class ListOfUsersComponent {
 
-  @Input() userList: any[] = [];
+  @Input() userList: User[] = [];
 }
