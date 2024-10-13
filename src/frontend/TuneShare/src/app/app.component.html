@@ -15,7 +15,7 @@
         <li class="mx-1"><a class="nav-link" href="/profile">Account</a></li>
         <li class="mx-1"><a class="nav-link" href="/settings">Settings</a></li>
         <li class="mx-1">
-          <a *ngIf="authService.isLoggedIn; else signIn" class="nav-link" href="/" (click)="authService.clearAccessToken()">
+          <a *ngIf="authService.isLoggedIn; else signIn" class="nav-link" href="/" (click)="authService.logout()">
             Sign out
           </a>
           <ng-template #signIn>
@@ -70,7 +70,7 @@
           <li><a class="nav-link" href="/profile">Account</a></li>
           <li><a class="nav-link" href="/settings">Settings</a></li>
           <li>
-            <a *ngIf="authService.isLoggedIn; else signIn" class="nav-link" href="/" (click)="authService.clearAccessToken()">
+            <a *ngIf="authService.isLoggedIn; else signIn" class="nav-link" href="/" (click)="authService.logout()">
               Sign out
             </a>
             <ng-template #signIn>
