@@ -87,4 +87,12 @@ export class PlaylistviewComponent implements OnInit {
   copyLink() {
     navigator.clipboard.writeText(window.location.href); //TODO add link to specific playlist
   }
+
+  importSpotify() {
+    this.added = !this.added;
+  }
+
+  importApplemusic() {
+    this.added = !this.added;
+  }
 }

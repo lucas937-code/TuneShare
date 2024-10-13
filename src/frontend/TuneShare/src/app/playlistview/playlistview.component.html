@@ -44,7 +44,7 @@
              href="https://open.spotify.com/playlist/{{ this.id_type }}" target="_blank" title="View in Spotify"
           ><i class="bi-spotify"></i></a><a> | </a>
           <i class="linkedButton addLink my-auto py-auto" title="Add to library"
-             (click)="add()"
+             (click)="importSpotify()"
              [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added}">
           </i>
         </div>
@@ -56,7 +56,7 @@
              title="View in Apple Music"
           ><i class="bi-apple"></i></a><a> | </a>
           <i class="linkedButton addLink my-auto py-auto" title="Add to library"
-             (click)="add()"
+             (click)="importApplemusic()"
              [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added}">
           </i>
         </div>

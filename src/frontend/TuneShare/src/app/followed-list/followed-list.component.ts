@@ -28,6 +28,6 @@ export class FollowedListComponent implements OnInit {
       next: users => {
         this.follower = users;
       }
-    })
+    });
   }
 }
