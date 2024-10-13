@@ -55,7 +55,7 @@ export class TuneShareService {
     return this.http.get<Track>(`${BACKEND_URL}api/track/${track_id}/`);
   }
 
-  // searches for Users matching the given query
+  // searches for Users matching the given query„
   searchUser(query: string): Observable<User[]> {
     const params: HttpParams = new HttpParams()
       .set('search', query);
