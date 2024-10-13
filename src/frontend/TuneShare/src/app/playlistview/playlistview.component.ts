@@ -94,5 +94,7 @@ export class PlaylistviewComponent implements OnInit {
 
   importApplemusic() {
     this.added = !this.added;
+
+    this.applemusicService.importFromAppleMusic(this.currentPlaylist.apple_music_id).subscribe(() => console.log("success!"));
   }
 }

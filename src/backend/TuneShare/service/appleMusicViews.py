@@ -201,7 +201,7 @@ class AppleMusicView(APIView):
         included_tracks = IncludesTrack.objects.filter(playlist_id=playlist_object)
         included_tracks.delete()
 
-        for index, track in enumerate(playlist['tracks']):
+        for index, track in enumerate(playlist['track_list']):
             track_object, created = Track.objects.get_or_create(title=track['title'], artist=track['artist'])
             track_object.apple_music_id = track['apple_music_id']
             if created:
