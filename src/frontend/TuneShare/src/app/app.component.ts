@@ -37,7 +37,6 @@ export class AppComponent implements OnInit {
   }
 
   submitSearch(f: NgForm) {
-    console.log(f.value.inputSearch);
     window.location.href = "/search?input=" + f.value.inputSearch;
     f.resetForm();
   }

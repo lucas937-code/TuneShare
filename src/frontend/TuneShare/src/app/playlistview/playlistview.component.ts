@@ -46,7 +46,6 @@ export class PlaylistviewComponent implements OnInit {
         case "ts": {
           this.tuneshareService.getPlaylist(params['playlist']).subscribe({
             next: playlist => {
-              console.log(playlist);
               this.currentPlaylist = playlist;
               this.tracks = this.currentPlaylist.track_list;
             }
@@ -67,7 +66,6 @@ export class PlaylistviewComponent implements OnInit {
             next: playlist => {
               this.currentPlaylist = playlist;
               this.tracks = this.currentPlaylist.track_list;
-              console.log(this.currentPlaylist);
             }
           })
           break;

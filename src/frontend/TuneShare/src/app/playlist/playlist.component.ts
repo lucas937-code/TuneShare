@@ -78,13 +78,14 @@ export class PlaylistComponent implements OnInit, OnChanges {
     //Funktion zum Hinzufügen zur Mediathek
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(this.playlist);
-    this.tuneshareService.getUser(this.playlist.owner_id).subscribe({
-      next: user => {
-        this.user = user;
-      }
-    });
+  ngOnChanges() {
+    if (this.type == "ts") {
+      this.tuneshareService.getUser(this.playlist.owner_id).subscribe({
+        next: user => {
+          this.user = user;
+        }
+      });
+    }
   }
 
   ngOnInit() {
