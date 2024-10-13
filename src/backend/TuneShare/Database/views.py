@@ -60,6 +60,12 @@ class UserViewSet(viewsets.ModelViewSet):
         )
         return Response(list(followed_users), status=status.HTTP_200_OK)
 
+    @action(detail=False, methods=['get'], url_path='current')
+    def get_current_user(self, request):
+        user = User.objects.get(user_uuid=request.user.id)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+
     @action(detail=True, methods=['get'], url_path='playlists')
     def get_playlists_of_user(self, request, pk=None):
         playlists = Playlist.objects.filter(owner_id_id=pk)
