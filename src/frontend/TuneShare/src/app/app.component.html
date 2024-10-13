@@ -12,7 +12,7 @@
         <i class="bi bi-person-circle"></i>
       </a>
       <ul class="dropdown-menu dropdown-menu-end bg-dark position-absolute" aria-labelledby="navbarDropdown">
-        <li class="mx-1"><a class="nav-link" href="/profile">Account</a></li>
+        <li class="mx-1"><a class="nav-link" href="/profile?p={{ this.user?.id }}">Account</a></li>
         <li class="mx-1"><a class="nav-link" href="/settings">Settings</a></li>
         <li class="mx-1">
           <a *ngIf="authService.isLoggedIn; else signIn" class="nav-link" href="/" (click)="authService.clearAccessToken()">
@@ -67,7 +67,7 @@
           <i class="bi bi-person-circle"></i>
         </a>
         <ul class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="navbarDropdown">
-          <li><a class="nav-link" href="/profile">Account</a></li>
+          <li><a class="nav-link" href="/profile?p={{ this.user?.id }}">Account</a></li>
           <li><a class="nav-link" href="/settings">Settings</a></li>
           <li>
             <a *ngIf="authService.isLoggedIn; else signIn" class="nav-link" href="/" (click)="authService.clearAccessToken()">

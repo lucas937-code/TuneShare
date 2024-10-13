@@ -3,20 +3,13 @@
   top: 3.8em;
   width: 100%;
   z-index: 50;
-  min-height: 15em;
   padding-top: 1em;
+  margin-bottom: 1em;
   background: white;
-}
-
-.namebar.shrink{
-  transition: min-height 0.2s;
-  min-height: 7em;
 }
 
 .namebar.shrink.mobile{
   transition: min-height 0.2s, height 0.2s;
-  min-height: 7em;
-  height: 8em;
 }
 
 .appleLink:hover{
