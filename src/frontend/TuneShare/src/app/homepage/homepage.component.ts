@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {NgClass, NgForOf} from "@angular/common";
-import {PlaylistService} from "../playlist.service";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {PlaylistComponent} from "../playlist/playlist.component";
 import {PlaylistRotateComponent} from "../playlist-rotate/playlist-rotate.component";
+import {TuneShareService} from "../tune-share.service";
+import {switchMap} from "rxjs";
+import {Playlist, User} from "../types";
 
 @Component({
   selector: 'app-homepage',
@@ -11,17 +13,25 @@ import {PlaylistRotateComponent} from "../playlist-rotate/playlist-rotate.compon
     NgClass,
     NgForOf,
     PlaylistComponent,
-    PlaylistRotateComponent
+    PlaylistRotateComponent,
+    NgIf
   ],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss'
 })
 export class HomepageComponent implements OnInit {
-  playlists: any[] = [];
+  ownPlaylists: any[] = [];
+  followerWithPlaylists: User[] = []
 
-  constructor(private playlistService: PlaylistService) {}
+  constructor(private tuneshareService: TuneShareService) {}
 
   ngOnInit(): void {
-    this.playlists = this.playlistService.getPlaylists();
+    this.tuneshareService.getCurrentUser().pipe(switchMap(user => {
+      return this.tuneshareService.getPlaylistsOfUser(user.id);
+    })).subscribe({
+      next: playlists => {
+        this.ownPlaylists = playlists;
+      }
+    });
   }
 }
