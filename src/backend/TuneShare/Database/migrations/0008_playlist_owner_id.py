@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Database', '0007_alter_user_display_name'),
+        ('Database', '0007_alter_user_username'),
     ]
 
     operations = [

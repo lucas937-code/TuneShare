@@ -1,4 +1,6 @@
 from rest_framework import viewsets, status
+from rest_framework.decorators import action
+from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 
 from .models import Playlist, User, Track, IncludesTrack, FollowsUser, FollowsPlaylist
@@ -31,6 +33,8 @@ def destroy(view_set, request, *args, **kwargs):
 
 
 class UserViewSet(viewsets.ModelViewSet):
+    search_fields = ['username', 'display_name']
+    filter_backends = (SearchFilter,)
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -43,14 +47,29 @@ class UserViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         return destroy(self, request, *args, **kwargs)
 
+    @action(detail=False, methods=['get'], url_path='follows')
     def get_followed_users(self, request, *args, **kwargs):
-        user_uuid = request.user.id
-        user = User.objects.get(user_uuid=user_uuid)
-        followed_users = FollowsUser.objects.filter(follower_id=user.id).values_list('followed_id', flat=True)
+        user = User.objects.get(user_uuid=request.user.id)
+        followed_users = FollowsUser.objects.filter(follower_id=user.id) \
+            .select_related('followed_id') \
+            .values(
+            'followed_id_id',
+            'followed_id__user_uuid',
+            'followed_id__username',
+            'followed_id__display_name'
+        )
         return Response(list(followed_users), status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['get'], url_path='playlists')
+    def get_playlists_of_user(self, request, pk=None):
+        playlists = Playlist.objects.filter(owner_id_id=pk)
+        serializer = PlaylistSerializer(playlists, many=True)
+        return Response(serializer.data, status.HTTP_200_OK)
 
 
 class PlaylistViewSet(viewsets.ModelViewSet):
+    search_fields = ['title']
+    filter_backends = (SearchFilter,)
     queryset = Playlist.objects.all()
     serializer_class = PlaylistSerializer
 
@@ -63,18 +82,16 @@ class PlaylistViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         return destroy(self, request, *args, **kwargs)
 
-    def list(self, request, *args, **kwargs):
-        playlists = self.get_queryset()  # Default queryset, can be customized
-        serializer = self.get_serializer(playlists, many=True)
-        return Response(serializer.data)
-
-    def retrieve(self, request, *args, **kwargs):
-        playlist = self.get_object()
-        serializer = self.get_serializer(playlist)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    @action(detail=True, methods=['get'], url_path='tracks')
+    def get_tracks_in_playlist(self, request, pk=None):
+        tracks = Track.objects.filter(tracks__playlist_id=pk)
+        serializer = TrackSerializer(tracks, many=True)
+        return Response(serializer.data, status.HTTP_200_OK)
 
 
 class TrackViewSet(viewsets.ModelViewSet):
+    search_fields = ['title', 'artist']
+    filter_backends = (SearchFilter,)
     queryset = Track.objects.all()
     serializer_class = TrackSerializer
 

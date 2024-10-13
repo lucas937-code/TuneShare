@@ -14,5 +14,4 @@ router.register(r'follows_playlist', FollowsPlaylistViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('users/follows/', UserViewSet.as_view({'get': 'get_followed_users'})),
 ]
