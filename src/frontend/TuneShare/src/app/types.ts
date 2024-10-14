@@ -12,6 +12,7 @@ export interface Playlist {
 
     track_list: Track[] | number[] | undefined;
     cover_url: string;
+    origin_id: string;
 }
 
 

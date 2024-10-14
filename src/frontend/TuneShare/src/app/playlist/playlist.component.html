@@ -1,4 +1,4 @@
-<a class="card usualStyle mx-auto" href="{{ this.url }}" [ngClass]="{ 'isHovered' : menuIsHovered }">
+<a class="card usualStyle mx-auto" href="{{ this.url }}" [ngClass]="{ 'isHovered' : menuIsHovered }" *ngIf="show">
   <div class="pt-3 mx-auto">
     <a href="{{ this.url }}">
       <div class="cover-bg"><img [src]="playlist.cover_url"
@@ -10,22 +10,25 @@
     </a>
   </div>
   <div class="mx-4 mt-3 mb-2 p-0" [ngClass]="{ 'smallerfont':isMobile }">
-    <a href="{{ this.url }}"><h5 class="card-title overflow-hidden" [ngClass]="{ 'smallerfontHeadline':isMobile }">{{ playlist.title }}</h5></a>
+    <a href="{{ this.url }}"><h5 class="card-title overflow-hidden"
+                                 [ngClass]="{ 'smallerfontHeadline':isMobile }">{{ playlist.title }}</h5></a>
     <div class="row mb-2 justify-content-between">
       <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='ts'"><a
         href="/profile?p={{ this.user?.id }}">&#64;{{ this.user?.username }}</a></div>
       <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='sp'">
-        <i class="bi-spotify" style="font-size: larger"></i><i class="ps-1" style="font-weight: lighter; vertical-align: center"> {{ playlist.owner_id }}</i>
+        <i class="bi-spotify" style="font-size: larger"></i><i class="ps-1"
+                                                               style="font-weight: lighter; vertical-align: center"> {{ playlist.owner_id }}</i>
       </div>
       <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='am'">
-        <i class="bi-apple" style="font-size: larger"></i><i style="font-weight: lighter; vertical-align: center"> Music</i>
+        <i class="bi-apple" style="font-size: larger"></i><i style="font-weight: lighter; vertical-align: center">
+        Music</i>
       </div>
 
       <div *ngIf="!isMobile" class="col row row-cols-auto justify-content-end text-right iconAddPlain">
         <a class="p-0 me-1" style="width: 35%" href="javascript:">
-          <i class="linkedButton addLink my-auto" title="Add"
+          <i class="linkedButton my-auto" title="{{ this.added ? '' : 'Add' }}"
              (click)="add()"
-             [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added}">
+             [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added, 'addLink': !disable }">
           </i>
         </a>
         <a ngbDropdown placement="top-end" container="body" href="javascript:"
@@ -77,6 +80,37 @@
   </div>
 </a>
 
+<a *ngIf="!show" class="card usualStyle mx-auto" href="{{ this.url }}" [ngClass]="{ 'isHovered' : menuIsHovered }">
+  <div class="text-center">
+    <div class="pt-3 mx-auto text-center">
+      <a href="{{ this.url }}">
+        <div class="cover-bg mx-auto">
+          <div class="loader mx-auto text-center" style="max-width: 14.5em; max-height: 14.5em;">
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="mx-4 mt-3 mb-2 p-0" [ngClass]="{ 'smallerfont':isMobile }" style="opacity: 0;">
+    <a href="{{ this.url }}"><h5 class="card-title overflow-hidden"
+                                 [ngClass]="{ 'smallerfontHeadline':isMobile }"></h5></a>
+    <div class="row mb-2 justify-content-between">
+      <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='ts'"></div>
+      <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='sp'">
+      </div>
+      <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='am'">
+      </div>
+
+      <div *ngIf="!isMobile" class="col row row-cols-auto justify-content-end text-right iconAddPlain">
+        <a class="p-0 me-1" style="width: 35%">
+          <i class="linkedButton my-auto">
+          </i>
+        </a>
+      </div>
+    </div>
+  </div>
+  </div>
+</a>
+
 <!-- Popups -->
 <div class="modal fade" #m id="confirmExportApplemusic" data-bs-keyboard="false" tabindex="-1" role="dialog"
      aria-labelledby="confirmExportLabel" aria-hidden="true">
@@ -87,3 +121,4 @@
      aria-labelledby="confirmExportLabel" aria-hidden="true">
   <app-confirm-export [currentPlaylist]="playlist" [spotify]="true" [id]="m"></app-confirm-export>
 </div>
+

@@ -1,4 +1,4 @@
-import {Component, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {AfterViewInit, Component, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {NgClass, NgIf} from "@angular/common";
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 import {ConfirmExportComponent} from "../confirm-export/confirm-export.component";
@@ -6,6 +6,7 @@ import {Playlist, playlistType, Track, User} from "../types";
 import {TuneShareService} from "../tune-share.service";
 import {AppleMusicService} from "../apple-music.service";
 import {SpotifyService} from "../spotify.service";
+import {switchMap} from "rxjs";
 
 @Component({
   selector: 'app-playlist',
@@ -23,7 +24,7 @@ import {SpotifyService} from "../spotify.service";
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.scss'
 })
-export class PlaylistComponent implements OnInit, OnChanges {
+export class PlaylistComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() playlist: Playlist = {
     id: undefined,
     owner_id: -1,
@@ -38,6 +39,7 @@ export class PlaylistComponent implements OnInit, OnChanges {
 
     track_list: undefined,
     cover_url: "/assets/papagei-foto.jpg",
+    origin_id: ""
   };
 
   menuIsHovered: boolean  = false;
@@ -45,8 +47,10 @@ export class PlaylistComponent implements OnInit, OnChanges {
   added: boolean = false;
   url: string = "/playlist?playlist="
   id_type: string | number = "";
-  type: playlistType = "ts"
+  type: playlistType | undefined;
   user: User | undefined;
+  disable : boolean = false;
+  show: boolean = false;
 
   constructor(private tuneshareService : TuneShareService, private appleMusicService: AppleMusicService, private spotifyService: SpotifyService) {}
 
@@ -76,12 +80,16 @@ export class PlaylistComponent implements OnInit, OnChanges {
   }
 
   add(){
-    this.added = !this.added;
-
-    if (this.playlist.apple_music_id)
-      this.appleMusicService.importFromAppleMusic(this.playlist.apple_music_id).subscribe();
-    if (this.playlist.spotify_id)
-      this.spotifyService.importFromSpotify(this.playlist.spotify_id).subscribe();
+    if (!this.disable){
+      if (this.playlist.apple_music_id) {
+        this.appleMusicService.importFromAppleMusic(this.playlist.apple_music_id).subscribe();
+        this.added = this.disable = true;
+      }
+      if (this.playlist.spotify_id) {
+        this.spotifyService.importFromSpotify(this.playlist.spotify_id).subscribe();
+        this.added = this.disable = true;
+      }
+    }
   }
 
   ngOnChanges() {
@@ -97,22 +105,46 @@ export class PlaylistComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.isMobile = window.innerWidth < 992;
 
-    if(this.playlist.id != undefined){
+    if(this.playlist.id){
       this.type = "ts";
       this.id_type = this.playlist.id;
-    }else if(this.playlist.spotify_id != undefined){
+    }else if(this.playlist.spotify_id){
       this.type = "sp";
       this.id_type = this.playlist.spotify_id;
-    }else if(this.playlist.apple_music_id != undefined){
+    }else if(this.playlist.apple_music_id){
       this.type = "am";
       this.id_type = this.playlist.apple_music_id;
     }
     this.url="/playlist?playlist="+this.id_type+"&type="+this.type;
   }
 
+  ngAfterViewInit() {
+    this.checkAdded();
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize(): void {
     this.isMobile = window.innerWidth < 992;
+  }
+
+  checkAdded(){
+    this.tuneshareService.getCurrentUser().pipe(switchMap(user => {
+      if (this.type == 'ts'){
+        this.added = this.playlist.owner_id == user.id;
+        this.disable = this.added;
+      }
+      return this.tuneshareService.getPlaylistsOfUser(user.id);
+    })).subscribe(playlists => {
+      if (this.type == "sp") {
+        this.added = playlists.find(playlist => playlist.origin_id == this.playlist.spotify_id) != undefined;
+        this.disable = this.added;
+        this.show = true;
+      } else if (this.type == "am"){
+        this.added = playlists.find(playlist => playlist.origin_id == this.playlist.apple_music_id) != undefined;
+        this.disable = this.added;
+        this.show = true;
+      }
+    });
   }
 
   hoveredTrue(){

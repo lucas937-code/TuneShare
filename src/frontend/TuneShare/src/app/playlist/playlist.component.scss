@@ -98,11 +98,6 @@ a{
   color: #4F4E57;
 }
 
-.art-cover {
-  perspective: 1000px;
-  transition: transform 0.2s ease-out;
-}
-
 .art-cover.tilted {
   transform: rotateX(var(--rotateX)) rotateY(var(--rotateY));
 }
@@ -128,6 +123,25 @@ a{
   -webkit-box-shadow: 0px 0px 5px 0px rgba(149, 137, 159, 0.17);
   -moz-box-shadow: 0px 0px 5px 0px rgba(149, 137, 159, 0.17);
   box-shadow: 0px 0px 5px 0px rgba(149, 137, 159, 0.17);
+}
+
+.loader {
+  width: 40px;
+  aspect-ratio: 1;
+  animation:
+    l3-1 2s infinite linear,
+    l3-2 3s infinite steps(1) -.5s;
+}
+@keyframes l3-1 {
+  0%   {transform: perspective(150px) rotateX(  0deg) rotateY(0deg)}
+  50%  {transform: perspective(150px) rotateX(180deg) rotateY(0deg)}
+  100% {transform: perspective(150px) rotateX(180deg) rotateY(180deg)}
+}
+@keyframes l3-2 {
+  0%  {background: #8A5CA3}
+  33% {background: #E7515F}
+  66% {background: #65d46e
+  }
 }
 
 @media (max-width: 767px) {
