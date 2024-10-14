@@ -235,10 +235,10 @@ class SpotifyView(APIView):
                 url = f"https://api.spotify.com/v1/search/?q={track_included.track.artist} {track_included.track.title}&type=track&limit=1&market=DE"
                 headers = {"Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"}
                 response = requests.get(url, headers=headers)
-                track_included.track.spotify_id = response.json()['items'][0]['id']
+                track_included.track.spotify_id = response.json()['tracks']['items'][0]['id']
 
                 track_included.track.save()
-                track_list.append({f"spotify:track:{response.json()['items'][0]['id']}"})
+                track_list.append(f"spotify:track:{response.json()['tracks']['items'][0]['id']}")
 
         request_body = {
             "name": playlist.title,

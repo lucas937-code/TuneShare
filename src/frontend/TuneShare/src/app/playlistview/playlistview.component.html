@@ -22,10 +22,10 @@
           <div class="logos align-items-center text-left px-0" [ngClass]="{ 'mt-1': isMobile, 'mt-3': !isMobile }"
                *ngIf="type=='ts'">
             <a class="linkedButton appleLink my-auto py-auto"
-               data-bs-toggle="modal" data-bs-target="#confirmExportApplemusic"
+               data-bs-toggle="modal" [attr.data-bs-target]="'#confirmExportApplemusic' + currentPlaylist.id"
             ><i class="bi-apple"></i></a><a> | </a>
             <a class="linkedButton spotifyLink my-auto py-auto"
-               data-bs-toggle="modal" data-bs-target="#confirmExportSpotify"
+               data-bs-toggle="modal" [attr.data-bs-target]="'#confirmExportSpotify' + currentPlaylist.id"
             ><i class="bi-spotify"></i></a><a> | </a>
             <a class="linkedButton shareLink my-auto py-auto" (click)="copyLink()"
                ngbTooltip="Link copied!"
@@ -97,12 +97,12 @@
 <div *ngIf="!currentPlaylist || (this.type=='ts' && !this.user)" class="loader mx-auto my-auto mt-5"></div>
 
 <!-- Popups -->
-<div *ngIf="currentPlaylist" class="modal fade" #m id="confirmExportApplemusic" data-bs-keyboard="false" tabindex="-1"
+<div *ngIf="currentPlaylist" class="modal fade" id="confirmExportApplemusic-{{currentPlaylist.id}}" data-bs-keyboard="false" tabindex="-1"
      role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
-  <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="false" [id]="m"></app-confirm-export>
+  <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="false" [id]="'confirmExportApplemusic-' + currentPlaylist.id"></app-confirm-export>
 </div>
 
-<div *ngIf="currentPlaylist" class="modal fade" #m id="confirmExportSpotify" data-bs-keyboard="false" tabindex="-1"
+<div *ngIf="currentPlaylist" class="modal fade" #m id="confirmExportSpotify-{{currentPlaylist.id}}" data-bs-keyboard="false" tabindex="-1"
      role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
-  <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="true" [id]="m"></app-confirm-export>
+  <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="true" [id]="'confirmExportSpotify-' + currentPlaylist.id"></app-confirm-export>
 </div>
