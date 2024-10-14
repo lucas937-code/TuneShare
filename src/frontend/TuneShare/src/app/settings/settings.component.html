@@ -5,8 +5,8 @@
       Linking
     </div>
     <div class="card-body">
-      <p><button class="btn" (click)="linkSpotify()">Link Spotify</button></p>
-      <button class="btn" (click)="linkAppleMusic()">Link Apple Music</button>
+      <p><button class="btn" (click)="linkSpotify()" [disabled]="linkedSpotify">Link Spotify <i class="bi bi-check"></i></button></p>
+      <button class="btn" (click)="linkAppleMusic()" [disabled]="linkedAppleMusic">Link Apple Music <i class="bi bi-check"></i></button>
     </div>
   </div>
 </div>
