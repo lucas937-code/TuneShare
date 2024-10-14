@@ -42,7 +42,6 @@ export class PlaylistviewComponent implements OnInit {
 
   ngOnInit() {
     this.isMobile = window.innerWidth < 992;
-    this.checkAdded();
     this.route.queryParams.subscribe(params => {
       this.type = params['type'];
       this.id_type = params['playlist'];
@@ -53,6 +52,7 @@ export class PlaylistviewComponent implements OnInit {
               this.currentPlaylist = playlist;
               this.tracks = this.currentPlaylist.track_list;
               this.tuneshareService.getUser(playlist.owner_id).subscribe(user => this.user = user);
+              this.checkAdded();
             }
           });
           break;
@@ -62,6 +62,7 @@ export class PlaylistviewComponent implements OnInit {
             next: playlist => {
               this.currentPlaylist = playlist;
               this.tracks = this.currentPlaylist.track_list;
+              this.checkAdded();
             }
           });
           break;
@@ -71,6 +72,7 @@ export class PlaylistviewComponent implements OnInit {
             next: playlist => {
               this.currentPlaylist = playlist;
               this.tracks = this.currentPlaylist.track_list;
+              this.checkAdded();
             }
           })
           break;
