@@ -97,12 +97,14 @@
 <div *ngIf="!currentPlaylist || (this.type=='ts' && !this.user)" class="loader mx-auto my-auto mt-5"></div>
 
 <!-- Popups -->
-<div *ngIf="currentPlaylist" class="modal fade" id="confirmExportApplemusic-{{currentPlaylist.id}}" data-bs-keyboard="false" tabindex="-1"
-     role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
-  <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="false" [id]="'confirmExportApplemusic-' + currentPlaylist.id"></app-confirm-export>
-</div>
+<div *ngIf="type=='ts'">
+  <div *ngIf="currentPlaylist" class="modal fade" id="confirmExportApplemusic-{{currentPlaylist.id}}" data-bs-keyboard="false" tabindex="-1"
+       role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
+    <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="false" [id]="'confirmExportApplemusic-' + currentPlaylist.id"></app-confirm-export>
+  </div>
 
-<div *ngIf="currentPlaylist" class="modal fade" #m id="confirmExportSpotify-{{currentPlaylist.id}}" data-bs-keyboard="false" tabindex="-1"
-     role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
-  <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="true" [id]="'confirmExportSpotify-' + currentPlaylist.id"></app-confirm-export>
+  <div *ngIf="currentPlaylist" class="modal fade" #m id="confirmExportSpotify-{{currentPlaylist.id}}" data-bs-keyboard="false" tabindex="-1"
+       role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
+    <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="true" [id]="'confirmExportSpotify-' + currentPlaylist.id"></app-confirm-export>
+  </div>
 </div>
