@@ -41,6 +41,11 @@ export class TuneShareService {
     return this.http.get<Playlist[]>(`${BACKEND_URL}api/user/${user_id}/playlists/`);
   }
 
+  // get all TuneShare playlists of a given user
+  getFollowedPlaylistsOfUser(): Observable<Playlist[]> {
+    return this.http.get<Playlist[]>(`${BACKEND_URL}api/user/followed_playlists/`);
+  }
+
   // get a specific TuneShare Playlist by id
   getPlaylist(playlist_id: number): Observable<Playlist> {
     return this.http.get<Playlist>(`${BACKEND_URL}api/playlist/${playlist_id}/`).pipe(
@@ -84,6 +89,16 @@ export class TuneShareService {
   // checks if a user has linked spotify or AppleMusic
   linkedServices(): Observable<{spotify: boolean, apple_music: boolean}> {
     return this.http.get<{spotify: boolean, apple_music: boolean}>(`${BACKEND_URL}api/user/linked_services/`);
+  }
+
+  //follows a playlist by another user
+  followPlaylist(playlist_id:number): Observable<Playlist> {
+    return this.http.post<Playlist>(`${BACKEND_URL}api/user/follow_playlist/?id=${playlist_id}`, {});
+  }
+
+  //unfollows a playlist by another user
+  unfollowPlaylist(playlist_id:number): Observable<void> {
+    return this.http.delete<void>(`${BACKEND_URL}api/user/unfollow_playlist/?id=${playlist_id}`, {});
   }
 
   // deletes a playlist from TuneShare

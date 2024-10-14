@@ -93,16 +93,25 @@ export class PlaylistComponent implements OnInit {
   }
 
   add(){
-    if (!this.disable){
+    if (!this.disable) {
       if (this.playlist.apple_music_id) {
         this.appleMusicService.importFromAppleMusic(this.playlist.apple_music_id).subscribe();
         this.added = this.disable = true;
-      }
-      if (this.playlist.spotify_id) {
+      } else if (this.playlist.spotify_id) {
         this.spotifyService.importFromSpotify(this.playlist.spotify_id).subscribe();
         this.added = this.disable = true;
       }
+      else if (this.playlist.id) {
+        if (!this.added) {
+          this.tuneshareService.followPlaylist(this.playlist.id).subscribe();
+          this.added = true;
+        } else {
+          this.tuneshareService.unfollowPlaylist(this.playlist.id).subscribe();
+          this.added = false;
+        }
+      }
     }
+
   }
 
   ngOnInit() {
@@ -138,20 +147,28 @@ export class PlaylistComponent implements OnInit {
 
   checkAdded(){
     this.tuneshareService.getCurrentUser().pipe(switchMap(user => {
-      if (this.type == 'ts'){
+      if (this.type == 'ts' && !this.added){
         this.added = this.playlist.owner_id == user.id;
-        this.disable = this.added;
         this.show = true;
       }
       return this.tuneshareService.getPlaylistsOfUser(user.id);
     })).subscribe(playlists => {
-      if (this.type == "sp") {
+      if (this.type == "sp" && !this.added) {
         this.added = playlists.find(playlist => playlist.origin_id == this.playlist.spotify_id) != undefined;
         this.disable = this.added;
         this.show = true;
-      } else if (this.type == "am"){
+      } else if (this.type == "am" && !this.added){
         this.added = playlists.find(playlist => playlist.origin_id == this.playlist.apple_music_id) != undefined;
         this.disable = this.added;
+        this.show = true;
+      }
+    });
+
+    this.tuneshareService.getCurrentUser().pipe(switchMap(user => {
+      return this.tuneshareService.getFollowedPlaylistsOfUser();
+    })).subscribe(playlists => {
+      if (!this.added) {
+        this.added = playlists.find(playlist => playlist.origin_id == this.playlist.origin_id) != undefined;
         this.show = true;
       }
     });
