@@ -40,4 +40,18 @@ export class SpotifyService {
       .set('playlist_id', playlist_id);
     return this.http.get<Playlist>(`${BACKEND_URL}service/spotify/`, {params});
   }
+
+  importFromSpotify(playlist_id: string): Observable<any> {
+    const params = new HttpParams()
+      .set('action', 'add_to_tuneshare')
+      .set('playlist_id', playlist_id);
+    return this.http.get<any>(`${BACKEND_URL}service/spotify/`, {params});
+  }
+
+  exportToSpotify(playlist_id: number): Observable<{ snapshot_id: string }> {
+    const params: HttpParams = new HttpParams()
+      .set('playlist_id', playlist_id)
+      .set('action', 'export_to_spotify');
+    return this.http.get<any>(`${BACKEND_URL}service/spotify/`, {params});
+  }
 }

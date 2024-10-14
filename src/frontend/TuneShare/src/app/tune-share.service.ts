@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import { BACKEND_URL } from "../main";
 import {Playlist, Track, User} from "./types";
-import {map, Observable, switchMap} from "rxjs";
+import {map, Observable, switchMap, tap} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -27,9 +27,14 @@ export class TuneShareService {
   }
 
   // Adds the user with the given id to the current user's following list
-  // followUser(user_id: number): Observable<any> {
-  //  TODO
-  // }
+  followUser(user_id: number): Observable<User> {
+    return this.http.post<User>(`${BACKEND_URL}api/user/follow_user/?id=${user_id}`, {});
+  }
+
+  // Adds the user with the given id to the current user's following list
+  unfollowUser(user_id: number): Observable<User> {
+    return this.http.delete<User>(`${BACKEND_URL}api/user/unfollow_user/?id=${user_id}`, {});
+  }
 
   // get all TuneShare playlists of a given user
   getPlaylistsOfUser(user_id: number): Observable<Playlist[]> {
@@ -40,7 +45,7 @@ export class TuneShareService {
   getPlaylist(playlist_id: number): Observable<Playlist> {
     return this.http.get<Playlist>(`${BACKEND_URL}api/playlist/${playlist_id}/`).pipe(
       switchMap(playlist =>
-        this.http.get<Track[]>(`${BACKEND_URL}api/playlist/${playlist_id}/tracks`).pipe(
+        this.http.get<Track[]>(`${BACKEND_URL}api/playlist/${playlist_id}/tracks/`).pipe(
           map(track_list => {
             playlist.track_list = track_list;
             return playlist;
@@ -55,7 +60,7 @@ export class TuneShareService {
     return this.http.get<Track>(`${BACKEND_URL}api/track/${track_id}/`);
   }
 
-  // searches for Users matching the given query
+  // searches for Users matching the given query„
   searchUser(query: string): Observable<User[]> {
     const params: HttpParams = new HttpParams()
       .set('search', query);
@@ -74,5 +79,10 @@ export class TuneShareService {
     const params: HttpParams = new HttpParams()
       .set('search', query);
     return this.http.get<Track[]>(`${BACKEND_URL}api/track/`, {params});
+  }
+
+  // checks if a user has linked spotify or AppleMusic
+  linkedServices(): Observable<{spotify: boolean, apple_music: boolean}> {
+    return this.http.get<{spotify: boolean, apple_music: boolean}>(`${BACKEND_URL}api/user/linked_services/`);
   }
 }

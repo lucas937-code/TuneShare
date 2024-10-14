@@ -1,8 +1,12 @@
-import {Component, HostListener, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {NgClass, NgIf} from "@angular/common";
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 import {ConfirmExportComponent} from "../confirm-export/confirm-export.component";
-import {Playlist, playlistType, Track} from "../types";
+import {Playlist, playlistType, Track, User} from "../types";
+import {TuneShareService} from "../tune-share.service";
+import {AppleMusicService} from "../apple-music.service";
+import {SpotifyService} from "../spotify.service";
+import {switchMap} from "rxjs";
 
 @Component({
   selector: 'app-playlist',
@@ -35,6 +39,7 @@ export class PlaylistComponent implements OnInit {
 
     track_list: undefined,
     cover_url: "/assets/papagei-foto.jpg",
+    origin_id: ""
   };
 
   menuIsHovered: boolean  = false;
@@ -42,7 +47,12 @@ export class PlaylistComponent implements OnInit {
   added: boolean = false;
   url: string = "/playlist?playlist="
   id_type: string | number = "";
-  type: playlistType = "ts"
+  type: playlistType | undefined;
+  user: User | undefined;
+  disable : boolean = false;
+  show: boolean = false;
+
+  constructor(private tuneshareService : TuneShareService, private appleMusicService: AppleMusicService, private spotifyService: SpotifyService) {}
 
   tilt(event: MouseEvent): void {
     const img = event.currentTarget as HTMLElement;
@@ -70,28 +80,68 @@ export class PlaylistComponent implements OnInit {
   }
 
   add(){
-    this.added = !this.added;
-    //Funktion zum Hinzufügen zur Mediathek
+    if (!this.disable){
+      if (this.playlist.apple_music_id) {
+        this.appleMusicService.importFromAppleMusic(this.playlist.apple_music_id).subscribe();
+        this.added = this.disable = true;
+      }
+      if (this.playlist.spotify_id) {
+        this.spotifyService.importFromSpotify(this.playlist.spotify_id).subscribe();
+        this.added = this.disable = true;
+      }
+    }
   }
 
   ngOnInit() {
     this.isMobile = window.innerWidth < 992;
-    if(this.playlist.id != undefined){
+    this.show = false;
+    this.checkAdded();
+
+    if(this.playlist.id){
       this.type = "ts";
       this.id_type = this.playlist.id;
-    }else if(this.playlist.spotify_id != undefined){
+    }else if(this.playlist.spotify_id){
       this.type = "sp";
       this.id_type = this.playlist.spotify_id;
-    }else if(this.playlist.apple_music_id != undefined){
+    }else if(this.playlist.apple_music_id){
       this.type = "am";
       this.id_type = this.playlist.apple_music_id;
     }
     this.url="/playlist?playlist="+this.id_type+"&type="+this.type;
+
+    if (this.type == "ts") {
+      this.tuneshareService.getUser(this.playlist.owner_id).subscribe({
+        next: user => {
+          this.user = user;
+        }
+      });
+    }
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(): void {
     this.isMobile = window.innerWidth < 992;
+  }
+
+  checkAdded(){
+    this.tuneshareService.getCurrentUser().pipe(switchMap(user => {
+      if (this.type == 'ts'){
+        this.added = this.playlist.owner_id == user.id;
+        this.disable = this.added;
+        this.show = true;
+      }
+      return this.tuneshareService.getPlaylistsOfUser(user.id);
+    })).subscribe(playlists => {
+      if (this.type == "sp") {
+        this.added = playlists.find(playlist => playlist.origin_id == this.playlist.spotify_id) != undefined;
+        this.disable = this.added;
+        this.show = true;
+      } else if (this.type == "am"){
+        this.added = playlists.find(playlist => playlist.origin_id == this.playlist.apple_music_id) != undefined;
+        this.disable = this.added;
+        this.show = true;
+      }
+    });
   }
 
   hoveredTrue(){
@@ -102,6 +152,6 @@ export class PlaylistComponent implements OnInit {
   }
 
   copyLink() {
-    navigator.clipboard.writeText("localhost:4200"+this.url);  //TODO add link to specific playlist
+    navigator.clipboard.writeText("localhost:4200"+this.url);
   }
 }

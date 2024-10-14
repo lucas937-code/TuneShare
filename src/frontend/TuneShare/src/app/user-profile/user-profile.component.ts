@@ -2,9 +2,10 @@ import {Component, HostListener, Input, OnInit} from '@angular/core';
 import {PlaylistListComponent} from "../playlistList/playlist-list.component";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {PlaylistComponent} from "../playlist/playlist.component";
-import {PlaylistService} from "../playlist.service";
 import {Playlist, User} from "../types";
 import {NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
+import {ActivatedRoute} from "@angular/router";
+import {TuneShareService} from "../tune-share.service";
 
 @Component({
   selector: 'app-user-profile',
@@ -21,28 +22,41 @@ import {NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
   styleUrl: './user-profile.component.scss'
 })
 export class UserProfileComponent implements OnInit {
-  @Input() user: User = {
-    id: 0,
-    spotify_id: "MaxAverageListeningEnjoyer",
-    apple_music_id: undefined,
-    date_created: new Date("2000-02-02"),
-    username: "Max_2000",
-    display_name: "Max Mustermannn",
-  }
+  user: User | undefined;
 
   playlists: Playlist[] = [];
   isShrunk: boolean = false;
   isHidden: boolean = false;
-  followed: boolean = false; //True = Nutzer wird bereits gefolgt
+  followed: boolean = false;
   newFollow: boolean = this.followed;
-  ownProfile: boolean = false; //True = Nutzer sieht sein eigenes Profil an
+  ownProfile: boolean = false;
   isMobile: boolean = true;
 
-  constructor(private playlistService: PlaylistService) {
-  }
+  constructor(private route : ActivatedRoute, private tuneshareService: TuneShareService) {}
 
   ngOnInit() {
-    this.playlists = this.playlistService.getPlaylists(); //TODO Replace with UserPlaylists
+    this.route.queryParams.subscribe(params => {
+      this.tuneshareService.getUser(params['p']).subscribe({
+        next: user => {
+          this.tuneshareService.getCurrentUser().subscribe({
+            next: currentuser => {
+              this.ownProfile = user.id == currentuser.id;
+              this.user = user;
+            }
+          });
+          this.tuneshareService.getPlaylistsOfUser(user.id).subscribe({
+            next: playlists => {
+              this.playlists = playlists;
+            }
+          })
+          this.tuneshareService.getFollowedUsers().subscribe({
+            next: users => {
+              this.followed = this.newFollow = users.find(foundUser => foundUser.id == user.id) != undefined;
+            }
+          });
+        }
+      })
+    });
     this.isMobile = window.innerWidth < 992;
   }
 
@@ -69,13 +83,27 @@ export class UserProfileComponent implements OnInit {
   }
 
   follow() {
-    this.followed = !this.followed;
+    if(this.user?.id){
+      if (!this.followed) {
+        this.tuneshareService.followUser(this.user.id).subscribe();
+        this.followAnimation(true)
+      }else{
+        this.tuneshareService.unfollowUser(this.user.id).subscribe();
+        this.followAnimation(false);
+      }
+    }
+  }
+
+  followAnimation(follow: boolean) {
+    this.followed = follow;
     setTimeout(() => {
       this.newFollow = this.followed;
     }, 100);
   }
 
   copyUsername() {
-    navigator.clipboard.writeText("@" + this.user.username);
+    if (this.user) {
+      navigator.clipboard.writeText("@" + this.user.username);
+    }
   }
 }

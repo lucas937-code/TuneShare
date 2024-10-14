@@ -27,6 +27,8 @@ class SpotifyView(APIView):
                 return self.get_current_user(request)
             case 'add_to_tuneshare':
                 return self.add_to_tuneshare(request)
+            case 'export_to_spotify':
+                return self.export_to_spotify(request)
             case _:
                 return Response({'error': 'Invalid action'}, status=400)
 
@@ -208,9 +210,63 @@ class SpotifyView(APIView):
         for index, track in enumerate(spotify_playlist['track_list']):
             track_data, already_created = Track.objects.get_or_create(title=track['title'], artist=track['artist'])
             track_data.spotify_id = track['spotify_id']
+            if already_created:
+                track_data.cover_url = track['cover_url']
+
             track_data.save()
 
             includes = IncludesTrack.objects.create(position=index + 1, playlist=playlist_data, track=track_data)
             includes.save()
 
         return Response(status=status.HTTP_201_CREATED)
+
+
+    def export_to_spotify(self, request):
+        playlist = Playlist.objects.get(id=request.query_params.get('playlist_id'))
+        included_tracks = IncludesTrack.objects.filter(playlist=playlist)
+        track_list = []
+
+        for track_included in included_tracks:
+            if track_included.track.spotify_id:
+                track_list.append(f"spotify:track:{track_included.track.spotify_id}")
+            else:
+                url = f"https://api.spotify.com/v1/search/?q={track_included.track.artist} {track_included.track.title}&type=track&limit=1&market=DE"
+                headers = {"Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"}
+                response = requests.get(url, headers=headers)
+
+                if response.status_code != 200:
+                    self.refresh_access_token(request)
+                    response = requests.get(url, headers=headers)
+
+                track_included.track.spotify_id = response.json()['tracks']['items'][0]['id']
+
+                track_included.track.save()
+                track_list.append(f"spotify:track:{response.json()['tracks']['items'][0]['id']}")
+
+        request_body = {
+            "name": playlist.title,
+            "description": "",
+            "public": False
+        }
+
+        user = self.get_current_user(request)
+        url = f"https://api.spotify.com/v1/users/{user.data['id']}/playlists"
+        headers = {"Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"}
+
+        response = requests.post(url, headers=headers, json=request_body)
+
+        if response.status_code != 201 or response.status_code != 200:
+            self.refresh_access_token(request)
+            response = requests.post(url, headers=headers, json=request_body)
+
+        if response.status_code == 201:
+            playlist_id = response.json()['id']
+            request_body = {
+                "uris": track_list,
+                "position": 0
+            }
+            response = requests.post(f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks", json=request_body, headers=headers)
+
+            return Response(response.json(), status=response.status_code)
+        else:
+            return Response(response.json(), status=response.status_code)

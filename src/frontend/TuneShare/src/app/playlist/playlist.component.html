@@ -10,23 +10,28 @@
     </a>
   </div>
   <div class="mx-4 mt-3 mb-2 p-0" [ngClass]="{ 'smallerfont':isMobile }">
-    <a href="{{ this.url }}"><h5 class="card-title overflow-hidden" [ngClass]="{ 'smallerfontHeadline':isMobile }">{{ playlist.title }}</h5></a>
+    <a href="{{ this.url }}"><h5 class="card-title overflow-hidden"
+                                 [ngClass]="{ 'smallerfontHeadline':isMobile }">{{ playlist.title }}</h5></a>
     <div class="row mb-2 justify-content-between">
       <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='ts'"><a
-        href="/profile">{{ playlist.owner_id }}</a></div>
+        href="/profile?p={{ this.user?.id }}">&#64;{{ this.user?.username }}</a></div>
       <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='sp'">
-        <i class="bi-spotify" style="font-size: larger"></i><i class="ps-1" style="font-weight: lighter; vertical-align: center"> {{ playlist.owner_id }}</i>
+        <i class="bi-spotify" style="font-size: larger"></i><i class="ps-1"
+                                                               style="font-weight: lighter; vertical-align: center"> {{ playlist.owner_id }}</i>
       </div>
       <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='am'">
-        <i class="bi-apple" style="font-size: larger"></i><i style="font-weight: lighter; vertical-align: center"> Music</i>
+        <i class="bi-apple" style="font-size: larger"></i><i style="font-weight: lighter; vertical-align: center">
+        Music</i>
       </div>
 
       <div *ngIf="!isMobile" class="col row row-cols-auto justify-content-end text-right iconAddPlain">
         <a class="p-0 me-1" style="width: 35%" href="javascript:">
-          <i class="linkedButton addLink my-auto" title="Add"
-             (click)="add()"
-             [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added}">
+          <i class="linkedButton my-auto" title="{{ this.added ? '' : 'Add' }}"
+             (click)="add()" *ngIf="show"
+             [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added, 'addLink': !disable }">
           </i>
+          <div class="loaderCircle my-auto mx-auto text-center pt-1" title="{{ this.added ? '' : 'Add' }}" *ngIf="!show">
+          </div>
         </a>
         <a ngbDropdown placement="top-end" container="body" href="javascript:"
            class="dropdownPlaylist text-end w-auto p-0 d-inline">
@@ -35,10 +40,10 @@
             <div ngbDropdownMenu aria-labelledby="playlistExpandButton" (mouseenter)="hoveredTrue()"
                  (mouseleave)="hoveredFalse()">
               <a ngbDropdownItem class="linkedButton appleLink my-auto py-auto"
-                 data-bs-toggle="modal" data-bs-target="#confirmExportApplemusic"
+                 data-bs-toggle="modal" [attr.data-bs-target]="'#confirmExportApplemusic-' + playlist.id"
               >Export to Apple Music</a>
               <a ngbDropdownItem class="linkedButton spotifyLink my-auto py-auto"
-                 data-bs-toggle="modal" data-bs-target="#confirmExportSpotify"
+                 data-bs-toggle="modal" [attr.data-bs-target]="'#confirmExportSpotify-' + playlist.id"
               >Export to Spotify</a>
               <a ngbDropdownItem class="linkedButton shareLink my-auto py-auto" (click)="copyLink()"
               >Copy link</a>
@@ -53,19 +58,22 @@
 
 
       <a *ngIf="isMobile" ngbDropdown placement="top-end" container="body" href="javascript:"
-         class="text-end w-auto p-0">
-        <div class="logos text-end iconAddPlain" id="playlistExpandButtonMobile" style="max-width: 45%"
-             ngbDropdownToggle>
-          <i class="bi-three-dots-vertical"></i>
+         class="dropdownPlaylist text-end w-auto p-0 d-inline">
+        <div id="playlistExpandButtonMobile" ngbDropdownToggle *ngIf="type=='ts'"><i
+          class="bi-three-dots-vertical"></i>
           <div ngbDropdownMenu aria-labelledby="playlistExpandButton" (mouseenter)="hoveredTrue()"
                (mouseleave)="hoveredFalse()">
-            <a ngbDropdownItem class="linkedButton appleLink my-auto py-auto" href="https://apple.com" target="_blank">View
-              in Apple Music</a>
-            <a ngbDropdownItem class="linkedButton spotifyLink my-auto py-auto" href="https://www.spotify.com"
-               target="_blank">View in Spotify</a>
-            <a ngbDropdownItem class="linkedButton shareLink my-auto py-auto">Share Link</a>
+            <a ngbDropdownItem class="linkedButton appleLink my-auto py-auto"
+               data-bs-toggle="modal" [attr.data-bs-target]="'#confirmExportApplemusic-' + playlist.id"
+            >Export to Apple Music</a>
+            <a ngbDropdownItem class="linkedButton spotifyLink my-auto py-auto"
+               data-bs-toggle="modal" [attr.data-bs-target]="'#confirmExportSpotify-' + playlist.id"
+            >Export to Spotify</a>
+            <a ngbDropdownItem class="linkedButton shareLink my-auto py-auto" (click)="copyLink()"
+            >Copy link</a>
             <div class="dropdown-divider"></div>
-            <a ngbDropdownItem *ngIf="added" class="linkedButton shareLink my-0" (click)="add()">Remove from Library</a>
+            <a ngbDropdownItem *ngIf="added" class="linkedButton shareLink my-0" (click)="add()">Remove from
+              Library</a>
             <a ngbDropdownItem *ngIf="!added" class="linkedButton shareLink my-0" (click)="add()">Add to library</a>
           </div>
         </div>
@@ -75,12 +83,15 @@
 </a>
 
 <!-- Popups -->
-<div class="modal fade" #m id="confirmExportApplemusic" data-bs-keyboard="false" tabindex="-1" role="dialog"
-     aria-labelledby="confirmExportLabel" aria-hidden="true">
-  <app-confirm-export [currentPlaylist]="playlist" [spotify]="false" [id]="m"></app-confirm-export>
+<div *ngIf="type=='ts'">
+  <div class="modal fade" id="confirmExportApplemusic-{{playlist.id}}" data-bs-keyboard="false" tabindex="-1" role="dialog"
+       aria-labelledby="confirmExportLabel" aria-hidden="true">
+    <app-confirm-export [currentPlaylist]="playlist" [spotify]="false" [id]="'confirmExportApplemusic-' + playlist.id"></app-confirm-export>
+  </div>
+
+  <div class="modal fade" id="confirmExportSpotify-{{playlist.id}}" data-bs-keyboard="false" tabindex="-1" role="dialog"
+       aria-labelledby="confirmExportLabel" aria-hidden="true">
+    <app-confirm-export [currentPlaylist]="playlist" [spotify]="true" [id]="'confirmExportSpotify-' + playlist.id"></app-confirm-export>
+  </div>
 </div>
 
-<div class="modal fade" #m id="confirmExportSpotify" data-bs-keyboard="false" tabindex="-1" role="dialog"
-     aria-labelledby="confirmExportLabel" aria-hidden="true">
-  <app-confirm-export [currentPlaylist]="playlist" [spotify]="true" [id]="m"></app-confirm-export>
-</div>

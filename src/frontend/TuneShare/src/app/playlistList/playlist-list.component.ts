@@ -13,6 +13,6 @@ import {Playlist} from "../types";
     PlaylistComponent
   ]
 })
-export class PlaylistListComponent{
+export class PlaylistListComponent {
   @Input() playlists: Playlist[] = [];
 }

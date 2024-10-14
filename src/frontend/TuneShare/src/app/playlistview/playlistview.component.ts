@@ -1,14 +1,13 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnInit} from '@angular/core';
 import {PlaylistComponent} from "../playlist/playlist.component";
-import {PlaylistService} from "../playlist.service";
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {NgbTooltip, NgbTooltipModule} from "@ng-bootstrap/ng-bootstrap";
 import {ConfirmExportComponent} from "../confirm-export/confirm-export.component";
-import {playlistType, Track} from "../types";
+import {playlistType, Track, User} from "../types";
 import {SpotifyService} from "../spotify.service";
 import {AppleMusicService} from "../apple-music.service";
 import {ActivatedRoute} from "@angular/router";
-import {switchMap} from "rxjs";
+import {TuneShareService} from "../tune-share.service";
 
 @Component({
   selector: 'app-playlistview',
@@ -28,10 +27,10 @@ import {switchMap} from "rxjs";
 })
 export class PlaylistviewComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private spotifyService: SpotifyService, private applemusicService: AppleMusicService) {
-  }
+  constructor(private route: ActivatedRoute, private spotifyService: SpotifyService, private applemusicService: AppleMusicService, private tuneshareService: TuneShareService) {}
 
   currentPlaylist: any;
+  user: User | undefined
 
   added: boolean = false;
   isMobile: boolean = false;
@@ -46,7 +45,13 @@ export class PlaylistviewComponent implements OnInit {
       this.id_type = params['playlist'];
       switch (this.type) {
         case "ts": {
-
+          this.tuneshareService.getPlaylist(params['playlist']).subscribe({
+            next: playlist => {
+              this.currentPlaylist = playlist;
+              this.tracks = this.currentPlaylist.track_list;
+              this.tuneshareService.getUser(playlist.owner_id).subscribe(user => this.user = user);
+            }
+          });
           break;
         }
         case "am": {
@@ -63,7 +68,6 @@ export class PlaylistviewComponent implements OnInit {
             next: playlist => {
               this.currentPlaylist = playlist;
               this.tracks = this.currentPlaylist.track_list;
-              console.log(this.currentPlaylist);
             }
           })
           break;
@@ -72,9 +76,13 @@ export class PlaylistviewComponent implements OnInit {
     });
   }
 
-  add() {
+  add(){
     this.added = !this.added;
-    //Funktion zum Hinzufügen zur Mediathek
+
+    if (this.currentPlaylist.apple_music_id)
+      this.applemusicService.importFromAppleMusic(this.currentPlaylist.apple_music_id).subscribe();
+    if (this.currentPlaylist.spotify_id)
+      this.spotifyService.importFromSpotify(this.currentPlaylist.spotify_id).subscribe();
   }
 
   @HostListener('window:resize', ['$event'])

@@ -54,21 +54,31 @@ class UserViewSet(viewsets.ModelViewSet):
             .select_related('followed_id') \
             .values(
             'followed_id_id',
-            'followed_id__user_uuid',
             'followed_id__username',
             'followed_id__display_name'
         )
-        return Response(list(followed_users), status=status.HTTP_200_OK)
+        response_data = [
+            {
+                "id": user['followed_id_id'],
+                "username": user['followed_id__username'],
+                "display_name": user['followed_id__display_name']
+            }
+            for user in followed_users
+        ]
+        return Response(response_data, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['get'], url_path='current')
     def get_current_user(self, request):
         user = User.objects.get(user_uuid=request.user.id)
         serializer = UserSerializer(user)
-        return Response(serializer.data)
+        filtered_data = {field: serializer.data[field] for field in ['id', 'username', 'display_name']}
+
+        return Response(filtered_data, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['get'], url_path='playlists')
     def get_playlists_of_user(self, request, pk=None):
-        playlists = Playlist.objects.filter(owner_id_id=pk)
+        owner = User.objects.get(id=pk)
+        playlists = Playlist.objects.filter(owner_id=owner)
         serializer = PlaylistSerializer(playlists, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -80,14 +90,39 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = FollowsUserSerializer(follows_object)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    @action(detail=False, methods=['delete'], url_path='unfollow_user')
+    def unfollow_user(self, request, *args, **kwargs):
+        followed_user = User.objects.get(id=request.query_params.get('id'))
+        current_user = User.objects.get(user_uuid=request.user.id)
+        follows_object = FollowsUser.objects.get(followed_id=followed_user, follower_id=current_user)
+        follows_object.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
     @action(detail=False, methods=['post'], url_path='follow_playlist')
     def follow_playlist(self, request, *args, **kwargs):
         followed_playlist = Playlist.objects.get(id=request.query_params.get('id'))
         current_user = User.objects.get(user_uuid=request.user.id)
-        followes_object = FollowsPlaylist.objects.create(user_id=current_user, playlist_id=followed_playlist,
-                                                         is_owner=False)
-        serializer = FollowsPlaylistSerializer(followes_object)
+        follows_object = FollowsPlaylist.objects.create(user_id=current_user, playlist_id=followed_playlist,
+                                                        is_owner=False)
+        serializer = FollowsPlaylistSerializer(follows_object)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    @action(detail=False, methods=['delete'], url_path='unfollow_playlist')
+    def unfollow_playlist(self, request, *args, **kwargs):
+        followed_playlist = Playlist.objects.get(id=request.query_params.get('id'))
+        current_user = User.objects.get(user_uuid=request.user.id)
+        follows_object = FollowsPlaylist.objects.get(user_id=current_user, playlist_id=followed_playlist)
+        follows_object.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=False, methods=['get'], url_path="linked_services")
+    def spotify_is_linked(self, request, *args, **kwargs):
+        current_user = User.objects.get(user_uuid=request.user.id)
+        response = {
+            'spotify': bool(current_user.spotify_access_token),
+            'apple_music': bool(current_user.apple_music_access_token)
+        }
+        return Response(response, status=status.HTTP_200_OK)
 
 
 class PlaylistViewSet(viewsets.ModelViewSet):

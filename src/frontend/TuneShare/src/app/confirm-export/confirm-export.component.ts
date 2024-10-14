@@ -1,5 +1,9 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {NgClass, NgIf} from "@angular/common";
+import {SpotifyService} from "../spotify.service";
+import {Playlist} from "../types";
+import {map, Observable, of, tap} from "rxjs";
+import {AppleMusicService} from "../apple-music.service";
 
 @Component({
   selector: 'app-confirm-export',
@@ -14,14 +18,18 @@ import {NgClass, NgIf} from "@angular/common";
 export class ConfirmExportComponent implements AfterViewInit{
 
   @Input() spotify: boolean | undefined;
-  @Input() currentPlaylist: any;
-  @Input() id: HTMLDivElement | undefined;
+  @Input() currentPlaylist: Playlist | undefined;
+  @Input() id: string | undefined;
+  div: HTMLDivElement | undefined;
   stage: "confirm" | "running" | "success" | "failed" = "confirm";
 
-  ngAfterViewInit() {
+  constructor(private spotifyService: SpotifyService, private appleMusicService: AppleMusicService) {
+  }
 
+  ngAfterViewInit() {
     if (this.id) {
-      this.id.addEventListener('hidden.bs.modal', (event) => {
+      this.div = document.getElementById(this.id) as HTMLDivElement;
+      this.div.addEventListener('hidden.bs.modal', (event) => {
         this.stage = "confirm";
       });
     }
@@ -29,22 +37,32 @@ export class ConfirmExportComponent implements AfterViewInit{
 
   export() {
     this.stage = "running";
-    setTimeout(() => {  //TODO Timeout entfernen und auf Ergebnis warten
-      if (this.spotify) {
-        this.stage = this.exportToSpotify();
-      } else {
-        this.stage = this.exportToApplemusic();
-      }
-    }, 2000);
+    if (this.spotify) {
+      this.exportToSpotify().subscribe(stage => this.stage = stage);
+    } else {
+      this.exportToApplemusic().subscribe(stage => this.stage = stage);
+    }
   }
 
-  exportToSpotify(): "success" | "failed" {
-    let success: boolean = false;
-    return success ? "success" : "failed";
+  exportToSpotify(): Observable<"success" | "failed"> {
+    if (this.currentPlaylist?.id)
+      return this.spotifyService.exportToSpotify(this.currentPlaylist.id).pipe(map(r => {
+        if (r.snapshot_id) {
+          return "success";
+        }
+        return "failed";
+      }));
+    else return of("failed");
   }
 
-  exportToApplemusic(): "success" | "failed"  {
-    let success: boolean = true;
-    return success ? "success" : "failed";
+  exportToApplemusic(): Observable<"success" | "failed">  {
+    if (this.currentPlaylist?.id)
+      return this.appleMusicService.exportToAppleMusic(this.currentPlaylist.id).pipe(map(r => {
+        if (r.data[0]) {
+          return "success";
+        }
+        return "failed";
+      }));
+    else return of("failed");
   }
 }

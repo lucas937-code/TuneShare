@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
-import {NgForOf} from "@angular/common";
+import {Component, OnInit} from '@angular/core';
+import {NgForOf, NgIf} from "@angular/common";
 import {UserListedComponent} from "../user-listed/user-listed.component";
 import {ListOfUsersComponent} from "../list-of-users/list-of-users.component";
+import {User} from "../types";
+import {TuneShareService} from "../tune-share.service";
 
 @Component({
   selector: 'app-followed-list',
@@ -9,21 +11,23 @@ import {ListOfUsersComponent} from "../list-of-users/list-of-users.component";
   imports: [
     NgForOf,
     UserListedComponent,
-    ListOfUsersComponent
+    ListOfUsersComponent,
+    NgIf
   ],
   templateUrl: './followed-list.component.html',
   styleUrl: './followed-list.component.scss'
 })
-export class FollowedListComponent {
+export class FollowedListComponent implements OnInit {
 
-  follower:any[] = [
-    {
-      displayname: "Neuer",
-      username: "vielleichtNicht"
-    },
-    {
-      displayname: "Max",
-      username: "Maxxx",
-    }
-  ]
+  follower:User[] | undefined;
+
+  constructor(private tuneShareService: TuneShareService) {}
+
+  ngOnInit() {
+    this.tuneShareService.getFollowedUsers().subscribe({
+      next: users => {
+        this.follower = users;
+      }
+    });
+  }
 }

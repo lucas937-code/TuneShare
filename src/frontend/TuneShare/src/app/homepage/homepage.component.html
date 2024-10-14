@@ -1,12 +1,14 @@
-<div class="container mt-4 mb-4">
-  <app-playlist-rotate class="mx-auto" [carouselId]="'carousel1'" [playlists]="playlists"
-                       [title]="'Your playlists'"></app-playlist-rotate>
+<div class="container mt-4 mb-4" *ngIf="this.done">
+  <app-playlist-rotate class="mx-auto" [carouselId]="'carousel1'" *ngIf="this.ownPlaylists.length>0"
+                       [playlists]="ownPlaylists"
+                       [title]="'Your TuneShare playlists'"></app-playlist-rotate>
+
+  <div *ngFor="let user of followerWithPlaylists; let i = index">
+    <app-playlist-rotate class="mx-auto" [carouselId]="'carousel'+(i+2)" [playlists]="followerWithPlaylists[i].playlists"
+                         [title]="'Playlists from @'+ user.user.username"></app-playlist-rotate>
+  </div>
 </div>
-<div class="container mt-3 mb-5">
-  <app-playlist-rotate class="mx-auto" [carouselId]="'carousel2'" [playlists]="playlists"
-                       [title]="'Your friend\'s most recent playlists'"></app-playlist-rotate>
+<div *ngIf="this.done&&this.ownPlaylists.length==0&&this.followerWithPlaylists.length == 0" class="text-center mt-5">
+  <h5><a href="/addplaylist" style="color: black">Add Playlists</a> from Spotify or TuneShare or add friends to share your tunes!</h5>
 </div>
-<div class="container mt-3 mb-5">
-  <app-playlist-rotate class="mx-auto" [carouselId]="'carousel3'" [playlists]="playlists"
-                       [title]="'New on Spotify'"></app-playlist-rotate>
-</div>
+<div *ngIf="!this.done" class="loader mx-auto my-auto mt-5"></div>
