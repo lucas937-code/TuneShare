@@ -3,6 +3,7 @@ import {NgClass, NgIf} from "@angular/common";
 import {SpotifyService} from "../spotify.service";
 import {Playlist} from "../types";
 import {map, Observable, of, tap} from "rxjs";
+import {AppleMusicService} from "../apple-music.service";
 
 @Component({
   selector: 'app-confirm-export',
@@ -22,13 +23,12 @@ export class ConfirmExportComponent implements AfterViewInit{
   div: HTMLDivElement | undefined;
   stage: "confirm" | "running" | "success" | "failed" = "confirm";
 
-  constructor(private spotifyService: SpotifyService) {
+  constructor(private spotifyService: SpotifyService, private appleMusicService: AppleMusicService) {
   }
 
   ngAfterViewInit() {
     if (this.id) {
       this.div = document.getElementById(this.id) as HTMLDivElement;
-      console.log(this.id);
       this.div.addEventListener('hidden.bs.modal', (event) => {
         this.stage = "confirm";
       });
@@ -40,7 +40,7 @@ export class ConfirmExportComponent implements AfterViewInit{
     if (this.spotify) {
       this.exportToSpotify().subscribe(stage => this.stage = stage);
     } else {
-      this.stage = this.exportToApplemusic();
+      this.exportToApplemusic().subscribe(stage => this.stage = stage);
     }
   }
 
@@ -55,8 +55,14 @@ export class ConfirmExportComponent implements AfterViewInit{
     else return of("failed");
   }
 
-  exportToApplemusic(): "success" | "failed"  {
-    let success: boolean = true;
-    return success ? "success" : "failed";
+  exportToApplemusic(): Observable<"success" | "failed">  {
+    if (this.currentPlaylist?.id)
+      return this.appleMusicService.exportToAppleMusic(this.currentPlaylist.id).pipe(map(r => {
+        if (r.data[0]) {
+          return "success";
+        }
+        return "failed";
+      }));
+    else return of("failed");
   }
 }

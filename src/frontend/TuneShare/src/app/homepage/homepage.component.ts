@@ -35,7 +35,6 @@ export class HomepageComponent implements OnInit {
       next: playlists => {
         this.ownPlaylists = playlists;
         this.done = true;
-        console.log(this.ownPlaylists);
       }
     });
 
