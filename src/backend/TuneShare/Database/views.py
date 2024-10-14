@@ -111,7 +111,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def unfollow_playlist(self, request, *args, **kwargs):
         followed_playlist = Playlist.objects.get(id=request.query_params.get('id'))
         current_user = User.objects.get(user_uuid=request.user.id)
-        follows_object = FollowsPlaylist.objects.get(user_id=current_user, playlist_id=followed_playlist)
+        follows_object = FollowsPlaylist.objects.filter(user_id=current_user, playlist_id=followed_playlist)
         follows_object.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -119,7 +119,9 @@ class UserViewSet(viewsets.ModelViewSet):
     def followed_playlists(self, request, *args, **kwargs):
         current_user = User.objects.get(user_uuid=request.user.id)
         followed_playlists = FollowsPlaylist.objects.filter(user_id=current_user)
-        serializer = PlaylistSerializer(followed_playlists, many=True)
+        playlists = Playlist.objects.filter(id__in=followed_playlists.values('playlist_id'))
+
+        serializer = PlaylistSerializer(playlists, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 

@@ -105,17 +105,17 @@ export class PlaylistviewComponent implements OnInit {
 
   checkAdded(){
     this.tuneshareService.getCurrentUser().pipe(switchMap(user => {
-      if (this.type == 'ts'){
+      if (this.type == 'ts' && !this.added){
         this.added = this.currentPlaylist.owner_id == user.id;
         this.show = true;
       }
       return this.tuneshareService.getPlaylistsOfUser(user.id);
     })).subscribe(playlists => {
-      if (this.type == "sp") {
+      if (this.type == "sp" && !this.added) {
         this.added = playlists.find(playlist => playlist.origin_id == this.currentPlaylist.spotify_id) != undefined;
         this.disable = this.added;
         this.show = true;
-      } else if (this.type == "am"){
+      } else if (this.type == "am" && !this.added){
         this.added = playlists.find(playlist => playlist.origin_id == this.currentPlaylist.apple_music_id) != undefined;
         this.disable = this.added;
         this.show = true;
@@ -123,10 +123,13 @@ export class PlaylistviewComponent implements OnInit {
     });
 
     this.tuneshareService.getCurrentUser().pipe(switchMap(user => {
-      return this.tuneshareService.getFollowedPlaylistsOfUser(user.id);
+      return this.tuneshareService.getFollowedPlaylistsOfUser();
     })).subscribe(playlists => {
-      this.added = playlists.find(playlist => playlist.origin_id == this.currentPlaylist.spotify_id) != undefined;
-      this.show = true;
+      if (!this.added) {
+        console.log(this.currentPlaylist)
+        this.added = playlists.find(playlist => playlist.origin_id == this.currentPlaylist.origin_id) != undefined;
+        this.show = true;
+      }
     });
   }
 

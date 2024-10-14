@@ -237,6 +237,8 @@ class SpotifyView(APIView):
                 if response.status_code != 200:
                     self.refresh_access_token(request)
                     response = requests.get(url, headers=headers)
+                    if response.status_code != 200:
+                        continue
 
                 track_included.track.spotify_id = response.json()['tracks']['items'][0]['id']
 
@@ -255,7 +257,7 @@ class SpotifyView(APIView):
 
         response = requests.post(url, headers=headers, json=request_body)
 
-        if response.status_code != 201 or response.status_code != 200:
+        if response.status_code != 201 and response.status_code != 200:
             self.refresh_access_token(request)
             response = requests.post(url, headers=headers, json=request_body)
 
