@@ -4,7 +4,7 @@ import {AuthService} from "./auth.service";
 import {EMPTY, switchMap} from "rxjs";
 
 export const headersInterceptor: HttpInterceptorFn = (req, next) => {
-  const excludedUrls: string[] = ['/auth/login/', '/auth/register/', '/auth/refresh/'];
+  const excludedUrls: string[] = ['/auth/login/', '/auth/register/', '/auth/refresh/', '/auth/username_available/'];
 
   if (excludedUrls.some(url => req.url.includes(url)))
     return next(req);

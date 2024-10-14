@@ -58,7 +58,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.accessTokenKey);
     localStorage.removeItem(this.expiresAtKey);
-    this.router.navigateByUrl('/').catch(() => console.error('Error occurred while logging out'));
+    this.router.navigateByUrl('/login').catch(() => console.error('Error occurred while logging out'));
   }
 
   getCsrfCookie() {
@@ -74,5 +74,9 @@ export class AuthService {
       }
     }
     return '';
+  }
+
+  usernameAvailable(username: string): Observable<{ is_available: boolean }> {
+    return this.http.get<{ is_available: boolean }>(`${BACKEND_URL}auth/username_available/?username=${username}`);
   }
 }
