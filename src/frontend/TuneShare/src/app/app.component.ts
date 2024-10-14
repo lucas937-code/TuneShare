@@ -5,8 +5,6 @@ import {PlaylistService} from './playlist.service';
 import {Playlist} from "./types";
 import {AuthService} from "./authentication/shared/auth.service";
 import {FormsModule, NgForm} from "@angular/forms";
-import {HttpClient} from "@angular/common/http";
-import {BACKEND_URL} from "../main";
 
 @Component({
   selector: 'app-root',
@@ -22,8 +20,7 @@ export class AppComponent implements OnInit {
 
   playlists: Playlist[] = [];
 
-  constructor(private playlistService: PlaylistService, private router: Router, protected authService: AuthService,
-              private http: HttpClient) {
+  constructor(private playlistService: PlaylistService, private router: Router, protected authService: AuthService) {
     this.router.events.subscribe(() => {
       this.isRegistrationPage = this.router.url === '/register' || this.router.url === '/login';
     })
@@ -42,9 +39,5 @@ export class AppComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(): void {
     this.isMobile = window.innerWidth < 992;
-  }
-
-  test() {
-    this.http.post(`${BACKEND_URL}api/user/follow_playlist/?id=22`, {}).subscribe(res => console.log(res));
   }
 }
