@@ -150,5 +150,6 @@ EXEMPT_URLS = [
     '/auth/login/',
     '/auth/register/',
     '/auth/refresh/',
+    '/auth/username_available/?username=jabadabadu/',
     '/api/',
 ]
