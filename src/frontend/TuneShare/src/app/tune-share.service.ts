@@ -85,4 +85,9 @@ export class TuneShareService {
   linkedServices(): Observable<{spotify: boolean, apple_music: boolean}> {
     return this.http.get<{spotify: boolean, apple_music: boolean}>(`${BACKEND_URL}api/user/linked_services/`);
   }
+
+  // deletes a playlist from TuneShare
+  deletePlaylist(playlist_id: number): Observable<any> {
+    return this.http.delete(`${BACKEND_URL}api/user/linked_services/${playlist_id}`)
+  }
 }
