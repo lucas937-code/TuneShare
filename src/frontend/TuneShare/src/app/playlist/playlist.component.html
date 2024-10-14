@@ -30,7 +30,7 @@
              (click)="add()" *ngIf="show"
              [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added, 'addLink': !disable }">
           </i>
-          <div class="loader my-auto mx-auto text-center pt-1" title="{{ this.added ? '' : 'Add' }}" *ngIf="!show">
+          <div class="loaderCircle my-auto mx-auto text-center pt-1" title="{{ this.added ? '' : 'Add' }}" *ngIf="!show">
           </div>
         </a>
         <a ngbDropdown placement="top-end" container="body" href="javascript:"

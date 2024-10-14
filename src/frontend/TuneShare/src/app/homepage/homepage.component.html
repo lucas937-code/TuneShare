@@ -1,10 +1,11 @@
-<div class="container mt-4 mb-4">
-  <app-playlist-rotate *ngIf="ownPlaylists.length>0" class="mx-auto" [carouselId]="'carousel1'"
+<div class="container mt-4 mb-4" *ngIf="this.ownPlaylists.length>0">
+  <app-playlist-rotate class="mx-auto" [carouselId]="'carousel1'"
                        [playlists]="ownPlaylists"
                        [title]="'Your TuneShare playlists'"></app-playlist-rotate>
 
-  <div *ngFor="let user of followerWithPlaylists; let i = index ">
+  <div *ngFor="let user of followerWithPlaylists; let i = index">
     <app-playlist-rotate class="mx-auto" [carouselId]="'carousel'+(i+2)" [playlists]="followerWithPlaylists[i].playlists"
                          [title]="'Playlists from @'+ user.user.username"></app-playlist-rotate>
   </div>
 </div>
+<div *ngIf="!(this.ownPlaylists.length>0)" class="loader mx-auto my-auto mt-5"></div>

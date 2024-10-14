@@ -3,7 +3,7 @@ import {AsyncPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {PlaylistComponent} from "../playlist/playlist.component";
 import {PlaylistRotateComponent} from "../playlist-rotate/playlist-rotate.component";
 import {TuneShareService} from "../tune-share.service";
-import {Observable, switchMap, tap} from "rxjs";
+import {switchMap} from "rxjs";
 import {Playlist, User} from "../types";
 
 @Component({
