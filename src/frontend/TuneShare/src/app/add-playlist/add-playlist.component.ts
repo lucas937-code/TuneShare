@@ -5,6 +5,7 @@ import {PlaylistListComponent} from "../playlistList/playlist-list.component";
 import {SpotifyService} from "../spotify.service";
 import {switchMap} from "rxjs";
 import {AppleMusicService} from "../apple-music.service";
+import {TuneShareService} from "../tune-share.service";
 
 @Component({
   selector: 'app-add-playlist',
@@ -23,32 +24,42 @@ export class AddPlaylistComponent implements OnInit {
   empty: boolean = false;
   loadingDoneS: boolean = false;
   loadingDoneAm: boolean = false;
-  linkedSpotify: boolean = true; //TODO Abfrage
-  linkedApplemusic: boolean = true;  //TODO Abfrage
+  linkedSpotify: boolean = true;
+  linkedApplemusic: boolean = true;
   playlistsSpotify: Playlist[] = [];
   playlistsApplemusic: Playlist[] = [];
 
-  constructor(private spotifyService: SpotifyService, private appleMusicService: AppleMusicService) {
+  constructor(private spotifyService: SpotifyService, private appleMusicService: AppleMusicService, private tuneshareService: TuneShareService) {
   }
 
   ngOnInit() {
-    this.spotifyService.getCurrentUser().pipe(switchMap(current_user => {
-      return this.spotifyService.getPlaylists(current_user.id)
-    })).subscribe({
-      next: playlists => {
-        this.playlistsSpotify = this.sortPlaylistsAlphabetically(playlists);
-        this.playlistsSpotify.length == 0 ? this.empty=true : {};
-        this.loadingDoneS = true;
+
+    this.tuneshareService.linkedServices().subscribe(linked => {
+      if (linked.spotify) {
+        this.spotifyService.getCurrentUser().pipe(switchMap(current_user => {
+          return this.spotifyService.getPlaylists(current_user.id)
+        })).subscribe({
+          next: playlists => {
+            this.playlistsSpotify = this.sortPlaylistsAlphabetically(playlists);
+            this.playlistsSpotify.length == 0 ? this.empty=true : {};
+            this.loadingDoneS = true;
+          }
+        });
+      } else {
+        this.linkedSpotify = false;
+      }
+      if (linked.apple_music) {
+        this.appleMusicService.getPlaylists().subscribe(({
+          next: playlists => {
+            this.playlistsApplemusic = this.sortPlaylistsAlphabetically(playlists);
+            this.playlistsSpotify.length == 0 ? this.empty=true : {};
+            this.loadingDoneAm = true;
+          }
+        }));
+      } else {
+        this.linkedApplemusic = false;
       }
     });
-    this.appleMusicService.getPlaylists().subscribe(({
-      next: playlists => {
-        this.playlistsApplemusic = this.sortPlaylistsAlphabetically(playlists);
-        this.playlistsSpotify.length == 0 ? this.empty=true : {};
-        this.loadingDoneAm = true;
-      }
-    }));
-
     this.spotifyActive();
   }
 

@@ -15,4 +15,12 @@ import {Playlist} from "../types";
 })
 export class PlaylistListComponent {
   @Input() playlists: Playlist[] = [];
+
+  playlistDeleted(playlist: Playlist, event: boolean) {
+    if (event) {
+      const index = this.playlists.indexOf(playlist);
+      if (index != -1)
+        this.playlists.splice(index, 1);
+    }
+  }
 }

@@ -95,4 +95,9 @@ export class TuneShareService {
   unfollowPlaylist(playlist_id:number): Observable<void> {
     return this.http.delete<void>(`${BACKEND_URL}api/user/unfollow_playlist/?id=${playlist_id}`, {});
   }
+
+  // deletes a playlist from TuneShare
+  deletePlaylist(playlist_id: number): Observable<any> {
+    return this.http.delete(`${BACKEND_URL}api/playlist/${playlist_id}/`);
+  }
 }

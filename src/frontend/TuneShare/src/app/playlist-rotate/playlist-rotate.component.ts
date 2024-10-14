@@ -40,4 +40,14 @@ export class PlaylistRotateComponent implements OnInit {
     this.isMobile = window.innerWidth < 992;
     this.playlistChunks = this.chunkArray(this.playlists, this.isMobile ? 2 : 3);
   }
+
+  playlistDeleted(playlist: Playlist, event: boolean) {
+    if (event) {
+      const index = this.playlists.indexOf(playlist);
+      if (index != -1) {
+        this.playlists.splice(index, 1);
+        this.playlistChunks = this.chunkArray(this.playlists, this.isMobile ? 2 : 3);
+      }
+    }
+  }
 }
