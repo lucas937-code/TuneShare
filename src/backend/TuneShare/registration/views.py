@@ -1,4 +1,6 @@
+from Database.models import User
 from django.http import JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -113,3 +115,23 @@ def refresh_session(request):
         )
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def username_available(request):
+    username_to_check = request.query_params.get('username')
+    try:
+        User.objects.get(username=username_to_check)
+        return Response(False, status=status.HTTP_200_OK)
+    except ObjectDoesNotExist:
+        return Response({'is_available': True}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def email_available(request):
+    username_to_check = request.query_params.get('username')
+    try:
+        User.objects.get(username=username_to_check)
+        return Response(False, status=status.HTTP_200_OK)
+    except ObjectDoesNotExist:
+        return Response({'is_available': True}, status=status.HTTP_200_OK)
