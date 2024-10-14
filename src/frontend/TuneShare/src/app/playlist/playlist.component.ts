@@ -161,6 +161,13 @@ export class PlaylistComponent implements OnInit {
         this.show = true;
       }
     });
+
+    this.tuneshareService.getCurrentUser().pipe(switchMap(user => {
+      return this.tuneshareService.getFollowedPlaylistsOfUser(user.id);
+    })).subscribe(playlists => {
+        this.added = playlists.find(playlist => playlist.origin_id == this.playlist.spotify_id) != undefined;
+        this.show = true;
+    });
   }
 
   hoveredTrue(){

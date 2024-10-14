@@ -41,6 +41,11 @@ export class TuneShareService {
     return this.http.get<Playlist[]>(`${BACKEND_URL}api/user/${user_id}/playlists/`);
   }
 
+  // get all TuneShare playlists of a given user
+  getFollowedPlaylistsOfUser(user_id: number): Observable<Playlist[]> {
+    return this.http.get<Playlist[]>(`${BACKEND_URL}api/user/${user_id}/followed_playlists/`);
+  }
+
   // get a specific TuneShare Playlist by id
   getPlaylist(playlist_id: number): Observable<Playlist> {
     return this.http.get<Playlist>(`${BACKEND_URL}api/playlist/${playlist_id}/`).pipe(
