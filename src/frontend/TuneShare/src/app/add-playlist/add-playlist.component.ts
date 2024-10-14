@@ -21,6 +21,8 @@ export class AddPlaylistComponent implements OnInit {
 
   spotify: boolean = true;
   empty: boolean = false;
+  loadingDoneS: boolean = false;
+  loadingDoneAm: boolean = false;
   linkedSpotify: boolean = true; //TODO Abfrage
   linkedApplemusic: boolean = true;  //TODO Abfrage
   playlistsSpotify: Playlist[] = [];
@@ -35,13 +37,15 @@ export class AddPlaylistComponent implements OnInit {
     })).subscribe({
       next: playlists => {
         this.playlistsSpotify = this.sortPlaylistsAlphabetically(playlists);
-        this.empty = this.playlistsSpotify.length == 0;
+        this.playlistsSpotify.length == 0 ? this.empty=true : {};
+        this.loadingDoneS = true;
       }
     });
     this.appleMusicService.getPlaylists().subscribe(({
       next: playlists => {
         this.playlistsApplemusic = this.sortPlaylistsAlphabetically(playlists);
-        this.empty = this.playlistsApplemusic.length == 0;
+        this.playlistsSpotify.length == 0 ? this.empty=true : {};
+        this.loadingDoneAm = true;
       }
     }));
 

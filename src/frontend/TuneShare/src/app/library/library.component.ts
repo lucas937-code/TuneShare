@@ -18,6 +18,7 @@ import {NgIf} from "@angular/common";
 export class LibraryComponent implements OnInit {
 
   playlists: Playlist[] = [];
+  noPlaylists : boolean = false;
 
   constructor(private tuneshareService: TuneShareService) {}
 
@@ -27,6 +28,7 @@ export class LibraryComponent implements OnInit {
     })).subscribe({
       next: playlists => {
         this.playlists = playlists;
+        this.noPlaylists = this.playlists.length == 0;
       }
     });
   }
