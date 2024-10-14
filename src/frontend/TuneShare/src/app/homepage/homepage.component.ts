@@ -22,6 +22,7 @@ import {Playlist, User} from "../types";
 })
 export class HomepageComponent implements OnInit {
   ownPlaylists: Playlist[] = [];
+  done:boolean = false;
   followerWithPlaylists: {user: User, playlists: Playlist[]}[] = [];
 
   constructor(private tuneshareService: TuneShareService) {
@@ -33,6 +34,8 @@ export class HomepageComponent implements OnInit {
     })).subscribe({
       next: playlists => {
         this.ownPlaylists = playlists;
+        this.done = true;
+        console.log(this.ownPlaylists);
       }
     });
 
