@@ -32,6 +32,11 @@ export class UserListedComponent implements OnInit {
   }
 
   follow() {
-    this.followed = !this.followed;
+    if(this.user?.id){
+      if (!this.followed) {
+        this.tuneShareService.followUser(this.user?.id).subscribe(user => console.log(user));
+        this.followed = true;
+      }
+    }
   }
 }

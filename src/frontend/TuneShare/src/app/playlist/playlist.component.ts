@@ -112,7 +112,6 @@ export class PlaylistComponent implements OnInit {
     if (this.type == "ts") {
       this.tuneshareService.getUser(this.playlist.owner_id).subscribe({
         next: user => {
-          console.log(user);
           this.user = user;
         }
       });

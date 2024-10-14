@@ -10,7 +10,7 @@
              [ngClass]="{ 'text-center': isMobile, 'mx-auto': isMobile }">&#64;{{ user?.username }}</a>
         </h5>
         <h5 class="row" [ngClass]="{ 'text-center': isMobile, 'mx-auto': isMobile }" *ngIf="type!='ts'">
-          <i href="/profile" class="card-author px-0" [ngClass]="{ 'text-center': isMobile, 'mx-auto': isMobile }">Playlist from {{ this.type == 'sp' ? "Spotify" : "Apple Music" }}<span *ngIf="this.type=='sp'"
+          <i class="card-author px-0" [ngClass]="{ 'text-center': isMobile, 'mx-auto': isMobile }">Playlist from {{ this.type == 'sp' ? "Spotify" : "Apple Music" }}<span *ngIf="this.type=='sp'"
             style="font-weight: lighter">{{ " by "+currentPlaylist.owner_id }}</span>
           </i>
         </h5>
