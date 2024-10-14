@@ -6,3 +6,4 @@
 .DS_Store
 src/.DS_Store
 .env
+/src/frontend/TuneShare/package-lock.json
