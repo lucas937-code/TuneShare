@@ -222,8 +222,6 @@ class SpotifyView(APIView):
 
 
     def export_to_spotify(self, request):
-        user = User.objects.get(user_uuid=request.user.id)
-
         playlist = Playlist.objects.get(id=request.query_params.get('playlist_id'))
         included_tracks = IncludesTrack.objects.filter(playlist=playlist)
         track_list = []
@@ -235,6 +233,11 @@ class SpotifyView(APIView):
                 url = f"https://api.spotify.com/v1/search/?q={track_included.track.artist} {track_included.track.title}&type=track&limit=1&market=DE"
                 headers = {"Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"}
                 response = requests.get(url, headers=headers)
+
+                if response.status_code != 200:
+                    self.refresh_access_token(request)
+                    response = requests.get(url, headers=headers)
+
                 track_included.track.spotify_id = response.json()['tracks']['items'][0]['id']
 
                 track_included.track.save()
@@ -251,6 +254,10 @@ class SpotifyView(APIView):
         headers = {"Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"}
 
         response = requests.post(url, headers=headers, json=request_body)
+
+        if response.status_code != 201 or response.status_code != 200:
+            self.refresh_access_token(request)
+            response = requests.post(url, headers=headers, json=request_body)
 
         if response.status_code == 201:
             playlist_id = response.json()['id']
