@@ -28,12 +28,12 @@ export class TuneShareService {
 
   // Adds the user with the given id to the current user's following list
   followUser(user_id: number): Observable<User> {
-    return this.http.post<User>(`${BACKEND_URL}api/user/follows_user/?id=${user_id}/`, {});
+    return this.http.post<User>(`${BACKEND_URL}api/user/follow_user/?id=${user_id}`, {});
   }
 
   // Adds the user with the given id to the current user's following list
   unfollowUser(user_id: number): Observable<User> {
-    return this.http.delete<User>(`${BACKEND_URL}api/user/unfollow_user/?id=${user_id}/`, {});
+    return this.http.delete<User>(`${BACKEND_URL}api/user/unfollow_user/?id=${user_id}`, {});
   }
 
   // get all TuneShare playlists of a given user
