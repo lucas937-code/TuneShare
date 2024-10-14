@@ -24,7 +24,7 @@ import {switchMap} from "rxjs";
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.scss'
 })
-export class PlaylistComponent implements OnInit, OnChanges, AfterViewInit {
+export class PlaylistComponent implements OnInit {
   @Input() playlist: Playlist = {
     id: undefined,
     owner_id: -1,
@@ -92,21 +92,10 @@ export class PlaylistComponent implements OnInit, OnChanges, AfterViewInit {
     }
   }
 
-  ngOnChanges() {
-
-  }
-
   ngOnInit() {
     this.isMobile = window.innerWidth < 992;
     this.show = false;
     this.checkAdded();
-    if (this.type == "ts") {
-      this.tuneshareService.getUser(this.playlist.owner_id).subscribe({
-        next: user => {
-          this.user = user;
-        }
-      });
-    }
 
     if(this.playlist.id){
       this.type = "ts";
@@ -120,9 +109,14 @@ export class PlaylistComponent implements OnInit, OnChanges, AfterViewInit {
     }
     this.url="/playlist?playlist="+this.id_type+"&type="+this.type;
 
-  }
-
-  ngAfterViewInit() {
+    if (this.type == "ts") {
+      this.tuneshareService.getUser(this.playlist.owner_id).subscribe({
+        next: user => {
+          console.log(user);
+          this.user = user;
+        }
+      });
+    }
   }
 
   @HostListener('window:resize', ['$event'])
