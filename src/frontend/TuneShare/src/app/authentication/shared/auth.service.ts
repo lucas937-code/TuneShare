@@ -60,4 +60,19 @@ export class AuthService {
     localStorage.removeItem(this.expiresAtKey);
     this.router.navigateByUrl('/').catch(() => console.error('Error occurred while logging out'));
   }
+
+  getCsrfCookie() {
+    let ca: Array<string> = document.cookie.split(';');
+    let caLen: number = ca.length;
+    let cookieName = `csrftoken=`;
+    let c: string;
+
+    for (let i: number = 0; i < caLen; i += 1) {
+      c = ca[i].replace(/^\s+/g, '');
+      if (c.indexOf(cookieName) == 0) {
+        return c.substring(cookieName.length, c.length);
+      }
+    }
+    return '';
+  }
 }
