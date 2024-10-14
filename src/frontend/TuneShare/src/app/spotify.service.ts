@@ -47,4 +47,11 @@ export class SpotifyService {
       .set('playlist_id', playlist_id);
     return this.http.get<any>(`${BACKEND_URL}service/spotify/`, {params});
   }
+
+  exportToSpotify(playlist_id: number): Observable<{ snapshot_id: string }> {
+    const params: HttpParams = new HttpParams()
+      .set('playlist_id', playlist_id)
+      .set('action', 'export_to_spotify');
+    return this.http.get<any>(`${BACKEND_URL}service/spotify/`, {params});
+  }
 }

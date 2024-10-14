@@ -7,7 +7,7 @@
       </span></h5>
     </div>
     <div class="modal-body">
-      <b>{{ this.currentPlaylist.title }}</b> will be added to your {{ this.spotify ? "Spotify" : "Apple Music" }}
+      <b>{{ this.currentPlaylist?.title }}</b> will be added to your {{ this.spotify ? "Spotify" : "Apple Music" }}
       library.
     </div>
     <div class="modal-footer">
@@ -37,7 +37,7 @@
           id="exportSuccessLabel">Success</h5>
     </div>
     <div class="modal-body">
-      <b>{{ this.currentPlaylist.title }}</b> was successfully added to your {{ this.spotify ? "Spotify" : "Apple Music" }}
+      <b>{{ this.currentPlaylist?.title }}</b> was successfully added to your {{ this.spotify ? "Spotify" : "Apple Music" }}
       library.
     </div>
     <div class="modal-footer">

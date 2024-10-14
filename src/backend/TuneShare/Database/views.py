@@ -78,7 +78,6 @@ class UserViewSet(viewsets.ModelViewSet):
         owner = User.objects.get(id=pk)
         playlists = Playlist.objects.filter(owner_id=owner)
         serializer = PlaylistSerializer(playlists, many=True)
-        print(serializer.data)
         return Response(serializer.data, status.HTTP_200_OK)
 
 
