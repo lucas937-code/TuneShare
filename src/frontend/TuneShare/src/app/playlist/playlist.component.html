@@ -38,10 +38,10 @@
             <div ngbDropdownMenu aria-labelledby="playlistExpandButton" (mouseenter)="hoveredTrue()"
                  (mouseleave)="hoveredFalse()">
               <a ngbDropdownItem class="linkedButton appleLink my-auto py-auto"
-                 data-bs-toggle="modal" data-bs-target="#confirmExportApplemusic"
+                 data-bs-toggle="modal" [attr.data-bs-target]="'#confirmExportApplemusic-' + playlist.id"
               >Export to Apple Music</a>
               <a ngbDropdownItem class="linkedButton spotifyLink my-auto py-auto"
-                 data-bs-toggle="modal" data-bs-target="#confirmExportSpotify"
+                 data-bs-toggle="modal" [attr.data-bs-target]="'#confirmExportSpotify-' + playlist.id"
               >Export to Spotify</a>
               <a ngbDropdownItem class="linkedButton shareLink my-auto py-auto" (click)="copyLink()"
               >Copy link</a>
@@ -62,10 +62,10 @@
           <div ngbDropdownMenu aria-labelledby="playlistExpandButton" (mouseenter)="hoveredTrue()"
                (mouseleave)="hoveredFalse()">
             <a ngbDropdownItem class="linkedButton appleLink my-auto py-auto"
-               data-bs-toggle="modal" data-bs-target="#confirmExportApplemusic"
+               data-bs-toggle="modal" [attr.data-bs-target]="'#confirmExportApplemusic-' + playlist.id"
             >Export to Apple Music</a>
             <a ngbDropdownItem class="linkedButton spotifyLink my-auto py-auto"
-               data-bs-toggle="modal" data-bs-target="#confirmExportSpotify"
+               data-bs-toggle="modal" [attr.data-bs-target]="'#confirmExportSpotify-' + playlist.id"
             >Export to Spotify</a>
             <a ngbDropdownItem class="linkedButton shareLink my-auto py-auto" (click)="copyLink()"
             >Copy link</a>
@@ -112,13 +112,13 @@
 </a>
 
 <!-- Popups -->
-<div class="modal fade" #m id="confirmExportApplemusic" data-bs-keyboard="false" tabindex="-1" role="dialog"
+<div class="modal fade" id="confirmExportApplemusic-{{playlist.id}}" data-bs-keyboard="false" tabindex="-1" role="dialog"
      aria-labelledby="confirmExportLabel" aria-hidden="true">
-  <app-confirm-export [currentPlaylist]="playlist" [spotify]="false" [id]="m"></app-confirm-export>
+  <app-confirm-export [currentPlaylist]="playlist" [spotify]="false" [id]="'confirmExportApplemusic-' + playlist.id"></app-confirm-export>
 </div>
 
-<div class="modal fade" #m id="confirmExportSpotify" data-bs-keyboard="false" tabindex="-1" role="dialog"
+<div class="modal fade" id="confirmExportSpotify-{{playlist.id}}" data-bs-keyboard="false" tabindex="-1" role="dialog"
      aria-labelledby="confirmExportLabel" aria-hidden="true">
-  <app-confirm-export [currentPlaylist]="playlist" [spotify]="true" [id]="m"></app-confirm-export>
+  <app-confirm-export [currentPlaylist]="playlist" [spotify]="true" [id]="'confirmExportSpotify-' + playlist.id"></app-confirm-export>
 </div>
 
