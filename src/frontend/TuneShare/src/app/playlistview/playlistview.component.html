@@ -22,10 +22,10 @@
           <div class="logos align-items-center text-left px-0" [ngClass]="{ 'mt-1': isMobile, 'mt-3': !isMobile }"
                *ngIf="type=='ts'">
             <a class="linkedButton appleLink my-auto py-auto"
-               data-bs-toggle="modal" [attr.data-bs-target]="'#confirmExportApplemusic' + currentPlaylist.id"
+               data-bs-toggle="modal" [attr.data-bs-target]="'#confirmExportApplemusic-' + currentPlaylist.id"
             ><i class="bi-apple"></i></a><a> | </a>
             <a class="linkedButton spotifyLink my-auto py-auto"
-               data-bs-toggle="modal" [attr.data-bs-target]="'#confirmExportSpotify' + currentPlaylist.id"
+               data-bs-toggle="modal" [attr.data-bs-target]="'#confirmExportSpotify-' + currentPlaylist.id"
             ><i class="bi-spotify"></i></a><a> | </a>
             <a class="linkedButton shareLink my-auto py-auto" (click)="copyLink()"
                ngbTooltip="Link copied!"
