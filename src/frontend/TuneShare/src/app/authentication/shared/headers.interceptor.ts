@@ -28,7 +28,6 @@ export const headersInterceptor: HttpInterceptorFn = (req, next) => {
             'X-CSRFToken': csrfToken
           },
           withCredentials: true
-          }
         });
         return next(authReq);
       })
@@ -42,7 +41,6 @@ export const headersInterceptor: HttpInterceptorFn = (req, next) => {
       'X-CSRFToken': csrfToken
     },
     withCredentials: true
-    }
   })
   return next(authReq);
-};
+}
