@@ -1,4 +1,14 @@
-import {AfterViewInit, Component, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import {NgClass, NgIf} from "@angular/common";
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 import {ConfirmExportComponent} from "../confirm-export/confirm-export.component";
@@ -41,6 +51,7 @@ export class PlaylistComponent implements OnInit {
     cover_url: "/assets/papagei-foto.jpg",
     origin_id: ""
   };
+  @Output() is_deleted: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   menuIsHovered: boolean  = false;
   isMobile: boolean = false;
@@ -153,5 +164,12 @@ export class PlaylistComponent implements OnInit {
 
   copyLink() {
     navigator.clipboard.writeText("localhost:4200"+this.url);
+  }
+
+  removePlaylist() {
+    if (this.playlist.id)
+      this.tuneshareService.deletePlaylist(this.playlist.id).subscribe()
+
+    this.is_deleted.next(true);
   }
 }

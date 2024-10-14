@@ -88,6 +88,6 @@ export class TuneShareService {
 
   // deletes a playlist from TuneShare
   deletePlaylist(playlist_id: number): Observable<any> {
-    return this.http.delete(`${BACKEND_URL}api/user/linked_services/${playlist_id}`)
+    return this.http.delete(`${BACKEND_URL}api/playlist/${playlist_id}/`);
   }
 }

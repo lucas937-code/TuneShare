@@ -48,7 +48,7 @@
               <a ngbDropdownItem class="linkedButton shareLink my-auto py-auto" (click)="copyLink()"
               >Copy link</a>
               <div class="dropdown-divider"></div>
-              <a ngbDropdownItem *ngIf="added" class="linkedButton shareLink my-0" (click)="add()">Remove from
+              <a ngbDropdownItem *ngIf="added" class="linkedButton shareLink my-0" (click)="removePlaylist()">Remove from
                 Library</a>
               <a ngbDropdownItem *ngIf="!added" class="linkedButton shareLink my-0" (click)="add()">Add to library</a>
             </div>
@@ -72,7 +72,7 @@
             <a ngbDropdownItem class="linkedButton shareLink my-auto py-auto" (click)="copyLink()"
             >Copy link</a>
             <div class="dropdown-divider"></div>
-            <a ngbDropdownItem *ngIf="added" class="linkedButton shareLink my-0" (click)="add()">Remove from
+            <a ngbDropdownItem *ngIf="added" class="linkedButton shareLink my-0" (click)="removePlaylist()">Remove from
               Library</a>
             <a ngbDropdownItem *ngIf="!added" class="linkedButton shareLink my-0" (click)="add()">Add to library</a>
           </div>
