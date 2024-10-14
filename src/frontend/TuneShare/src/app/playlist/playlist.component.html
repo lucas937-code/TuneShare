@@ -26,9 +26,9 @@
 
       <div *ngIf="!isMobile" class="col row row-cols-auto justify-content-end text-right iconAddPlain">
         <a class="p-0 me-1" style="width: 35%" href="javascript:">
-          <i class="linkedButton my-auto" title="{{ this.added ? '' : 'Add' }}"
+          <i class="linkedButton my-auto" title="{{ this.added ? '' : 'Add to Library' }}"
              (click)="add()" *ngIf="show"
-             [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added, 'addLink': !disable }">
+             [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added, 'addLink': !disable, 'addButton':disable }">
           </i>
           <div class="loaderCircle my-auto mx-auto text-center pt-1" title="{{ this.added ? '' : 'Add' }}" *ngIf="!show">
           </div>

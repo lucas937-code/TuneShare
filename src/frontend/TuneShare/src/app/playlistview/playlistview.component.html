@@ -33,9 +33,9 @@
                triggers="click:click"
                style="cursor: pointer" title="Copy Link"
             ><i class="bi-share"></i></a><a> | </a>
-            <i class="linkedButton addLink my-auto py-auto" title="Add"
+            <i class="linkedButton addButton my-auto py-auto" title="{{ this.added ? '' : 'Add to Library' }}"
                (click)="add()"
-               [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added}">
+               [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added, 'addLink':!disable, 'addButton': disable}">
             </i>
           </div>
 
@@ -44,10 +44,11 @@
             <a class="linkedButton spotifyLink my-auto py-auto"
                href="https://open.spotify.com/playlist/{{ this.id_type }}" target="_blank" title="View in Spotify"
             ><i class="bi-spotify"></i></a><a> | </a>
-            <i class="linkedButton addLink my-auto py-auto" title="Add to library"
-               (click)="add()"
-               [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added}">
+            <i class="linkedButton my-auto py-auto" title="{{ this.added ? '' : 'Add to library' }}"
+               (click)="add()" *ngIf="show"
+               [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added, 'addLink':!disable, 'addButton': disable}">
             </i>
+            <div class="loaderCircle text-center ps-3 d-inline-block" title="{{ this.added ? '' : 'Add' }}" *ngIf="!show"></div>
           </div>
 
           <div class="logos align-items-center text-left px-0" [ngClass]="{ 'mt-1': isMobile, 'mt-3': !isMobile }"
@@ -56,10 +57,12 @@
                href="https://music.apple.com/library/playlist/{{ this.id_type }}" target="_blank"
                title="View in Apple Music"
             ><i class="bi-apple"></i></a><a> | </a>
-            <i class="linkedButton addLink my-auto py-auto" title="Add to library"
-               (click)="add()"
-               [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added}">
+            <i class="linkedButton addLink my-auto py-auto" title="{{ this.added ? '' : 'Add to library' }}"
+               (click)="add()" *ngIf="show"
+               [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added, 'addLink':!disable, 'addButton': disable}">
             </i>
+            <div class="loaderCircle text-center ps-3 d-inline-block" title="{{ this.added ? '' : 'Add' }}" *ngIf="!show">
+            </div>
           </div>
 
         </div>

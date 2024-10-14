@@ -33,8 +33,8 @@ export class PlaylistviewComponent implements OnInit {
   currentPlaylist: any;
   user: User | undefined
   disable:boolean = false;
-
   added: boolean = false;
+  show:boolean = false;
   isMobile: boolean = false;
   type: playlistType = "ts";
   id_type: string | number = -1;
@@ -82,16 +82,16 @@ export class PlaylistviewComponent implements OnInit {
   }
 
   add() {
-    if (this.currentPlaylist.apple_music_id){
-      this.applemusicService.importFromAppleMusic(this.currentPlaylist.apple_music_id).subscribe();
-      this.added = true;
-  }
-    else if (this.currentPlaylist.spotify_id) {
-      this.spotifyService.importFromSpotify(this.currentPlaylist.spotify_id).subscribe();
-      this.added = true;
-    }
-    else if (this.currentPlaylist.id) {
-      if (!this.disable) {
+    if (!this.disable){
+      if (this.currentPlaylist.apple_music_id){
+        this.applemusicService.importFromAppleMusic(this.currentPlaylist.apple_music_id).subscribe();
+        this.added = true;
+      }
+      else if (this.currentPlaylist.spotify_id) {
+        this.spotifyService.importFromSpotify(this.currentPlaylist.spotify_id).subscribe();
+        this.added = true;
+      }
+      else if (this.currentPlaylist.id) {
         if (!this.added) {
           this.tuneshareService.followPlaylist(this.currentPlaylist.id).subscribe();
           this.added = true;
@@ -100,7 +100,6 @@ export class PlaylistviewComponent implements OnInit {
           this.added = false;
         }
       }
-      this.added = !this.added;
     }
   }
 
@@ -108,16 +107,18 @@ export class PlaylistviewComponent implements OnInit {
     this.tuneshareService.getCurrentUser().pipe(switchMap(user => {
       if (this.type == 'ts'){
         this.added = this.currentPlaylist.owner_id == user.id;
-        this.disable = this.added;
+        this.show = true;
       }
       return this.tuneshareService.getPlaylistsOfUser(user.id);
     })).subscribe(playlists => {
       if (this.type == "sp") {
         this.added = playlists.find(playlist => playlist.origin_id == this.currentPlaylist.spotify_id) != undefined;
         this.disable = this.added;
+        this.show = true;
       } else if (this.type == "am"){
         this.added = playlists.find(playlist => playlist.origin_id == this.currentPlaylist.apple_music_id) != undefined;
         this.disable = this.added;
+        this.show = true;
       }
     });
   }
