@@ -35,10 +35,6 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  saveSettings() {
-    //TODO implement
-  }
-
   linkSpotify() {
     this.spotifyService.authorizeUser().subscribe();
   }
