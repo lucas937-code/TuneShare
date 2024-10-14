@@ -85,8 +85,11 @@ export class UserProfileComponent implements OnInit {
   follow() {
     if(this.user?.id){
       if (!this.followed) {
-        this.tuneshareService.followUser(this.user?.id).subscribe(user => console.log(user));
+        this.tuneshareService.followUser(this.user.id).subscribe();
         this.followAnimation(true)
+      }else{
+        this.tuneshareService.unfollowUser(this.user.id).subscribe();
+        this.followAnimation(false);
       }
     }
   }
