@@ -73,6 +73,3 @@ class FollowsPlaylist(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following_playlist')
     playlist_id = models.ForeignKey(Playlist, on_delete=models.CASCADE, related_name='following_playlist')
     is_owner = models.BooleanField(default=False)
-
-    spotify_id = models.CharField(null=True)
-    apple_music_id = models.CharField(null=True)

@@ -1,104 +1,108 @@
-<div *ngIf="currentPlaylist" class="pt-4 mt-1 px-auto pb-3 mb-4 playlistHeader container">
-  <div class="row align-items-center">
-    <div class="imgPlaylist align-items-center" [ngClass]="{ 'mx-auto': isMobile }"><img
-      [src]="currentPlaylist.cover_url" class="img my-3" alt="{{ currentPlaylist.title }}"/></div>
-    <div class="container align-items-bottom px-0"
-         [ngClass]="{ 'row': isMobile,'text-center': isMobile, 'mx-auto': isMobile, 'justify-content-center':isMobile, 'col': !isMobile, 'text-left': !isMobile, 'px-4':!isMobile }">
-      <h5 class="row" [ngClass]="{ 'text-center': isMobile, 'mx-auto': isMobile }" *ngIf="type=='ts'">
-        <a href="/profile" class="card-author px-0"
-           [ngClass]="{ 'text-center': isMobile, 'mx-auto': isMobile }">{{ currentPlaylist.owner_id }}</a>
-      </h5>
-      <h5 class="row" [ngClass]="{ 'text-center': isMobile, 'mx-auto': isMobile }" *ngIf="type!='ts'">
-        <i href="/profile" class="card-author px-0" [ngClass]="{ 'text-center': isMobile, 'mx-auto': isMobile }">Playlist from {{ this.type == 'sp' ? "Spotify" : "Apple Music" }}<span *ngIf="this.type=='sp'"
-          style="font-weight: lighter">{{ " by "+currentPlaylist.owner_id }}</span>
-        </i>
-      </h5>
-      <h4 class="card-title row">
-        <div class="px-0" [ngClass]="{ 'text-center': isMobile, 'mx-auto': isMobile }">{{ currentPlaylist.title }}</div>
-      </h4>
-      <div class="row">
-
-        <div class="logos align-items-center text-left px-0" [ngClass]="{ 'mt-1': isMobile, 'mt-3': !isMobile }"
-             *ngIf="type=='ts'">
-          <a class="linkedButton appleLink my-auto py-auto"
-             data-bs-toggle="modal" [attr.data-bs-target]="'#confirmExportApplemusic-' + currentPlaylist.id"
-          ><i class="bi-apple"></i></a><a> | </a>
-          <a class="linkedButton spotifyLink my-auto py-auto"
-             data-bs-toggle="modal" [attr.data-bs-target]="'#confirmExportSpotify-' + currentPlaylist.id"
-          ><i class="bi-spotify"></i></a><a> | </a>
-          <a class="linkedButton shareLink my-auto py-auto" (click)="copyLink()"
-             ngbTooltip="Link copied!"
-             [closeDelay]="1500"
-             triggers="click:click"
-             style="cursor: pointer" title="Copy Link"
-          ><i class="bi-share"></i></a><a> | </a>
-          <i class="linkedButton addLink my-auto py-auto" title="Add"
-             (click)="add()"
-             [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added}">
+<div *ngIf="(!(this.type == 'ts') || this.user) && currentPlaylist">
+  <div class="pt-4 mt-1 px-auto pb-3 mb-4 playlistHeader container">
+    <div class="row align-items-center">
+      <div class="imgPlaylist align-items-center" [ngClass]="{ 'mx-auto': isMobile }"><img
+        [src]="currentPlaylist.cover_url" class="img my-3" alt="{{ currentPlaylist.title }}"/></div>
+      <div class="container align-items-bottom px-0"
+           [ngClass]="{ 'row': isMobile,'text-center': isMobile, 'mx-auto': isMobile, 'justify-content-center':isMobile, 'col': !isMobile, 'text-left': !isMobile, 'px-4':!isMobile }">
+        <h5 class="row" [ngClass]="{ 'text-center': isMobile, 'mx-auto': isMobile }" *ngIf="type=='ts'">
+          <a href="/profile?p={{ user?.id  }}" class="card-author px-0"
+             [ngClass]="{ 'text-center': isMobile, 'mx-auto': isMobile }">&#64;{{ user?.username }}</a>
+        </h5>
+        <h5 class="row" [ngClass]="{ 'text-center': isMobile, 'mx-auto': isMobile }" *ngIf="type!='ts'">
+          <i href="/profile" class="card-author px-0" [ngClass]="{ 'text-center': isMobile, 'mx-auto': isMobile }">Playlist from {{ this.type == 'sp' ? "Spotify" : "Apple Music" }}<span *ngIf="this.type=='sp'"
+            style="font-weight: lighter">{{ " by "+currentPlaylist.owner_id }}</span>
           </i>
-        </div>
+        </h5>
+        <h4 class="card-title row">
+          <div class="px-0" [ngClass]="{ 'text-center': isMobile, 'mx-auto': isMobile }">{{ currentPlaylist.title }}</div>
+        </h4>
+        <div class="row">
 
-        <div class="logos align-items-center text-left px-0" [ngClass]="{ 'mt-1': isMobile, 'mt-3': !isMobile }"
-             *ngIf="type=='sp'">
-          <a class="linkedButton spotifyLink my-auto py-auto"
-             href="https://open.spotify.com/playlist/{{ this.id_type }}" target="_blank" title="View in Spotify"
-          ><i class="bi-spotify"></i></a><a> | </a>
-          <i class="linkedButton addLink my-auto py-auto" title="Add to library"
-             (click)="add()"
-             [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added}">
-          </i>
-        </div>
+          <div class="logos align-items-center text-left px-0" [ngClass]="{ 'mt-1': isMobile, 'mt-3': !isMobile }"
+               *ngIf="type=='ts'">
+            <a class="linkedButton appleLink my-auto py-auto"
+               data-bs-toggle="modal" data-bs-target="#confirmExportApplemusic"
+            ><i class="bi-apple"></i></a><a> | </a>
+            <a class="linkedButton spotifyLink my-auto py-auto"
+               data-bs-toggle="modal" data-bs-target="#confirmExportSpotify"
+            ><i class="bi-spotify"></i></a><a> | </a>
+            <a class="linkedButton shareLink my-auto py-auto" (click)="copyLink()"
+               ngbTooltip="Link copied!"
+               [closeDelay]="1500"
+               triggers="click:click"
+               style="cursor: pointer" title="Copy Link"
+            ><i class="bi-share"></i></a><a> | </a>
+            <i class="linkedButton addLink my-auto py-auto" title="Add"
+               (click)="add()"
+               [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added}">
+            </i>
+          </div>
 
-        <div class="logos align-items-center text-left px-0" [ngClass]="{ 'mt-1': isMobile, 'mt-3': !isMobile }"
-             *ngIf="type=='am'">
-          <a class="linkedButton appleLink my-auto py-auto"
-             href="https://music.apple.com/library/playlist/{{ this.id_type }}" target="_blank"
-             title="View in Apple Music"
-          ><i class="bi-apple"></i></a><a> | </a>
-          <i class="linkedButton addLink my-auto py-auto" title="Add to library"
-             (click)="add()"
-             [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added}">
-          </i>
-        </div>
+          <div class="logos align-items-center text-left px-0" [ngClass]="{ 'mt-1': isMobile, 'mt-3': !isMobile }"
+               *ngIf="type=='sp'">
+            <a class="linkedButton spotifyLink my-auto py-auto"
+               href="https://open.spotify.com/playlist/{{ this.id_type }}" target="_blank" title="View in Spotify"
+            ><i class="bi-spotify"></i></a><a> | </a>
+            <i class="linkedButton addLink my-auto py-auto" title="Add to library"
+               (click)="add()"
+               [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added}">
+            </i>
+          </div>
 
+          <div class="logos align-items-center text-left px-0" [ngClass]="{ 'mt-1': isMobile, 'mt-3': !isMobile }"
+               *ngIf="type=='am'">
+            <a class="linkedButton appleLink my-auto py-auto"
+               href="https://music.apple.com/library/playlist/{{ this.id_type }}" target="_blank"
+               title="View in Apple Music"
+            ><i class="bi-apple"></i></a><a> | </a>
+            <i class="linkedButton addLink my-auto py-auto" title="Add to library"
+               (click)="add()"
+               [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added}">
+            </i>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
+  <div *ngIf="currentPlaylist && tracks" class="table-responsive mx-4 trackTable">
+    <table class="table table-striped container p-1">
+      <caption>{{ tracks.length }} track<span *ngIf="tracks.length!=1">s</span></caption>
+      <thead *ngIf="!isMobile">
+      <tr>
+        <th class="text-end" scope="col" style="width: 1em;">#</th>
+        <th scope="col"></th>
+        <th scope="col" style="font-weight: normal"><b>Title</b> | <span style="font-weight: lighter">Artist(s)</span>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let track of tracks, let i = index" class="align-items-center">
+        <th class="text-end" *ngIf="!isMobile">{{ i+1 }}</th>
+        <th style="width: 4.5em;" scope="row"><img src="{{ track.cover_url }}" class="rounded-1 trackImg"
+                                                   style="width: 3em; height: 3em;" alt="Cover"></th>
+        <td class="align-items-center">
+          <div>
+            <div class="trackInfo m-0 p-0"><b>{{ track.title }}</b></div>
+            <div class="trackInfo m-0 p-0" style="font-weight: lighter">{{ track.artist }}</div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
-<div *ngIf="currentPlaylist && tracks" class="table-responsive mx-4 trackTable">
-  <table class="table table-striped container p-1">
-    <caption>{{ tracks.length }} track<span *ngIf="tracks.length!=1">s</span></caption>
-    <thead *ngIf="!isMobile">
-    <tr>
-      <th class="text-end" scope="col" style="width: 1em;">#</th>
-      <th scope="col"></th>
-      <th scope="col" style="font-weight: normal"><b>Title</b> | <span style="font-weight: lighter">Artist(s)</span>
-      </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let track of tracks, let i = index" class="align-items-center">
-      <th class="text-end" *ngIf="!isMobile">{{ i+1 }}</th>
-      <th style="width: 4.5em;" scope="row"><img src="{{ track.cover_url }}" class="rounded-1 trackImg"
-                                                 style="width: 3em; height: 3em;" alt="Cover"></th>
-      <td class="align-items-center">
-        <div>
-          <div class="trackInfo m-0 p-0"><b>{{ track.title }}</b></div>
-          <div class="trackInfo m-0 p-0" style="font-weight: lighter">{{ track.artist }}</div>
-        </div>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+
+<div *ngIf="!currentPlaylist || (this.type=='ts' && !this.user)" class="loader mx-auto my-auto mt-5"></div>
 
 <!-- Popups -->
-<div *ngIf="currentPlaylist" class="modal fade" id="confirmExportApplemusic-{{currentPlaylist.id}}" data-bs-keyboard="false" tabindex="-1"
+<div *ngIf="currentPlaylist" class="modal fade" #m id="confirmExportApplemusic" data-bs-keyboard="false" tabindex="-1"
      role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
-  <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="false" [id]="'confirmExportApplemusic-' + currentPlaylist.id"></app-confirm-export>
+  <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="false" [id]="m"></app-confirm-export>
 </div>
 
-<div *ngIf="currentPlaylist" class="modal fade" id="confirmExportSpotify-{{currentPlaylist.id}}" data-bs-keyboard="false" tabindex="-1"
+<div *ngIf="currentPlaylist" class="modal fade" #m id="confirmExportSpotify" data-bs-keyboard="false" tabindex="-1"
      role="dialog" aria-labelledby="confirmExportLabel" aria-hidden="true">
-  <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="true" [id]="'confirmExportSpotify-' + currentPlaylist.id"></app-confirm-export>
+  <app-confirm-export [currentPlaylist]="currentPlaylist" [spotify]="true" [id]="m"></app-confirm-export>
 </div>

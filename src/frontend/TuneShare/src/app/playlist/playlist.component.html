@@ -1,4 +1,4 @@
-<a class="card usualStyle mx-auto" href="{{ this.url }}" [ngClass]="{ 'isHovered' : menuIsHovered }" *ngIf="show">
+<a class="card usualStyle mx-auto" href="{{ this.url }}" [ngClass]="{ 'isHovered' : menuIsHovered }">
   <div class="pt-3 mx-auto">
     <a href="{{ this.url }}">
       <div class="cover-bg"><img [src]="playlist.cover_url"
@@ -27,9 +27,11 @@
       <div *ngIf="!isMobile" class="col row row-cols-auto justify-content-end text-right iconAddPlain">
         <a class="p-0 me-1" style="width: 35%" href="javascript:">
           <i class="linkedButton my-auto" title="{{ this.added ? '' : 'Add' }}"
-             (click)="add()"
+             (click)="add()" *ngIf="show"
              [ngClass]="{'bi-plus-circle': !added, 'bi-check-circle-fill':added, 'addLink': !disable }">
           </i>
+          <div class="loaderCircle my-auto mx-auto text-center pt-1" title="{{ this.added ? '' : 'Add' }}" *ngIf="!show">
+          </div>
         </a>
         <a ngbDropdown placement="top-end" container="body" href="javascript:"
            class="dropdownPlaylist text-end w-auto p-0 d-inline">
@@ -80,36 +82,36 @@
   </div>
 </a>
 
-<a *ngIf="!show" class="card usualStyle mx-auto" href="{{ this.url }}" [ngClass]="{ 'isHovered' : menuIsHovered }">
-  <div class="text-center">
-    <div class="pt-3 mx-auto text-center">
-      <a href="{{ this.url }}">
-        <div class="cover-bg mx-auto">
-          <div class="loader mx-auto text-center" style="max-width: 14.5em; max-height: 14.5em;">
-          </div>
-        </div>
-      </a>
-    </div>
-    <div class="mx-4 mt-3 mb-2 p-0" [ngClass]="{ 'smallerfont':isMobile }" style="opacity: 0;">
-    <a href="{{ this.url }}"><h5 class="card-title overflow-hidden"
-                                 [ngClass]="{ 'smallerfontHeadline':isMobile }"></h5></a>
-    <div class="row mb-2 justify-content-between">
-      <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='ts'"></div>
-      <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='sp'">
-      </div>
-      <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='am'">
-      </div>
+<!--<a *ngIf="!show" class="card usualStyle mx-auto" href="{{ this.url }}" [ngClass]="{ 'isHovered' : menuIsHovered }">-->
+<!--  <div class="text-center">-->
+<!--    <div class="pt-3 mx-auto text-center">-->
+<!--      <a href="{{ this.url }}">-->
+<!--        <div class="cover-bg mx-auto">-->
+<!--          <div class="loader mx-auto text-center" style="max-width: 14.5em; max-height: 14.5em;">-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </a>-->
+<!--    </div>-->
+<!--    <div class="mx-4 mt-3 mb-2 p-0" [ngClass]="{ 'smallerfont':isMobile }" style="opacity: 0;">-->
+<!--    <a href="{{ this.url }}"><h5 class="card-title overflow-hidden"-->
+<!--                                 [ngClass]="{ 'smallerfontHeadline':isMobile }"></h5></a>-->
+<!--    <div class="row mb-2 justify-content-between">-->
+<!--      <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='ts'"></div>-->
+<!--      <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='sp'">-->
+<!--      </div>-->
+<!--      <div class="card-author mb-0 overflow-hidden ps-3" [ngClass]="{ 'mobile' : isMobile }" *ngIf="type=='am'">-->
+<!--      </div>-->
 
-      <div *ngIf="!isMobile" class="col row row-cols-auto justify-content-end text-right iconAddPlain">
-        <a class="p-0 me-1" style="width: 35%">
-          <i class="linkedButton my-auto">
-          </i>
-        </a>
-      </div>
-    </div>
-  </div>
-  </div>
-</a>
+<!--      <div *ngIf="!isMobile" class="col row row-cols-auto justify-content-end text-right iconAddPlain">-->
+<!--        <a class="p-0 me-1" style="width: 35%">-->
+<!--          <i class="linkedButton my-auto">-->
+<!--          </i>-->
+<!--        </a>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  </div>-->
+<!--</a>-->
 
 <!-- Popups -->
 <div class="modal fade" id="confirmExportApplemusic-{{playlist.id}}" data-bs-keyboard="false" tabindex="-1" role="dialog"

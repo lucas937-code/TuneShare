@@ -1,7 +1,6 @@
 import {HttpInterceptorFn} from '@angular/common/http';
 import {inject} from "@angular/core";
 import {AuthService} from "./auth.service";
-import {CookieService} from "ngx-cookie-service";
 import {EMPTY, switchMap} from "rxjs";
 
 export const headersInterceptor: HttpInterceptorFn = (req, next) => {
@@ -11,10 +10,9 @@ export const headersInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
 
   const authService = inject(AuthService);
-  const cookieService = inject(CookieService)
 
   const accessToken = authService.accessToken;
-  const csrfToken = cookieService.get('csrftoken');
+  const csrfToken = authService.getCsrfCookie();
 
   if (authService.tokenIsExpired || !accessToken) {
     return authService.refreshToken().pipe(
@@ -28,7 +26,8 @@ export const headersInterceptor: HttpInterceptorFn = (req, next) => {
           setHeaders: {
             'Authorization': `Bearer ${updatedAccessToken}`,
             'X-CSRFToken': csrfToken
-          }
+          },
+          withCredentials: true
         });
         return next(authReq);
       })
@@ -40,7 +39,8 @@ export const headersInterceptor: HttpInterceptorFn = (req, next) => {
     setHeaders: {
       'Authorization': `Bearer ${accessToken}`,
       'X-CSRFToken': csrfToken
-    }
+    },
+    withCredentials: true
   })
   return next(authReq);
-};
+}

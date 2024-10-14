@@ -125,24 +125,33 @@ a{
   box-shadow: 0px 0px 5px 0px rgba(149, 137, 159, 0.17);
 }
 
-.loader {
-  width: 40px;
+
+/* HTML: <div class="loader"></div> */
+.loaderCircle {
+  width: 1em;
   aspect-ratio: 1;
+  border-radius: 50%;
+  border: 0.1em solid #4F4E57;
   animation:
-    l3-1 2s infinite linear,
-    l3-2 3s infinite steps(1) -.5s;
+    l20-1 0.8s infinite linear alternate,
+    l20-2 1.6s infinite linear;
 }
-@keyframes l3-1 {
-  0%   {transform: perspective(150px) rotateX(  0deg) rotateY(0deg)}
-  50%  {transform: perspective(150px) rotateX(180deg) rotateY(0deg)}
-  100% {transform: perspective(150px) rotateX(180deg) rotateY(180deg)}
+@keyframes l20-1{
+  0%    {clip-path: polygon(50% 50%,0       0,  50%   0%,  50%    0%, 50%    0%, 50%    0%, 50%    0% )}
+  12.5% {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100%   0%, 100%   0%, 100%   0% )}
+  25%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 100% 100%, 100% 100% )}
+  50%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
+  62.5% {clip-path: polygon(50% 50%,100%    0, 100%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
+  75%   {clip-path: polygon(50% 50%,100% 100%, 100% 100%,  100% 100%, 100% 100%, 50%  100%, 0%   100% )}
+  100%  {clip-path: polygon(50% 50%,50%  100%,  50% 100%,   50% 100%,  50% 100%, 50%  100%, 0%   100% )}
 }
-@keyframes l3-2 {
-  0%  {background: #8A5CA3}
-  33% {background: #E7515F}
-  66% {background: #65d46e
-  }
+@keyframes l20-2{
+  0%    {transform:scaleY(1)  rotate(0deg)}
+  49.99%{transform:scaleY(1)  rotate(135deg)}
+  50%   {transform:scaleY(-1) rotate(0deg)}
+  100%  {transform:scaleY(-1) rotate(-135deg)}
 }
+
 
 @media (max-width: 767px) {
   .smallerfont {
