@@ -111,7 +111,6 @@ export class PlaylistComponent implements OnInit {
         }
       }
     }
-
   }
 
   ngOnInit() {
@@ -149,6 +148,7 @@ export class PlaylistComponent implements OnInit {
     this.tuneshareService.getCurrentUser().pipe(switchMap(user => {
       if (this.type == 'ts' && !this.added){
         this.added = this.playlist.owner_id == user.id;
+        this.disable = this.added;
         this.show = true;
       }
       return this.tuneshareService.getPlaylistsOfUser(user.id);
@@ -186,9 +186,16 @@ export class PlaylistComponent implements OnInit {
   }
 
   removePlaylist() {
-    if (this.playlist.id)
-      this.tuneshareService.deletePlaylist(this.playlist.id).subscribe()
+    this.tuneshareService.getCurrentUser().subscribe(user => {
+      if (this.playlist.id) {
+        if (user.id == this.playlist.owner_id) {
+          this.tuneshareService.deletePlaylist(this.playlist.id).subscribe()
+          this.is_deleted.next(true);
+        } else {
+          this.add();
+        }
+      }
+    })
 
-    this.is_deleted.next(true);
   }
 }

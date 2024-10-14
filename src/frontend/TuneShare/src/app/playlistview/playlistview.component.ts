@@ -109,6 +109,7 @@ export class PlaylistviewComponent implements OnInit {
     this.tuneshareService.getCurrentUser().pipe(switchMap(user => {
       if (this.type == 'ts' && !this.added){
         this.added = this.currentPlaylist.owner_id == user.id;
+        this.disable = this.added;
         this.show = true;
       }
       return this.tuneshareService.getPlaylistsOfUser(user.id);
