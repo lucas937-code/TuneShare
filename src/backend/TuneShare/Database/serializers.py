@@ -6,21 +6,9 @@ from rest_framework import serializers
 from .models import Playlist, IncludesTrack
 
 class PlaylistSerializer(serializers.ModelSerializer):
-    owner_id = serializers.SerializerMethodField()
-    spotify_id = serializers.SerializerMethodField()
-    apple_music_id = serializers.SerializerMethodField()
-    track_list = serializers.SerializerMethodField()
-
     class Meta:
         model = Playlist
-        fields = ['id', 'owner_id', 'apple_music_id', 'spotify_id', 'date_modified', 'title', 'cover_url', 'is_public', 'track_list']
-
-    def get_owner_id(self, obj):
-        try:
-            follow = FollowsPlaylist.objects.get(playlist_id=obj.id, is_owner=True)
-            return follow.user_id.id
-        except FollowsPlaylist.DoesNotExist:
-            return None
+        fields = '__all__'
 
     def get_spotify_id(self, obj):
         try:

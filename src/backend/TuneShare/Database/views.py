@@ -75,8 +75,10 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'], url_path='playlists')
     def get_playlists_of_user(self, request, pk=None):
-        playlists = Playlist.objects.filter(owner_id_id=pk)
+        owner = User.objects.get(id=pk)
+        playlists = Playlist.objects.filter(owner_id=owner)
         serializer = PlaylistSerializer(playlists, many=True)
+        print(serializer.data)
         return Response(serializer.data, status.HTTP_200_OK)
 
 
