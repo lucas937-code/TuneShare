@@ -82,10 +82,14 @@ export class PlaylistviewComponent implements OnInit {
   }
 
   add() {
-    if (this.currentPlaylist.apple_music_id)
+    if (this.currentPlaylist.apple_music_id){
       this.applemusicService.importFromAppleMusic(this.currentPlaylist.apple_music_id).subscribe();
-    else if (this.currentPlaylist.spotify_id)
+      this.added = true;
+  }
+    else if (this.currentPlaylist.spotify_id) {
       this.spotifyService.importFromSpotify(this.currentPlaylist.spotify_id).subscribe();
+      this.added = true;
+    }
     else if (this.currentPlaylist.id) {
       if (!this.disable) {
         if (!this.added) {
