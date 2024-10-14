@@ -32,6 +32,10 @@
   cursor: pointer;
 }
 
+.addButton{
+  cursor: not-allowed;
+}
+
 .addLink:hover{
   color: #8A5CA3;
 }

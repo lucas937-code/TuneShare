@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PlaylistListComponent} from "../playlistList/playlist-list.component";
 import {TuneShareService} from "../tune-share.service";
-import {switchMap} from "rxjs";
+import {Observable, switchMap} from "rxjs";
 import {Playlist} from "../types";
 import {NgIf} from "@angular/common";
 
@@ -27,11 +27,18 @@ export class LibraryComponent implements OnInit {
   ngOnInit() {
     this.tuneshareService.getCurrentUser().pipe(switchMap(user => {
       return this.tuneshareService.getPlaylistsOfUser(user.id);
-    })).subscribe({
-      next: playlists => {
-        this.playlists = playlists;
+    })).subscribe(playlists => {
+        this.playlists = this.playlists.concat(playlists).sort((a, b) => a.title.localeCompare(b.title));
         this.noPlaylists = this.playlists.length == 0;
       }
-    });
+    );
+
+    this.tuneshareService.getCurrentUser().pipe(switchMap(user => {
+      return (this.tuneshareService.getFollowedPlaylistsOfUser());
+    })).subscribe(playlists => {
+        this.playlists = this.playlists.concat(playlists).sort((a, b) => a.title.localeCompare(b.title));
+        this.noPlaylists = this.playlists.length == 0;
+      }
+    );
   }
 }
