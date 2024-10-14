@@ -132,6 +132,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:4200',
 ]
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = ['http://localhost:4200']
 
 SPOTIFY_CLIENT_ID = '7af83aa226924d8698afc58ddd239c05'
 SPOTIFY_REDIRECT_URI = 'http://localhost:4200/settings'

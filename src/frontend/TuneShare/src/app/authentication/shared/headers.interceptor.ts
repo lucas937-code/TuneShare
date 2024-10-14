@@ -1,6 +1,8 @@
 import {HttpInterceptorFn} from '@angular/common/http';
 import {inject} from "@angular/core";
 import {AuthService} from "./auth.service";
+import {CookieService} from "ngx-cookie-service";
+import {EMPTY, switchMap} from "rxjs";
 
 export const headersInterceptor: HttpInterceptorFn = (req, next) => {
   const excludedUrls: string[] = ['/auth/login/', '/auth/register/', '/auth/refresh/'];
@@ -9,17 +11,38 @@ export const headersInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
 
   const authService = inject(AuthService);
+  const cookieService = inject(CookieService)
 
   const accessToken = authService.accessToken;
+  const csrfToken = cookieService.get('csrftoken');
 
   if (authService.tokenIsExpired || !accessToken) {
-    authService.refreshToken();
+    return authService.refreshToken().pipe(
+      switchMap(newToken => {
+        const updatedAccessToken = newToken || accessToken;
+        if (!updatedAccessToken) {
+          authService.logout();
+          return EMPTY;
+        }
+        const authReq = req.clone({
+          setHeaders: {
+            'Authorization': `Bearer ${updatedAccessToken}`,
+            'X-CSRFToken': csrfToken
+          },
+          withCredentials: true
+        });
+        return next(authReq);
+      })
+    );
   }
+
 
   const authReq = req.clone({
     setHeaders: {
-      Authorization: `Bearer ${accessToken}`
-    }
+      'Authorization': `Bearer ${accessToken}`,
+      'X-CSRFToken': csrfToken
+    },
+    withCredentials: true
   })
   return next(authReq);
 };

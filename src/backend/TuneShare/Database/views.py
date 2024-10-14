@@ -70,7 +70,15 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_playlists_of_user(self, request, pk=None):
         playlists = Playlist.objects.filter(owner_id_id=pk)
         serializer = PlaylistSerializer(playlists, many=True)
-        return Response(serializer.data, status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['post'], url_path='follow')
+    def follow_user(self, request, *args, **kwargs):
+        followed_user = User.objects.get(id=request.query_params.get('id'))
+        current_user = User.objects.get(user_uuid=request.user.id)
+        follows_object = FollowsUser.objects.create(followed_id=followed_user, follower_id=current_user)
+        serializer = FollowsUserSerializer(follows_object)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class PlaylistViewSet(viewsets.ModelViewSet):
