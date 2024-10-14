@@ -70,7 +70,7 @@
           <li><a class="nav-link" href="/profile?p={{ this.user?.id }}">Account</a></li>
           <li><a class="nav-link" href="/settings">Settings</a></li>
           <li>
-            <a *ngIf="authService.isLoggedIn; else signIn" class="nav-link" href="/" (click)="authService.logout()">
+            <a *ngIf="authService.isLoggedIn; else signIn" class="nav-link" href="/login" (click)="authService.logout()">
               Sign out
             </a>
             <ng-template #signIn>
