@@ -80,4 +80,9 @@ export class TuneShareService {
       .set('search', query);
     return this.http.get<Track[]>(`${BACKEND_URL}api/track/`, {params});
   }
+
+  // checks if a user has linked spotify or AppleMusic
+  linkedServices(): Observable<{spotify: boolean, apple_music: boolean}> {
+    return this.http.get<{spotify: boolean, apple_music: boolean}>(`${BACKEND_URL}api/user/linked_services/`);
+  }
 }
