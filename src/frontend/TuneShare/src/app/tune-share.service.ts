@@ -85,4 +85,14 @@ export class TuneShareService {
   linkedServices(): Observable<{spotify: boolean, apple_music: boolean}> {
     return this.http.get<{spotify: boolean, apple_music: boolean}>(`${BACKEND_URL}api/user/linked_services/`);
   }
+
+  //follows a playlist by another user
+  followPlaylist(playlist_id:number): Observable<Playlist> {
+    return this.http.post<Playlist>(`${BACKEND_URL}api/user/follow_playlist/?id=${playlist_id}`, {});
+  }
+
+  //unfollows a playlist by another user
+  unfollowPlaylist(playlist_id:number): Observable<void> {
+    return this.http.delete<void>(`${BACKEND_URL}api/user/unfollow_playlist/?id=${playlist_id}`, {});
+  }
 }

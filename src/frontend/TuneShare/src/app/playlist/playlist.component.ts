@@ -80,16 +80,25 @@ export class PlaylistComponent implements OnInit {
   }
 
   add(){
-    if (!this.disable){
+    if (!this.disable) {
       if (this.playlist.apple_music_id) {
         this.appleMusicService.importFromAppleMusic(this.playlist.apple_music_id).subscribe();
         this.added = this.disable = true;
-      }
-      if (this.playlist.spotify_id) {
+      } else if (this.playlist.spotify_id) {
         this.spotifyService.importFromSpotify(this.playlist.spotify_id).subscribe();
         this.added = this.disable = true;
       }
+      else if (this.playlist.id) {
+        if (!this.added) {
+          this.tuneshareService.followPlaylist(this.playlist.id).subscribe();
+          this.added = true;
+        } else {
+          this.tuneshareService.unfollowPlaylist(this.playlist.id).subscribe();
+          this.added = false;
+        }
+      }
     }
+
   }
 
   ngOnInit() {
