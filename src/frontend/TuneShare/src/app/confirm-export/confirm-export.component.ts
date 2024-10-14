@@ -18,16 +18,18 @@ export class ConfirmExportComponent implements AfterViewInit{
 
   @Input() spotify: boolean | undefined;
   @Input() currentPlaylist: Playlist | undefined;
-  @Input() id: HTMLDivElement | undefined;
+  @Input() id: string | undefined;
+  div: HTMLDivElement | undefined;
   stage: "confirm" | "running" | "success" | "failed" = "confirm";
 
   constructor(private spotifyService: SpotifyService) {
   }
 
   ngAfterViewInit() {
-
     if (this.id) {
-      this.id.addEventListener('hidden.bs.modal', (event) => {
+      this.div = document.getElementById(this.id) as HTMLDivElement;
+      console.log(this.id);
+      this.div.addEventListener('hidden.bs.modal', (event) => {
         this.stage = "confirm";
       });
     }

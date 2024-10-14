@@ -1,5 +1,5 @@
-<div class="container mt-4 mb-4" *ngIf="this.ownPlaylists.length>0">
-  <app-playlist-rotate class="mx-auto" [carouselId]="'carousel1'"
+<div class="container mt-4 mb-4" *ngIf="this.done">
+  <app-playlist-rotate class="mx-auto" [carouselId]="'carousel1'" *ngIf="this.ownPlaylists.length>0"
                        [playlists]="ownPlaylists"
                        [title]="'Your TuneShare playlists'"></app-playlist-rotate>
 
@@ -8,4 +8,7 @@
                          [title]="'Playlists from @'+ user.user.username"></app-playlist-rotate>
   </div>
 </div>
-<div *ngIf="!(this.ownPlaylists.length>0)" class="loader mx-auto my-auto mt-5"></div>
+<div *ngIf="this.done&&this.ownPlaylists.length==0&&this.followerWithPlaylists.length == 0" class="text-center mt-5">
+  <h5><a href="/addplaylist" style="color: black">Add Playlists</a> from Spotify or TuneShare or add friends to share your tunes!</h5>
+</div>
+<div *ngIf="!this.done" class="loader mx-auto my-auto mt-5"></div>
