@@ -14,3 +14,11 @@
 .btn-primary:hover{
   background: #714b85;
 }
+
+.loaderPoints {
+  width: 1em;
+  aspect-ratio: 4;
+  background: radial-gradient(circle closest-side,#000 90%,#0000) 0/calc(100%/3) 100% no-repeat;
+  animation: l2 1s steps(3) infinite;
+}
+@keyframes l2 {to{background-position: 150%}}

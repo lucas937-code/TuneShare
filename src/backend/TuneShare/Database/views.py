@@ -71,7 +71,9 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_current_user(self, request):
         user = User.objects.get(user_uuid=request.user.id)
         serializer = UserSerializer(user)
-        return Response(serializer.data)
+        filtered_data = {field: serializer.data[field] for field in ['id', 'username', 'display_name']}
+
+        return Response(filtered_data, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['get'], url_path='playlists')
     def get_playlists_of_user(self, request, pk=None):
@@ -112,6 +114,15 @@ class UserViewSet(viewsets.ModelViewSet):
         follows_object = FollowsPlaylist.objects.get(user_id=current_user, playlist_id=followed_playlist)
         follows_object.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=False, methods=['get'], url_path="linked_services")
+    def spotify_is_linked(self, request, *args, **kwargs):
+        current_user = User.objects.get(user_uuid=request.user.id)
+        response = {
+            'spotify': bool(current_user.spotify_access_token),
+            'apple_music': bool(current_user.apple_music_access_token)
+        }
+        return Response(response, status=status.HTTP_200_OK)
 
 
 class PlaylistViewSet(viewsets.ModelViewSet):
