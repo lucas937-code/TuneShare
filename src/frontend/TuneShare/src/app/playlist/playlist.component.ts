@@ -34,6 +34,8 @@ import {switchMap} from "rxjs";
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.scss'
 })
+
+// displays the playlist as card view with quick actions
 export class PlaylistComponent implements OnInit {
   @Input() playlist: Playlist = {
     id: undefined,

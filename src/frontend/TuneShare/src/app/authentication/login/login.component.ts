@@ -21,6 +21,8 @@ import {AuthService} from "../shared/auth.service";
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
+
+// Login-page
 export class LoginComponent implements OnInit {
   readonly window = window;
   private readonly loginUrl: string = `${BACKEND_URL}auth/login/`;

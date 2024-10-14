@@ -14,6 +14,8 @@ import {Playlist} from "../types";
   templateUrl: './playlist-rotate.component.html',
   styleUrl: './playlist-rotate.component.scss'
 })
+
+// Playlist carousel (used on the homepage)
 export class PlaylistRotateComponent implements OnInit {
 
   @Input() title: string = "";

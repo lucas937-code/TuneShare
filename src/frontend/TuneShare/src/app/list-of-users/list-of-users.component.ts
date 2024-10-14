@@ -13,6 +13,8 @@ import {User} from "../types";
   templateUrl: './list-of-users.component.html',
   styleUrl: './list-of-users.component.scss'
 })
+
+// A list of the input users
 export class ListOfUsersComponent {
 
   @Input() userList: User[] = [];

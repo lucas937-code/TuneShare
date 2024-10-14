@@ -13,6 +13,8 @@ import {TuneShareService} from "../tune-share.service";
   templateUrl: './user-listed.component.html',
   styleUrl: './user-listed.component.scss'
 })
+
+// a single user, a compact view
 export class UserListedComponent implements OnInit {
   @Input() user: User | undefined;
   displayname: string | undefined;

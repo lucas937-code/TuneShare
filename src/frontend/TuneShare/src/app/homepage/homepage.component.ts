@@ -6,6 +6,7 @@ import {TuneShareService} from "../tune-share.service";
 import {switchMap} from "rxjs";
 import {Playlist, User} from "../types";
 
+// TuneShare homepage (/#)
 @Component({
   selector: 'app-homepage',
   standalone: true,

@@ -15,6 +15,8 @@ import {AppleMusicService} from "../apple-music.service";
   templateUrl: './confirm-export.component.html',
   styleUrl: './confirm-export.component.scss'
 })
+
+// Popup to confirm an export to Spotify/Apple Music
 export class ConfirmExportComponent implements AfterViewInit{
 
   @Input() spotify: boolean | undefined;

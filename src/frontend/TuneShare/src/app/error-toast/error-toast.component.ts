@@ -12,6 +12,8 @@ import {NgbToast} from "@ng-bootstrap/ng-bootstrap";
   templateUrl: './error-toast.component.html',
   styleUrl: './error-toast.component.scss'
 })
+
+// Shows an error message on failed login
 export class ErrorToastComponent {
   @Input() message: string = 'An error has occurred. Try again';
   @Input() showing: boolean = false;

@@ -18,6 +18,8 @@ import {TuneShareService} from "../tune-share.service";
   templateUrl: './add-playlist.component.html',
   styleUrl: './add-playlist.component.scss'
 })
+
+// Page to add Playlists from Spotify and Apple Music (/addplaylist)
 export class AddPlaylistComponent implements OnInit {
 
   spotify: boolean = true;

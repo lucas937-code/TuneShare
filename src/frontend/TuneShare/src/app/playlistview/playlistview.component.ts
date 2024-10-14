@@ -25,6 +25,8 @@ import {TuneShareService} from "../tune-share.service";
   templateUrl: './playlistview.component.html',
   styleUrl: './playlistview.component.scss'
 })
+
+// displays a playlist and the tracks of the playlist
 export class PlaylistviewComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private spotifyService: SpotifyService, private applemusicService: AppleMusicService, private tuneshareService: TuneShareService) {}
@@ -91,6 +93,6 @@ export class PlaylistviewComponent implements OnInit {
   }
 
   copyLink() {
-    navigator.clipboard.writeText(window.location.href); //TODO add link to specific playlist
+    navigator.clipboard.writeText(window.location.href);
   }
 }

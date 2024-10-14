@@ -21,6 +21,8 @@ import {AuthService} from "../shared/auth.service";
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss'
 })
+
+// Registration Page
 export class RegistrationComponent implements OnInit {
   readonly window = window;
   private readonly registrationUrl: string = `${BACKEND_URL}auth/register/`;

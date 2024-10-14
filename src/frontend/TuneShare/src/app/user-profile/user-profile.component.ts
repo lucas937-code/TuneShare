@@ -21,6 +21,8 @@ import {TuneShareService} from "../tune-share.service";
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss'
 })
+
+// whole profile of a user
 export class UserProfileComponent implements OnInit {
   user: User | undefined;
 

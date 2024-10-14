@@ -15,6 +15,8 @@ import {NgIf} from "@angular/common";
   templateUrl: './library.component.html',
   styleUrl: './library.component.scss'
 })
+
+// The TuneShare library of playlists (/library)
 export class LibraryComponent implements OnInit {
 
   playlists: Playlist[] = [];

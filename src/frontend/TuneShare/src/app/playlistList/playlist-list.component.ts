@@ -13,6 +13,8 @@ import {Playlist} from "../types";
     PlaylistComponent
   ]
 })
+
+// mutiple playlists listed as a grid of their card-view
 export class PlaylistListComponent {
   @Input() playlists: Playlist[] = [];
 

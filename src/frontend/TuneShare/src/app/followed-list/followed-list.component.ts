@@ -17,6 +17,8 @@ import {TuneShareService} from "../tune-share.service";
   templateUrl: './followed-list.component.html',
   styleUrl: './followed-list.component.scss'
 })
+
+// Page where the followed users are listed (/followed)
 export class FollowedListComponent implements OnInit {
 
   follower:User[] | undefined;

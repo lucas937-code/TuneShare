@@ -17,6 +17,8 @@ import {TuneShareService} from "../tune-share.service";
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })
+
+// settings page (/settings)
 export class SettingsComponent implements OnInit {
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private spotifyService: SpotifyService,

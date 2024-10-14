@@ -16,6 +16,8 @@ import {TuneShareService} from "../tune-share.service";
   templateUrl: './search-results.component.html',
   styleUrl: './search-results.component.scss'
 })
+
+// displays results of a search (/search)
 export class SearchResultsComponent implements OnInit {
 
   input:string = "";

@@ -60,7 +60,7 @@
          href="{{ user.apple_music_id ? 'https://music.apple.com/de/album/never-gonna-give-you-up/1559523357?i=1559523359' : '/settings' }}"
          class="appleLink" title="{{ user.display_name }}'s Apple Music">
         <h5 [ngClass]="{'fst-italic': !user.apple_music_id}" class="hideIfShrunk mx-auto">
-          <i class="bi-apple appleLogo"></i> {{ user.apple_music_id ? user.apple_music_id : "link now" }}
+          <i class="bi-apple appleLogo"></i> {{ user.apple_music_id ? user.apple_music_id : "link now" }} <!--  TODO change to username-->
         </h5>
       </a>
     </span>
