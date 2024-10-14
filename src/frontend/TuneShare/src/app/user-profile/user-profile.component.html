@@ -6,7 +6,7 @@
         <i style="font-size: x-large; width: 1.8em;"></i>
         <h2 class="text-center" href="/library">{{ user.display_name }} </h2>
         <i *ngIf="!ownProfile" class="text-left iconFollowPlain transformIcon" title="Follow"
-           (click)="followAnimation()"
+           (click)="follow()"
            [ngClass]="{'bi-plus-square': !newFollow, 'bi-check-square-fill':newFollow, 'newFollow': followed}"></i>
         <a *ngIf="ownProfile" class="text-left bi-pencil-square iconFollowPlain settingTransform" title="Settings"
            href="/settings"></a>

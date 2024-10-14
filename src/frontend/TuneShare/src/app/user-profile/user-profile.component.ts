@@ -82,8 +82,17 @@ export class UserProfileComponent implements OnInit {
     this.isMobile = window.innerWidth < 992;
   }
 
-  followAnimation() {
-    this.followed = !this.followed;
+  follow() {
+    if(this.user?.id){
+      if (!this.followed) {
+        this.tuneshareService.followUser(this.user?.id).subscribe(user => console.log(user));
+        this.followAnimation(true)
+      }
+    }
+  }
+
+  followAnimation(follow: boolean) {
+    this.followed = follow;
     setTimeout(() => {
       this.newFollow = this.followed;
     }, 100);
