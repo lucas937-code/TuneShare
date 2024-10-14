@@ -115,6 +115,14 @@ class UserViewSet(viewsets.ModelViewSet):
         follows_object.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    @action(detail=False, methods=['get'], url_path='followed_playlists')
+    def followed_playlists(self, request, *args, **kwargs):
+        current_user = User.objects.get(user_uuid=request.user.id)
+        followed_playlists = FollowsPlaylist.objects.filter(user_id=current_user)
+        serializer = PlaylistSerializer(followed_playlists, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
     @action(detail=False, methods=['get'], url_path="linked_services")
     def spotify_is_linked(self, request, *args, **kwargs):
         current_user = User.objects.get(user_uuid=request.user.id)
