@@ -88,14 +88,30 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = FollowsUserSerializer(follows_object)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    @action(detail=False, methods=['delete'], url_path='unfollow_user')
+    def unfollow_user(self, request, *args, **kwargs):
+        followed_user = User.objects.get(id=request.query_params.get('id'))
+        current_user = User.objects.get(user_uuid=request.user.id)
+        follows_object = FollowsUser.objects.get(followed_id=followed_user, follower_id=current_user)
+        follows_object.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
     @action(detail=False, methods=['post'], url_path='follow_playlist')
     def follow_playlist(self, request, *args, **kwargs):
         followed_playlist = Playlist.objects.get(id=request.query_params.get('id'))
         current_user = User.objects.get(user_uuid=request.user.id)
-        followes_object = FollowsPlaylist.objects.create(user_id=current_user, playlist_id=followed_playlist,
-                                                         is_owner=False)
-        serializer = FollowsPlaylistSerializer(followes_object)
+        follows_object = FollowsPlaylist.objects.create(user_id=current_user, playlist_id=followed_playlist,
+                                                        is_owner=False)
+        serializer = FollowsPlaylistSerializer(follows_object)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    @action(detail=False, methods=['delete'], url_path='unfollow_playlist')
+    def unfollow_playlist(self, request, *args, **kwargs):
+        followed_playlist = Playlist.objects.get(id=request.query_params.get('id'))
+        current_user = User.objects.get(user_uuid=request.user.id)
+        follows_object = FollowsPlaylist.objects.get(user_id=current_user, playlist_id=followed_playlist)
+        follows_object.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class PlaylistViewSet(viewsets.ModelViewSet):
