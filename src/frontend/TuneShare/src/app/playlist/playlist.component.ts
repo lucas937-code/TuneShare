@@ -93,6 +93,13 @@ export class PlaylistComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges() {
+
+  }
+
+  ngOnInit() {
+    this.isMobile = window.innerWidth < 992;
+    this.show = false;
+    this.checkAdded();
     if (this.type == "ts") {
       this.tuneshareService.getUser(this.playlist.owner_id).subscribe({
         next: user => {
@@ -100,10 +107,6 @@ export class PlaylistComponent implements OnInit, OnChanges, AfterViewInit {
         }
       });
     }
-  }
-
-  ngOnInit() {
-    this.isMobile = window.innerWidth < 992;
 
     if(this.playlist.id){
       this.type = "ts";
@@ -116,10 +119,10 @@ export class PlaylistComponent implements OnInit, OnChanges, AfterViewInit {
       this.id_type = this.playlist.apple_music_id;
     }
     this.url="/playlist?playlist="+this.id_type+"&type="+this.type;
+
   }
 
   ngAfterViewInit() {
-    this.checkAdded();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -132,6 +135,7 @@ export class PlaylistComponent implements OnInit, OnChanges, AfterViewInit {
       if (this.type == 'ts'){
         this.added = this.playlist.owner_id == user.id;
         this.disable = this.added;
+        this.show = true;
       }
       return this.tuneshareService.getPlaylistsOfUser(user.id);
     })).subscribe(playlists => {

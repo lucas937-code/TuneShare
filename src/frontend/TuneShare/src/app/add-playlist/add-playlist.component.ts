@@ -38,8 +38,6 @@ export class AddPlaylistComponent implements OnInit {
         this.empty = this.playlistsSpotify.length == 0;
       }
     });
-
-
     this.appleMusicService.getPlaylists().subscribe(({
       next: playlists => {
         this.playlistsApplemusic = this.sortPlaylistsAlphabetically(playlists);
