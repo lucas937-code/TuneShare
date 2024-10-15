@@ -225,7 +225,7 @@ class SpotifyView(APIView):
 
     def export_to_spotify(self, request):
         playlist = Playlist.objects.get(id=request.query_params.get('playlist_id'))
-        included_tracks = IncludesTrack.objects.filter(playlist=playlist)
+        included_tracks = IncludesTrack.objects.filter(playlist=playlist).order_by('position')
         track_list = []
 
         for track_included in included_tracks:

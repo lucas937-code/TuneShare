@@ -225,7 +225,7 @@ class AppleMusicView(APIView):
         developer_token = self.generate_apple_music_token()
 
         playlist = Playlist.objects.get(id=request.query_params.get('playlist_id'))
-        included_tracks = IncludesTrack.objects.filter(playlist=playlist)
+        included_tracks = IncludesTrack.objects.filter(playlist=playlist).order_by('position')
         track_list = []
 
         for track_included in included_tracks:
