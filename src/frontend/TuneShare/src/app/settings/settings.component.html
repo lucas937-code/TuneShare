@@ -6,15 +6,15 @@
     </div>
     <div class="card-body">
       <p>
-        <button class="btn" (click)="linkSpotify()" [disabled]="linkedSpotify">Link Spotify
+        <button class="btn" (click)="linkSpotify()" [disabled]="linkedSpotify" title="Unlink Spotify Account">Link Spotify
           <i class="bi bi-check" *ngIf="linkedSpotify"></i>
         </button>
-        <a (click)="removeSpotifyLink()" *ngIf="linkedSpotify"><i class="bi-trash-fill"></i></a>
+        <a (click)="removeSpotifyLink()" *ngIf="linkedSpotify"><i class="bi-trash-fill  px-2"></i></a>
       </p>
       <button class="btn" (click)="linkAppleMusic()" [disabled]="linkedAppleMusic">Link Apple Music
         <i class="bi bi-check" *ngIf="linkedAppleMusic"></i>
       </button>
-      <a (click)="removeAppleMusicLink()" *ngIf="linkedAppleMusic"><i class="bi-trash-fill"></i></a>
+      <a (click)="removeAppleMusicLink()" *ngIf="linkedAppleMusic" title="Unlink Apple Music Account"><i class="bi-trash-fill px-2"></i></a>
     </div>
   </div>
 </div>

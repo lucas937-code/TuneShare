@@ -1,8 +1,18 @@
 .btn{
   border: 2px solid #8A5CA3;
+  width: 12em;
 }
 
 .btn:hover{
   background: #8A5CA3;
   color: white;
+}
+
+.bi-trash-fill{
+  color: #4F4E57;
+}
+
+.bi-trash-fill:hover{
+  cursor: pointer;
+  color: #8A5CA3;
 }
