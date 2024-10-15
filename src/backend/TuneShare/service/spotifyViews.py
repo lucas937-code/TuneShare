@@ -29,6 +29,8 @@ class SpotifyView(APIView):
                 return self.add_to_tuneshare(request)
             case 'export_to_spotify':
                 return self.export_to_spotify(request)
+            case 'remove_link':
+                return self.remove_spotify_link(request)
             case _:
                 return Response({'error': 'Invalid action'}, status=400)
 
@@ -272,3 +274,11 @@ class SpotifyView(APIView):
             return Response(response.json(), status=response.status_code)
         else:
             return Response(response.json(), status=response.status_code)
+
+    def remove_spotify_link(self, request):
+        user = User.objects.get(user_uuid=request.user.id)
+        user.spotify_access_token = None
+        user.spotify_refresh_token = None
+        user.save()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

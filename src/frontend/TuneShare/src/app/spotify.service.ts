@@ -54,4 +54,10 @@ export class SpotifyService {
       .set('action', 'export_to_spotify');
     return this.http.get<any>(`${BACKEND_URL}service/spotify/`, {params});
   }
+
+  removeSpotifyLink(): Observable<any> {
+    const params: HttpParams = new HttpParams()
+      .set('action', 'remove_link');
+    return this.http.get(`${BACKEND_URL}service/spotify/`, {params});
+  }
 }

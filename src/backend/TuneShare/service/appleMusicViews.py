@@ -34,6 +34,9 @@ class AppleMusicView(APIView):
         elif action == 'export_to_apple_music':
             return self.export_to_apple_music(request)
 
+        elif action == 'remove_link':
+            return self.remove_apple_music_link(request)
+
         return Response({'error': 'Invalid action'}, status=400)
 
     def generate_apple_music_token(self):
@@ -274,3 +277,10 @@ class AppleMusicView(APIView):
             return Response(response.json(), status=200)
         else:
             return Response(response.json(), status=response.status_code)
+
+    def remove_apple_music_link(self, request):
+        user = User.objects.get(user_uuid=request.user.id)
+        user.apple_music_access_token = None
+        user.save()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

@@ -7,12 +7,14 @@ import {SpotifyService} from "../spotify.service";
 import {AppleMusicService} from "../apple-music.service";
 import {switchMap} from "rxjs";
 import {TuneShareService} from "../tune-share.service";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-settings',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
@@ -34,8 +36,14 @@ export class SettingsComponent implements OnInit {
     this.route.queryParamMap.subscribe(params => {
       this.code = params.get('code');
       if (this.code) {
-        this.http.get(`${BACKEND_URL}service/spotify/?action=callback&code=${this.code}`)
-          .subscribe()
+        this.http.get(`${BACKEND_URL}service/spotify/?action=callback&code=${this.code}`).pipe(switchMap(() => {
+            return this.tuneShareService.linkedServices()
+        }
+        )).subscribe(linkedServices => {
+          console.log("Here");
+          this.linkedSpotify = linkedServices.spotify;
+          this.linkedAppleMusic = linkedServices.apple_music;
+        });
       }
     });
 
@@ -67,5 +75,13 @@ export class SettingsComponent implements OnInit {
         },
         error: err => console.error('Failed to authorize user', err)
       });
+  }
+
+  removeAppleMusicLink() {
+    this.appleMusicService.removeAppleMusicLink().subscribe(() => this.linkedAppleMusic = false);
+  }
+
+  removeSpotifyLink() {
+    this.spotifyService.removeSpotifyLink().subscribe(() => this.linkedSpotify = false);
   }
 }

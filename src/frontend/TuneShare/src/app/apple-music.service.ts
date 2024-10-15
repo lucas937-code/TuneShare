@@ -114,4 +114,10 @@ export class AppleMusicService {
       .set('playlist_id', playlist_id);
     return this.http.get<any>(`${BACKEND_URL}service/apple_music/`, {params});
   }
+
+  removeAppleMusicLink(): Observable<any> {
+    const params: HttpParams = new HttpParams()
+      .set('action', 'remove_link');
+    return this.http.get(`${BACKEND_URL}service/apple_music/`, {params});
+  }
 }
