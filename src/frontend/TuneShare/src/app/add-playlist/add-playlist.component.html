@@ -11,10 +11,11 @@
     <h4 class="mb-3 text-center">Choose playlist to import</h4>
     <app-playlistList [playlists]="playlistsSpotify" [ngClass]="{ 'd-none': !(spotify && linkedSpotify)} "></app-playlistList>
     <app-playlistList [playlists]="playlistsApplemusic" [ngClass]="{'d-none' : !(!spotify && linkedApplemusic)}"></app-playlistList>
-    <div *ngIf="(!loadingDoneS || !loadingDoneAm) && !(!linkedSpotify && spotify || !linkedApplemusic && !spotify)" class="text-center mt-5">
+<!--    <div *ngIf="(!loadingDoneS || !loadingDoneAm) && !(!linkedSpotify && spotify || !linkedApplemusic && !spotify)" class="text-center mt-5">-->
+    <div *ngIf="!(loadingDoneAm && loadingDoneS) && !(!linkedSpotify && spotify || !linkedApplemusic && !spotify)" class="text-center mt-5">
       <div class="loader text-center mx-auto mb-1"></div>
     </div>
-    <div *ngIf="empty && loadingDoneAm &&loadingDoneS" class="text-center mt-5"><h5>No
+    <div *ngIf="empty && loadingDoneAm && loadingDoneS" class="text-center mt-5"><h5>No
       playlists available!</h5>
     </div>
     <div *ngIf="!linkedSpotify && spotify || !linkedApplemusic && !spotify" class="text-center"><h5>To add playlists from your <span [ngClass]="{ 'appleLink' : !spotify, 'spotifyLink' : spotify }">{{ spotify ? "Spotify" : "Apple Music" }}</span> Account link it to TuneShare in

@@ -43,8 +43,8 @@ export class AddPlaylistComponent implements OnInit {
         })).subscribe({
           next: playlists => {
             this.playlistsSpotify = this.sortPlaylistsAlphabetically(playlists);
-            this.playlistsSpotify.length == 0 ? this.empty=true : {};
             this.loadingDoneS = true;
+            this.spotifyActive();
           }
         });
       } else {
@@ -54,8 +54,8 @@ export class AddPlaylistComponent implements OnInit {
         this.appleMusicService.getPlaylists().subscribe(({
           next: playlists => {
             this.playlistsApplemusic = this.sortPlaylistsAlphabetically(playlists);
-            this.playlistsSpotify.length == 0 ? this.empty=true : {};
             this.loadingDoneAm = true;
+            this.spotifyActive();
           }
         }));
       } else {
