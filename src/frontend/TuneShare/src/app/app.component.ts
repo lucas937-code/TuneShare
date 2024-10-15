@@ -28,9 +28,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.authService.isLoggedIn)
-      this.router.navigate(['/login']);
-
     this.isMobile = window.innerWidth < 992;
     this.tuneshareService.getCurrentUser().subscribe({
       next: user => {
