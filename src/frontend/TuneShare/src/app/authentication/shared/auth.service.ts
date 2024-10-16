@@ -39,7 +39,11 @@ export class AuthService {
   }
 
   get isLoggedIn(): boolean {
-    return !!this.accessToken;
+    if (!this.accessToken)
+      return false;
+    if (this.tokenIsExpired)
+      this.refreshToken().subscribe();
+    return true;
   }
 
   refreshToken(): Observable<string | null> {
