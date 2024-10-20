@@ -1,0 +1,15 @@
+<div class="container mt-4 mx-auto text-center">
+  <form (ngSubmit)="submitUrl(f)" #f=ngForm>
+    <input id="url" class="w-75 p-1" placeholder="URL"
+           style="border-color: #8a5ca3; background: white; border-radius: 1px; border-right: none"
+           [(ngModel)]="urlInput" name="urlInput" />
+    <button type="submit" class="py-1 px-2"
+            style=" display: inline; border-color: #8a5ca3; background: white; border-radius: 1px;"
+    ><i class="bi bi-search"></i></button>
+  </form>
+  <div class="mt-3" *ngIf="found">
+    <p>Spotify Link: <a href="{{ this.spotifyLink }}" target="_blank">{{ this.spotifyLink }}<div *ngIf="spotifyLink==''" class="loaderCircle d-inline-block ms-1"></div></a></p>
+    <p>Apple Music Link: <a href="{{ this.applemusicLink }}" target="_blank">{{ this.applemusicLink }}<div *ngIf="applemusicLink==''" class="loaderCircle d-inline-block ms-1"></div></a></p>
+  </div>
+  <p class="mt-3" *ngIf="!found">No title found!</p>
+</div>

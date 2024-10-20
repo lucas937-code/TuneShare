@@ -40,7 +40,6 @@ export class SettingsComponent implements OnInit {
             return this.tuneShareService.linkedServices()
         }
         )).subscribe(linkedServices => {
-          console.log("Here");
           this.linkedSpotify = linkedServices.spotify;
           this.linkedAppleMusic = linkedServices.apple_music;
         });
