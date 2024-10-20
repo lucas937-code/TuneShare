@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Playlist, SpotifyUser} from "./types";
+import {Playlist, SpotifyUser, Track} from "./types";
 import {map, Observable, tap} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {BACKEND_URL} from "../main";
@@ -59,5 +59,20 @@ export class SpotifyService {
     const params: HttpParams = new HttpParams()
       .set('action', 'remove_link');
     return this.http.get(`${BACKEND_URL}service/spotify/`, {params});
+  }
+
+  getTrackById(track_id : string): Observable<Track> {
+    const params = new HttpParams()
+      .set('action', 'get_track_by_id')
+      .set('track_id', track_id);
+    return this.http.get<Track>(`${BACKEND_URL}service/spotify/`, {params});
+  }
+
+  findTrack(artist: string, title: string): Observable<Track> {
+    const params = new HttpParams()
+      .set('action', 'find_track')
+      .set('artist', artist)
+      .set('title', title);
+    return this.http.get<Track>(`${BACKEND_URL}service/spotify/`, {params});
   }
 }

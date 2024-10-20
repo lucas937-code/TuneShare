@@ -37,6 +37,12 @@ class AppleMusicView(APIView):
         elif action == 'remove_link':
             return self.remove_apple_music_link(request)
 
+        elif action == 'get_track_by_id':
+            return self.get_track_by_id(request)
+
+        elif action == 'find_track':
+            return self.find_track(request)
+
         return Response({'error': 'Invalid action'}, status=400)
 
     def generate_apple_music_token(self):
@@ -143,8 +149,9 @@ class AppleMusicView(APIView):
             if 'artwork' in track['attributes'].keys():
                 cover_url = track['attributes']['artwork']['url'].replace("{w}x{h}", "500x500")
             catalog_id = track['id']
-            if 'catalogId' in track['attributes']['playParams']:
-                catalog_id = track['attributes']['playParams']['catalogId']
+            if 'playParams' in track['attributes'].keys():
+                if 'catalogId' in track['attributes']['playParams']:
+                    catalog_id = track['attributes']['playParams']['catalogId']
             tracks.append({
                 'apple_music_id': catalog_id,
                 'title': track['attributes']['name'],
@@ -286,3 +293,67 @@ class AppleMusicView(APIView):
         user.save()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+    def get_track_by_id(self, request):
+        music_user_token = User.objects.get(user_uuid=request.user.id).apple_music_access_token
+        track_id = request.query_params.get('track_id')
+        if not music_user_token or not track_id:
+            return JsonResponse({'error': 'Music-User-Token and track-id are required'}, status=400)
+
+        developer_token = self.generate_apple_music_token()
+
+        url = f"https://api.music.apple.com/v1/catalog/de/songs/{track_id}"
+        headers = {
+            'Authorization': f'Bearer {developer_token}',
+            'Music-User-Token': music_user_token
+        }
+
+        response = requests.get(url, headers=headers)
+        if response.status_code != 200:
+            return Response({'error': 'Failed to fetch track'}, status=response.status_code)
+
+        track = response.json()['data'][0]
+
+        cover_url = ""
+        if 'artwork' in track['attributes'].keys():
+            cover_url = track['attributes']['artwork']['url'].replace("{w}x{h}", "500x500")
+        catalog_id = track['id']
+        if 'catalogId' in track['attributes']['playParams']:
+            catalog_id = track['attributes']['playParams']['catalogId']
+        frontend_track = {
+            'apple_music_id': catalog_id,
+            'title': track['attributes']['name'],
+            'artist': track['attributes']['artistName'],
+            'cover_url': cover_url
+        }
+
+        return Response(frontend_track, status=200)
+
+    def find_track(self, request):
+
+        music_user_token = User.objects.get(user_uuid=request.user.id).apple_music_access_token
+        if not music_user_token:
+            return JsonResponse({'error': 'Music-User-Token is required'}, status=400)
+
+        developer_token = self.generate_apple_music_token()
+
+
+        url = f"https://api.music.apple.com/v1/catalog/de/search?term={request.query_params.get("artist")} {request.query_params.get("title")}&types=songs&limit=1"
+        headers = {
+            'Authorization': f'Bearer {developer_token}',
+            'Music-User-Token': music_user_token
+        }
+        response = requests.get(url, headers=headers)
+
+
+        if 'errors' not in response.json().keys():
+            frontend_track = response.json()['results']['songs']['data'][0]
+        else:
+            url = f"https://api.music.apple.com/v1/catalog/de/search?term={request.query_params.get("artist")} {request.query_params.get("title")[:12]}&types=songs&limit=1"
+            response = requests.get(url, headers=headers)
+            if 'errors' not in response.json().keys():
+                frontend_track = response.json()['results']['songs']['data'][0]
+            else:
+                return JsonResponse({'errors': response.json().get('errors')}, status=response.status_code)
+        return Response(frontend_track, status=200)

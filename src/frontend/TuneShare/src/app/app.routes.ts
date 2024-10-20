@@ -10,6 +10,7 @@ import {AddPlaylistComponent} from "./add-playlist/add-playlist.component";
 import {FollowedListComponent} from "./followed-list/followed-list.component";
 import {LibraryComponent} from "./library/library.component";
 import {authGuard} from "./authentication/shared/auth-guard";
+import {ShareToSpotifyComponent} from "./share-to-spotify/share-to-spotify.component";
 
 export const routes: Routes = [
   { path: "library", component: LibraryComponent, canActivate: [authGuard] },
@@ -22,4 +23,5 @@ export const routes: Routes = [
   { path: "search", component: SearchResultsComponent, canActivate: [authGuard] },
   { path: "addplaylist", component: AddPlaylistComponent, canActivate: [authGuard] },
   { path: "followed", component: FollowedListComponent, canActivate: [authGuard] },
+  { path: "share", component: ShareToSpotifyComponent },
 ];

@@ -31,6 +31,10 @@ class SpotifyView(APIView):
                 return self.export_to_spotify(request)
             case 'remove_link':
                 return self.remove_spotify_link(request)
+            case 'get_track_by_id':
+                return self.get_track_by_id(request)
+            case 'find_track':
+                return self.find_track(request)
             case _:
                 return Response({'error': 'Invalid action'}, status=400)
 
@@ -235,13 +239,11 @@ class SpotifyView(APIView):
                 url = f"https://api.spotify.com/v1/search/?q={track_included.track.artist} {track_included.track.title}&type=track&limit=1&market=DE"
                 headers = {"Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"}
                 response = requests.get(url, headers=headers)
-
                 if response.status_code != 200:
                     self.refresh_access_token(request)
                     response = requests.get(url, headers=headers)
                     if response.status_code != 200:
                         continue
-
                 track_included.track.spotify_id = response.json()['tracks']['items'][0]['id']
 
                 track_included.track.save()
@@ -282,3 +284,37 @@ class SpotifyView(APIView):
         user.save()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def get_track_by_id(self, request):
+        track = requests.get(f"https://api.spotify.com/v1/tracks/{request.query_params.get("track_id")}",
+                                headers={
+                                    "Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"})
+
+        if track.status_code != 200:
+            self.refresh_access_token(request)
+            track = requests.get(f"https://api.spotify.com/v1/playlists/{request.query_params.get("track_id")}",
+                                    headers={
+                                        "Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"})
+            return Response({'error': 'Failed to get track'}, status=track.status_code)
+
+        track = track.json()
+        cover_url = track['album']['images'][0]['url'] if track['album']['images'] else ""
+        frontend_track = {
+            'spotify_id': track['id'],
+            'title': track['name'],
+            'artist': track['artists'][0]['name'],
+            'cover_url': cover_url
+        }
+        return Response(frontend_track, status=200)
+
+    def find_track(self, request):
+        url = f"https://api.spotify.com/v1/search/?q={request.query_params.get("artist")} {request.query_params.get("title")}&type=track&limit=1&market=DE"
+        headers = {
+            "Authorization": f"Bearer {User.objects.get(user_uuid=request.user.id).spotify_access_token}"}
+        response = requests.get(url, headers=headers)
+        if response.status_code != 200:
+            self.refresh_access_token(request)
+            response = requests.get(url, headers=headers)
+        frontend_track = response.json()['tracks']['items'][0]
+
+        return Response(frontend_track, status=200)

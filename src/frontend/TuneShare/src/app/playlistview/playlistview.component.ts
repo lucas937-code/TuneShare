@@ -129,7 +129,6 @@ export class PlaylistviewComponent implements OnInit {
       return this.tuneshareService.getFollowedPlaylistsOfUser();
     })).subscribe(playlists => {
       if (!this.added) {
-        console.log(this.currentPlaylist)
         this.added = playlists.find(playlist => playlist.origin_id == this.currentPlaylist.origin_id) != undefined;
         this.show = true;
       }

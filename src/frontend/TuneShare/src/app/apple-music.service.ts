@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {concatMap, from, Observable, switchMap, throwError} from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Playlist } from "./types";
+import {Playlist, Track} from "./types";
 import { BACKEND_URL } from "../main";
 
 @Injectable({
@@ -119,5 +119,20 @@ export class AppleMusicService {
     const params: HttpParams = new HttpParams()
       .set('action', 'remove_link');
     return this.http.get(`${BACKEND_URL}service/apple_music/`, {params});
+  }
+
+  getTrackById(track_id: string): Observable<Track> {
+    const params = new HttpParams()
+      .set('action', 'get_track_by_id')
+      .set('track_id', track_id);
+    return this.http.get<Track>(`${BACKEND_URL}service/apple_music/`, {params});
+  }
+
+  findTrack(artist:string, title:string): Observable<Track> {
+    const params = new HttpParams()
+      .set('action', 'find_track')
+      .set('artist', artist)
+      .set('title', title);
+    return this.http.get<Track>(`${BACKEND_URL}service/apple_music/`, {params});
   }
 }
