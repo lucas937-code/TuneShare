@@ -102,12 +102,14 @@ class AppleMusicView(APIView):
             description = ''
             if 'description' in playlist['attributes'].keys():
                 description = playlist['attributes']['description']['standard']
-            frontend_playlists.append({
-                "apple_music_id": playlist['id'],
-                "title": playlist['attributes']['name'],
-                "description": description,
-                "cover_url": cover_url
-            })
+
+            if 'name' in  playlist['attributes'].keys():
+                frontend_playlists.append({
+                    "apple_music_id": playlist['id'],
+                    "title": playlist['attributes']['name'],
+                    "description": description,
+                    "cover_url": cover_url
+                })
 
         return Response(frontend_playlists, status=200)
 
