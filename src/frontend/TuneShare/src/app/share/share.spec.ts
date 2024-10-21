@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShareToSpotifyComponent } from './share-to-spotify.component';
+import { Share } from './share';
 
 describe('ShareToSpotifyComponent', () => {
-  let component: ShareToSpotifyComponent;
-  let fixture: ComponentFixture<ShareToSpotifyComponent>;
+  let component: Share;
+  let fixture: ComponentFixture<Share>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ShareToSpotifyComponent]
+      imports: [Share]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(ShareToSpotifyComponent);
+
+    fixture = TestBed.createComponent(Share);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

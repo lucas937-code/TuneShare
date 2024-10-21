@@ -1,29 +1,29 @@
 import {Component, OnInit} from '@angular/core';
-import {TuneShareService} from "../tune-share.service";
 import {ActivatedRoute} from "@angular/router";
 import {SpotifyService} from "../spotify.service";
-import {Track} from "../types";
 import {AppleMusicService} from "../apple-music.service";
 import {FormsModule, NgForm} from "@angular/forms";
 import {NgIf} from "@angular/common";
+import {Track} from "../types";
 
 @Component({
-  selector: 'app-share-to-spotify',
+  selector: 'app-share',
   standalone: true,
   imports: [
     FormsModule,
     NgIf
   ],
-  templateUrl: './share-to-spotify.component.html',
-  styleUrl: './share-to-spotify.component.scss'
+  templateUrl: './share.html',
+  styleUrl: './share.scss'
 })
-export class ShareToSpotifyComponent implements OnInit {
+export class Share implements OnInit {
 
   trackId: string | undefined;
   found : boolean = true;
   urlInput : string = '';
   spotifyLink : string = '';
   applemusicLink : string = '';
+  track : Track | undefined;
 
   constructor(private route: ActivatedRoute, private spotifyService: SpotifyService, private applemusicService: AppleMusicService) {}
 
@@ -49,6 +49,7 @@ export class ShareToSpotifyComponent implements OnInit {
 
   getApplemusicLink(id: string) {
     this.spotifyService.getTrackById(id).subscribe(track => {
+      this.track = track;
       this.applemusicService.findTrack(track.artist, track.title).subscribe(foundTrack => {
         this.applemusicLink = "https://music.apple.com/de/song/" + foundTrack.id;
         this.found = foundTrack.id != undefined;
@@ -58,6 +59,7 @@ export class ShareToSpotifyComponent implements OnInit {
 
   getSpotifyLink(id: string) {
     this.applemusicService.getTrackById(id).subscribe(track => {
+      this.track = track;
       this.spotifyService.findTrack(track.artist, track.title).subscribe(foundTrack => {
         this.spotifyLink = "https://open.spotify.com/intl-de/track/" + foundTrack.id;
         this.found = foundTrack.id != undefined;
