@@ -69,6 +69,12 @@ td, th{
   width: 6em;
 }
 
+.playlistItem:hover{
+  .trackImg{
+    transform: scale(1.05);
+  }
+}
+
 .trackImg{
   -webkit-box-shadow: 0px 0px 6px 0px #95899f;
   -moz-box-shadow: 0px 0px 6px 0px #95899f;

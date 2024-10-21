@@ -81,15 +81,15 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let track of tracks, let i = index" class="align-items-center">
-        <th class="text-end" *ngIf="!isMobile">{{ i+1 }}</th>
-        <th style="width: 4.5em;" scope="row"><img src="{{ track.cover_url }}" class="rounded-1 trackImg"
-                                                   style="width: 3em; height: 3em;" alt="Cover"></th>
+      <tr *ngFor="let track of tracks, let i = index" class="align-items-center playlistItem">
+        <th class="text-end" *ngIf="!isMobile"><a href="/share?url=/{{ (this.currentPlaylist.origin_id && this.currentPlaylist.origin_id[0]=='p') || this.currentPlaylist.apple_music_id ? 'music.apple.com/' + track.apple_music_id : 'open.spotify.com/' + track.spotify_id }}" style="text-decoration: none; color: black;">{{ i+1 }}</a></th>
+        <th style="width: 4.5em;" scope="row"><a href="/share?url=/{{ (this.currentPlaylist.origin_id && this.currentPlaylist.origin_id[0]=='p') || this.currentPlaylist.apple_music_id ? 'music.apple.com/' + track.apple_music_id : 'open.spotify.com/' + track.spotify_id }}" style="text-decoration: none; color: black;"><img src="{{ track.cover_url }}" class="rounded-1 trackImg"
+                                                                                                                                                                                                                                                        style="width: 3em; height: 3em;" alt="Cover"></a></th>
         <td class="align-items-center">
-          <div>
+          <a href="/share?url=/{{ (this.currentPlaylist.origin_id && this.currentPlaylist.origin_id[0]=='p') || this.currentPlaylist.apple_music_id ? 'music.apple.com/' + track.apple_music_id : 'open.spotify.com/' + track.spotify_id }}" style="text-decoration: none; color: black;">
             <div class="trackInfo m-0 p-0"><b>{{ track.title }}</b></div>
             <div class="trackInfo m-0 p-0" style="font-weight: lighter">{{ track.artist }}</div>
-          </div>
+          </a>
         </td>
       </tr>
       </tbody>
