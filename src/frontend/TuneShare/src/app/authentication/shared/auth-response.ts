@@ -16,3 +16,8 @@ export interface AuthResponse {
    messageEn: string;
    messageDe: string;
 }
+
+export interface LoginData {
+  email: string;
+  password: string;
+}

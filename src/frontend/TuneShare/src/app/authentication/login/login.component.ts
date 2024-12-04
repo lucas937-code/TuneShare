@@ -2,10 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ErrorToastComponent} from "../../error-toast/error-toast.component";
 import {NgClass, NgIf, NgOptimizedImage} from "@angular/common";
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {AuthResponse} from "../shared/auth-response";
-import {BACKEND_URL} from "../../../main";
+import {AuthResponse, LoginData} from "../shared/auth-response";
 import {AuthService} from "../shared/auth.service";
 
 @Component({
@@ -21,11 +19,8 @@ import {AuthService} from "../shared/auth.service";
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-
-// Login-page
 export class LoginComponent implements OnInit {
   readonly window = window;
-  private readonly loginUrl: string = `${BACKEND_URL}auth/login/`;
 
   registerForm!: FormGroup;
 
@@ -33,7 +28,7 @@ export class LoginComponent implements OnInit {
   showErrorLabel: boolean = false;
   showPassword: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router,
+  constructor(private formBuilder: FormBuilder, private router: Router,
               private authService: AuthService) {
   }
 
@@ -45,11 +40,11 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const payload = {email: this.email.value, password: this.password.value};
+    const payload: LoginData = {email: this.email.value, password: this.password.value};
     this.loading = true;
     this.registerForm.disable();
 
-    this.http.post<AuthResponse>(this.loginUrl, payload).subscribe({
+    this.authService.login(payload).subscribe({
       error: () => {
         this.loading = false;
         this.registerForm.enable();

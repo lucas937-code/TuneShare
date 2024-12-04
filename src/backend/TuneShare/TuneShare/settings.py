@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "playground.apps.PlaygroundConfig",
     "Database",
     "rest_framework",
     "corsheaders"
@@ -145,11 +144,3 @@ APPLE_MUSIC_TEAM_ID = 'A3Y48CQ7A3'
 APPLE_MUSIC_KEY_ID = 'YJ69X64PYK'
 
 FRONTEND_URL = 'http://localhost:4200/'
-
-EXEMPT_URLS = [
-    '/auth/login/',
-    '/auth/register/',
-    '/auth/refresh/',
-    '/auth/username_available/?username=jabadabadu/',
-    '/api/',
-]
