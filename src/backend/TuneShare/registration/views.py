@@ -1,5 +1,5 @@
 from Database.models import User
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -7,6 +7,8 @@ from rest_framework.response import Response
 
 from .serializers import RegistrationSerializer
 from .supabase import get_supabase_client
+
+REFRESH_TOKEN_COOKIE_NAME = 'refresh_token'
 
 
 @api_view(['POST'])
@@ -78,14 +80,14 @@ def login_user(request):
             'messageDe': 'Login erfolgreich',
         }
 
-        res = Response(data, status=status.HTTP_200_OK)
+        res = JsonResponse(data, status=status.HTTP_200_OK)
         res.set_cookie(
-            key='refresh_token',
+            key=REFRESH_TOKEN_COOKIE_NAME,
             value=response.session.refresh_token,
             httponly=True,
-            secure=True,
+            secure=False,
             samesite='Lax',
-            max_age=2_592_000
+            max_age=2592000
         )
         return res
 
@@ -100,19 +102,20 @@ def refresh_session(request):
         return Response({'error': 'Refresh token is missing'}, status=status.HTTP_400_BAD_REQUEST)
     try:
         response = get_supabase_client().auth.refresh_session(refresh_token)
-        return JsonResponse({
+        response = HttpResponse({
             'access_token': response.session.access_token,
             'refresh_token': response.session.refresh_token,
             'expires_in': response.session.expires_in,
             'expires_at': response.session.expires_at
         }, status=status.HTTP_200_OK).set_cookie(
-            key='refresh_token',
+            key=REFRESH_TOKEN_COOKIE_NAME,
             value=response.session.refresh_token,
             httponly=True,
-            secure=True,
+            secure=False,
             samesite='Lax',
             max_age=2_592_000
         )
+        return response
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 

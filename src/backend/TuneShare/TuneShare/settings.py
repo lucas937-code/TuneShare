@@ -144,11 +144,3 @@ APPLE_MUSIC_TEAM_ID = 'A3Y48CQ7A3'
 APPLE_MUSIC_KEY_ID = 'YJ69X64PYK'
 
 FRONTEND_URL = 'http://localhost:4200/'
-
-EXEMPT_URLS = [
-    '/auth/login/',
-    '/auth/register/',
-    '/auth/refresh/',
-    '/auth/username_available/?username=jabadabadu/',
-    '/api/',
-]

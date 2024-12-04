@@ -28,12 +28,18 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isMobile = window.innerWidth < 992;
-    this.tuneshareService.getCurrentUser().subscribe({
-      next: user => {
-        this.user = user;
+    this.authService.isLoggedIn.subscribe(isLoggedIn => {
+      if (!isLoggedIn) {
+        this.authService.logout();
+      } else {
+        this.isMobile = window.innerWidth < 992;
+        this.tuneshareService.getCurrentUser().subscribe({
+          next: user => {
+            this.user = user;
+          }
+        });
       }
-    })
+    });
   }
 
   submitSearch(f: NgForm) {

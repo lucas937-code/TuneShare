@@ -11,13 +11,12 @@ export const headersInterceptor: HttpInterceptorFn = (req, next) => {
 
   const authService = inject(AuthService);
 
-  const accessToken = authService.accessToken;
   const csrfToken = authService.getCsrfCookie();
 
-  if (authService.tokenIsExpired || !accessToken) {
+  if (authService.tokenIsExpired) {
     return authService.refreshToken().pipe(
-      switchMap(newToken => {
-        const updatedAccessToken = newToken || accessToken;
+      switchMap(() => {
+        const updatedAccessToken = authService.accessToken;
         if (!updatedAccessToken) {
           authService.logout();
           return EMPTY;
@@ -37,7 +36,7 @@ export const headersInterceptor: HttpInterceptorFn = (req, next) => {
 
   const authReq = req.clone({
     setHeaders: {
-      'Authorization': `Bearer ${accessToken}`,
+      'Authorization': `Bearer ${authService.accessToken}`,
       'X-CSRFToken': csrfToken
     },
     withCredentials: true
